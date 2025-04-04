@@ -25,6 +25,7 @@ FAILED_HOSTS=()
 for host in "${HOSTS[@]}"; do
   echo "===== 📡 Processing $host 📡 ====="
 
+  scp ~/.local/bin/sync-local-dotfiles "$host":.local/bin/sync-local-dotfiles
   ssh "$host" "~/.local/bin/sync-local-dotfiles $INSTALL_MODE"
 
   # Check if the SSH command was successful
