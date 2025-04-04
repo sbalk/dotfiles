@@ -271,7 +271,7 @@ The generated shell script at `~/.dotbins/shell/zsh.sh` is sourced in your shell
 Before running Nix-darwin, set the hostname:
 
 ```bash
-NAME="basnijholt-macbook-pro-2"
+NAME="basnijholt-macbook-pro"
 sudo scutil --set HostName $NAME
 sudo scutil --set LocalHostName $NAME
 sudo scutil --set ComputerName $NAME
