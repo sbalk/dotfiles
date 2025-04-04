@@ -1,7 +1,7 @@
 # 🏠 basnijholt's dotfiles
 
-A comprehensive, cross-platform dotfiles configuration for both macOS and Linux environments.
-This repository provides a centralized, version-controlled configuration for shells, development tools, and system preferences.
+A carefully designed cross-platform dotfiles configuration that powers my development environments across macOS and Linux systems.
+This repository represents years of refinement to create a consistent, modular, and reliable setup.
 
 I run this configuration on at least 10 machines, including `arm64` *macOS*, `x86_64` and `aarm64` versions of *Ubuntu*, *Debian*, *DietPi*, *Raspberry Pi OS*, and even on my *iPhone* via iSH which emulates `i386` Linux.
 
@@ -267,6 +267,16 @@ The generated shell script at `~/.dotbins/shell/zsh.sh` is sourced in your shell
 ## 🖥️ Platform-Specific Features
 
 ### macOS
+
+Before running Nix-darwin, set the hostname:
+
+```bash
+NAME="basnijholt-macbook-pro-2"
+sudo scutil --set HostName $NAME
+sudo scutil --set LocalHostName $NAME
+sudo scutil --set ComputerName $NAME
+dscacheutil -flushcache
+```
 
 The repository includes nix-darwin configuration for a reproducible macOS setup:
 
