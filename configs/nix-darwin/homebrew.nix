@@ -76,6 +76,7 @@
       "terraform"           # Infrastructure as code
       "tmux"                # Terminal multiplexer
       "tree"                # Directory listing
+      "tre-command"         # Tree command, improved
       "typst"               # Markup-based typesetting
       "vsftpd"              # FTP server
       "wget"                # File downloader
