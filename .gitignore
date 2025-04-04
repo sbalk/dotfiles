@@ -38,3 +38,6 @@ Thumbs.db
 
 # symlinked
 .stignore
+
+# Other
+.github/scripts/__pycache__/
