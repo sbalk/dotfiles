@@ -221,7 +221,6 @@ scripts
 ├── sync-dotfiles.sh           # Sync dotfiles to remote machines
 ├── sync-local-dotfiles.sh     # Update dotfiles on the local machine
 ├── sync-photos-to-truenas.sh  # Sync photos to TrueNAS server
-├── truenas-unlock
 └── upload-file.sh             # Share files via various file hosting services
 ```
 
