@@ -334,7 +334,7 @@ To customize these dotfiles for your own use:
 
 - [dotbot documentation](https://github.com/anishathalye/dotbot)
 - [dotbins documentation](https://github.com/basnijholt/dotbins)
-- [nix-darwin documentation](https://github.com/LnL7/nix-darwin)
+- [nix-darwin documentation](https://github.com/nix-darwin/nix-darwin)
 
 ## 📄 License
 
