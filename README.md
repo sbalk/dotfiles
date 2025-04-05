@@ -269,12 +269,12 @@ tools:
   atuin:
     repo: atuinsh/atuin
     shell_code:
-      zsh: |
-        source <(atuin init zsh --disable-up-arrow)
+      bash,zsh: |
+        eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
   bat:
     repo: sharkdp/bat
     shell_code:
-      zsh: |
+      bash,zsh: |
         alias bat="bat --paging=never"
         alias cat="bat --plain --paging=never"
   # ... and more
@@ -307,24 +307,24 @@ See the output of `dotbins status` below:
 ┏━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
 ┃ Tool       ┃ Version(s) ┃ Platforms                             ┃ Last Updated ┃
 ┡━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
-│ atuin      │ 18.4.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ bat        │ 0.25.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ delta      │ 0.18.2     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ direnv     │ 2.35.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ duf        │ 0.8.1      │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ dust       │ 1.2.0      │ linux/amd64, linux/arm64, macos/arm64 │ 3d17h        │
-│ eza        │ 0.21.0     │ linux/amd64, linux/arm64              │ 2d23h        │
-│ fd         │ 10.2.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ fzf        │ 0.61.0     │ linux/amd64, linux/arm64, macos/arm64 │ 14h          │
-│ git-lfs    │ 3.6.1      │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ hyperfine  │ 1.19.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ lazygit    │ 0.48.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ micromamba │ 2.0.8-0    │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ rg         │ 14.1.1     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ starship   │ 1.22.1     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ uv         │ 0.6.12     │ linux/amd64, linux/arm64, macos/arm64 │ 2d19h        │
-│ yazi       │ 25.3.2     │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
-│ zoxide     │ 0.9.7      │ linux/amd64, linux/arm64, macos/arm64 │ 3d18h        │
+│ atuin      │ 18.4.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ bat        │ 0.25.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ delta      │ 0.18.2     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ direnv     │ 2.35.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ duf        │ 0.8.1      │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ dust       │ 1.2.0      │ linux/amd64, linux/arm64, macos/arm64 │ 3d22h        │
+│ eza        │ 0.21.0     │ linux/amd64, linux/arm64              │ 3d4h         │
+│ fd         │ 10.2.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ fzf        │ 0.61.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ git-lfs    │ 3.6.1      │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ hyperfine  │ 1.19.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ lazygit    │ 0.48.0     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ micromamba │ 2.0.8-0    │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ rg         │ 14.1.1     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ starship   │ 1.22.1     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ uv         │ 0.6.12     │ linux/amd64, linux/arm64, macos/arm64 │ 3d           │
+│ yazi       │ 25.3.2     │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
+│ zoxide     │ 0.9.7      │ linux/amd64, linux/arm64, macos/arm64 │ 3d23h        │
 └────────────┴────────────┴───────────────────────────────────────┴──────────────┘
 
 
