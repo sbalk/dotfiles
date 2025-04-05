@@ -289,7 +289,7 @@ dotbins automatically:
 3. Creates shell integration scripts with your custom aliases and initialization code
 4. Updates all tools with a single command
 
-The generated shell script at `~/.dotbins/shell/zsh.sh` is sourced in your shell configuration, making all tools immediately available with their proper setup.
+The generated shell script at [`~/.dotbins/shell/zsh.sh`](https://github.com/basnijholt/.dotbins/blob/main/shell/zsh.sh) is sourced in your shell configuration, making all tools immediately available with their proper setup.
 
 See the output of `dotbins status` below:
 
