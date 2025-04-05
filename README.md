@@ -356,9 +356,11 @@ To customize these dotfiles for your own use:
 
 ## 📚 Additional Resources
 
-- [dotbot documentation](https://github.com/anishathalye/dotbot)
-- [dotbins documentation](https://github.com/basnijholt/dotbins)
-- [nix-darwin documentation](https://github.com/nix-darwin/nix-darwin)
+- [dotbot repo](https://github.com/anishathalye/dotbot)
+- [dotbins repo](https://github.com/basnijholt/dotbins)
+- [nix-darwin repo](https://github.com/nix-darwin/nix-darwin)
+- [oh-my-tmux repo](https://github.com/gpakosz/.tmux)
+- [oh-my-zsh repo](https://github.com/ohmyzsh/ohmyzsh)
 
 ## 📄 License
 
