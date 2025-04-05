@@ -1,6 +1,6 @@
 # main.sh - can be sourced in .bash_profile/.bashrc or .zshrc
 
-source ~/dotfiles/configs/shell/00_prefer_zsh.sh  # no-op in zsh
+[ -n "$ZSH_VERSION" ] && source ~/dotfiles/configs/shell/00_prefer_zsh.sh  # no-op in zsh
 [ -n "$ZSH_VERSION" ] && source ~/dotfiles/configs/shell/05_zsh_completions.sh
 source ~/dotfiles/configs/shell/10_aliases.sh
 source ~/dotfiles/configs/shell/20_exports.sh
