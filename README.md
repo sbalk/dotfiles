@@ -29,7 +29,27 @@ My main goal is to have consistency and a super smooth bootstrapping experience 
 - **Binary management** - Uses [dotbins](https://github.com/basnijholt/dotbins) for CLI tools with automatic shell integration
 - **Remote syncing** - Includes scripts to sync dotfiles across machines
 - **nix-darwin integration** - Uses Nix for declarative macOS configuration
-- **Isolated environments** - Supports direnv, micromamba, and other environment managers
+
+## 💖 My favorite things
+
+There is a lot of stuff in this repository, but things I won't go without are:
+
+- I clone this repository and run `./install`, and everything is set up automatically!
+- [oh-my-zsh](https://ohmyz.sh/) for all of the convenient default keybindings and plugins (yes, I know it's bloated and slow)
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) for command completion
+- [starship](https://starship.rs/) for a beautiful prompt
+- [dotbins](https://github.com/basnijholt/dotbins) for managing binaries
+- [dotbot](https://github.com/anishathalye/dotbot) for managing symlinks
+- [keychain](https://www.funtoo.org/Funtoo:Keychain) for SSH key management
+- [direnv](https://github.com/direnv/direnv/) for managing environment variables (especially for Python (`uv` and `micromamba`))
+- [zoxide](https://github.com/ajeetdsouza/zoxide) for jumping around directories (alternative to [`zsh-z`](https://github.com/agkozak/zsh-z))
+- [Keyboard Maestro](https://www.keyboardmaestro.com/) for keyboard shortcuts to switch between applications
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) for syntax highlighting
+- [nix-darwin](https://github.com/nix-darwin/nix-darwin) for declarative macOS configuration
+
+Why not?
+
+- I don't use `fish` because I want to be fully compatible with `bash`, so therefore I use `zsh` as my main shell.
 
 ## 🚀 Quick Start
 
