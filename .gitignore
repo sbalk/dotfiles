@@ -41,3 +41,6 @@ Thumbs.db
 
 # Other
 .github/scripts/__pycache__/
+
+scripts/rclone-log.txt
+rclone-log.txt
