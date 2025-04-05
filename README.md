@@ -121,7 +121,7 @@ cd dotfiles
 
 ## 📋 Shell Configuration
 
-The shell configuration is structured in a modular way under `configs/shell/`. The main entry point is `main.sh` which sources other shell-specific files in a specific order:
+The shell configuration is structured in a modular way under [`configs/shell/`](configs/shell/). The main entry point is [`main.sh`](configs/shell/main.sh) which sources other shell-specific files in a specific order:
 
 <!-- CODE:BASH:START -->
 <!-- python3 .github/scripts/shell_files.py -->
