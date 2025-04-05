@@ -1,6 +1,6 @@
 # 🏠 basnijholt's dotfiles
 
-<img src="https://github.com/user-attachments/assets/8aeb6c8f-0cdc-4e04-a279-f70b3000ead7" align="right" style="width: 300px;" />
+<img src="https://github.com/user-attachments/assets/8aeb6c8f-0cdc-4e04-a279-f70b3000ead7" align="right" style="width: 350px;" />
 
 A carefully designed cross-platform dotfiles configuration that powers my development environments across macOS and Linux systems.
 This repository represents years of refinement to create a consistent, modular, and reliable setup.
