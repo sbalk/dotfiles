@@ -23,6 +23,7 @@
     ~/.local/bin/run: scripts/run.sh
     ~/.local/bin/sync-dotfiles: scripts/sync-dotfiles.sh
     ~/.local/bin/sync-local-dotfiles: scripts/sync-local-dotfiles.sh
+    ~/.local/bin/sync-uv-tools: scripts/sync-uv-tools.sh
     ~/.mambarc: configs/mamba/mambarc
     ~/.oh-my-zsh: submodules/oh-my-zsh
     ~/.tmux.conf: submodules/tmux/.tmux.conf
@@ -54,24 +55,7 @@
       path: configs/iterm/Profiles.json
 
 - shell:
-  - uv tool install asciinema
-  - uv tool install black
-  - uv tool install bump-my-version
-  - uv tool install clip-files
-  - uv tool install conda-lock
-  - uv tool install dotbins
-  - uv tool install fileup
-  - uv tool install llm --with llm-gemini --with llm-anthropic
-  - uv tool install markdown-code-runner
-  - uv tool install mypy
-  - uv tool install pre-commit --with pre-commit-uv
-  - uv tool install pygount
-  - uv tool install rsync-time-machine
-  - uv tool install ruff
-  - uv tool install smassh
-  - uv tool install tuitorial
-  - uv tool install "unidep[all]"
-  - uv tool upgrade --all
+  - bash scripts/sync-uv-tools.sh
   - git submodule sync --recursive
   - git submodule update --init --recursive --remote
   - command: '[[ "$(uname)" = "Darwin" ]] && [ -f ./secrets/install ] && (echo "SECRETS" && ./secrets/install) || true'
