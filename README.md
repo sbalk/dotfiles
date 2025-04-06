@@ -39,7 +39,7 @@ There is a lot of stuff in this repository, but things I won't go without are:
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) for command completion
 - [starship](https://starship.rs/) for a beautiful prompt
 - [dotbins](https://github.com/basnijholt/dotbins) for managing binaries
-- [dotbot](https://github.com/anishathalye/dotbot) for managing symlinks
+- [dotbot](https://github.com/anishathalye/dotbot) for managing symlinks and installing Python tools with `uv`
 - [keychain](https://www.funtoo.org/Funtoo:Keychain) for SSH key management
 - [direnv](https://github.com/direnv/direnv/) for managing environment variables (especially for Python (`uv` and `micromamba`))
 - [zoxide](https://github.com/ajeetdsouza/zoxide) for jumping around directories (alternative to [`zsh-z`](https://github.com/agkozak/zsh-z))
