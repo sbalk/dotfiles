@@ -14,7 +14,6 @@ HOSTS=(
   "docker-proxmox"
   "pi3"
   "dietpi"
-  "obs"
 )
 
 # Arrays to track results
