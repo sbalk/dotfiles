@@ -2,7 +2,7 @@
 
 <img src="https://github.com/user-attachments/assets/8aeb6c8f-0cdc-4e04-a279-f70b3000ead7" align="right" style="width: 350px;" />
 
-A carefully designed cross-platform dotfiles configuration that powers my development environments across macOS and Linux systems.
+A carefully designed cross-platform dotfiles configuration that powers my development environments across macOS  and Linux 🐧 systems.
 This repository represents years of refinement to create a consistent, modular, and reliable setup.
 
 I run this configuration on at least 10 machines, including `arm64` *macOS*, `x86_64` and `aarm64` versions of *Ubuntu*, *Debian*, *DietPi*, *Raspberry Pi OS*, and even on my *iPhone* via iSH which emulates `i386` Linux.
