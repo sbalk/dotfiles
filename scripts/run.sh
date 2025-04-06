@@ -11,6 +11,10 @@ _bin_dir="$HOME/dotfiles/submodules/mydotbins/$_os/$_arch/bin"
 
 if [ $# -eq 0 ]; then
     echo "Usage: run <command> [args...]"
+    echo "Available commands:"
+    for file in "$_bin_dir"/*; do
+        echo "  $(basename "$file")"
+    done
     exit 1
 fi
 
