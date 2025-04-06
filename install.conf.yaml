@@ -30,29 +30,6 @@
     ~/.tmux.conf.local: submodules/tmux/.tmux.conf.local
     ~/.zshrc: configs/zsh/zshrc
     ~/dotfiles/submodules/oh-my-zsh/themes/mytheme.zsh-theme: configs/zsh/mytheme.zsh-theme
-    # Only on the machines with my ssh key
-    ~/.gitconfig-sign:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/git/gitconfig-sign
-    # Only if on my Mac
-    ~/.config/karabiner/karabiner.json:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/karabiner/karabiner.json
-    ~/Work/.stignore:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/syncthing/stignore
-    ~/dotfiles/.stignore:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/syncthing/stignore
-    ~/Lightroom/.stignore:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/syncthing/stignore
-    ~/Sync/.stignore:
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/syncthing/stignore
-    "~/Library/Application Support/iTerm2/DynamicProfiles/Profiles.json":
-      if: '[ "$(uname)" = "Darwin" ]'
-      path: configs/iterm/Profiles.json
 
 - shell:
   - bash scripts/sync-uv-tools.sh
@@ -60,3 +37,15 @@
   - git submodule update --init --recursive --remote
   - command: '[[ "$(uname)" = "Darwin" ]] && [ -f ./secrets/install ] && (echo "SECRETS" && ./secrets/install) || true'
     stdout: true
+
+# -- Only on MacOS --
+- defaults:
+    link:
+      if: '[ "$(uname)" = "Darwin" ]'
+- link:
+    ~/.gitconfig-sign: configs/git/gitconfig-sign
+    ~/.config/karabiner/karabiner.json: configs/karabiner/karabiner.json
+    ~/Work/.stignore: configs/syncthing/stignore
+    ~/Lightroom/.stignore: configs/syncthing/stignore
+    ~/Sync/.stignore: configs/syncthing/stignore
+    "~/Library/Application Support/iTerm2/DynamicProfiles/Profiles.json": configs/iterm/Profiles.json
