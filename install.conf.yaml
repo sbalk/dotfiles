@@ -8,7 +8,7 @@
     ~/.bash_profile: configs/bash/bash_profile
     ~/.bashrc: configs/bash/bashrc
     ~/.condarc: configs/conda/condarc
-    ~/.config/atuin/config.toml: configs/atuin/config.toml
+    ~/.config/atuin: configs/atuin
     ~/.config/dask/distributed.yaml: configs/dask/distributed.yaml
     ~/.config/dotbins/config.yaml: submodules/dotbins/dotbins.yaml
     ~/.config/git/attributes: configs/git/attributes

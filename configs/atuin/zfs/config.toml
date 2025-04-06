@@ -1,3 +1,8 @@
+# Note that this file only exists because of the ZFS problem with SQLite.
+# See https://github.com/atuinsh/atuin/issues/952
+# In 30_misc.sh, we set ATUIN_CONFIG_DIR this folder if we are on a
+# system that uses ZFS.
+
 ## enable or disable automatic sync
 auto_sync = true
 
@@ -18,3 +23,8 @@ common_subcommands = [
 
 [theme]
 name = "autumn"
+
+# [Filesystem] ZFS is known to have some issues with SQLite. Atuin uses SQLite heavily. 
+# Fix recommended in https://github.com/atuinsh/atuin/issues/952
+[daemon]
+enabled = true
