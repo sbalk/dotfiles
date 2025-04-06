@@ -2,7 +2,7 @@
 # in the basnijholt/dotfiles repository (https://github.com/basnijholt/dotfiles).
 # It replicates the cross-platform shell configuration described in the README.
 
-FROM ubuntu:22.04
+FROM ubuntu:25.04
 
 RUN apt-get update && apt-get install -y \
     git \
