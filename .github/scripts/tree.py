@@ -20,14 +20,19 @@ def print_with_comments(result: str, descriptions: dict) -> str:
     # Find the maximum length for aligning comments
     max_length = max(len(line) for line in lines) + 2
 
+    used = set()
     for line in lines:
         processed_line = line
         for item, desc in descriptions.items():
             if line.strip().endswith(f"── {item}") and item in descriptions:
                 padding = " " * (max_length - len(line))
                 processed_line = f"{line}{padding}# {desc}"
+                used.add(item)
                 break
 
         output_lines.append(processed_line)
+    unused = set(descriptions.keys()) - used
+    if unused:
+        print(f"❌ Unused descriptions: {unused}")
 
     print("\n".join(output_lines))
