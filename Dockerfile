@@ -24,3 +24,7 @@ RUN cd ~/dotfiles && \
 
 # Install the dotfiles
 RUN cd ~/dotfiles && ./install || true
+
+WORKDIR /root/dotfiles
+
+CMD ["/bin/zsh"]
