@@ -14,4 +14,4 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 # Alternatively, run
-# $HOME/dotfiles/submodules/mydotbins/linux/amd64/bin/uvx dotbot -d $HOME/dotfiles -c install.conf.yaml
+# $HOME/dotfiles/scripts/run.sh dotbot -d $HOME/dotfiles -c install.conf.yaml
