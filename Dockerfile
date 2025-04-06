@@ -23,4 +23,4 @@ RUN cd ~/dotfiles && \
     git submodule update --init --recursive --jobs 8
 
 # Install the dotfiles
-RUN cd ~/dotfiles && ./install
+RUN cd ~/dotfiles && ./install || true
