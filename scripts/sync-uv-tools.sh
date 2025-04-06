@@ -9,6 +9,7 @@ uv tool install bump-my-version
 uv tool install clip-files
 uv tool install conda-lock
 uv tool install dotbins
+uv tool install dotbot
 uv tool install fileup
 uv tool install llm --with llm-gemini --with llm-anthropic
 uv tool install markdown-code-runner
