@@ -50,6 +50,7 @@ There is a lot of stuff in this repository, but things I won't go without are:
 Why not?
 
 - I don't use `fish` because I want to be fully compatible with `bash`, so therefore I use `zsh` as my main shell.
+- Why not **X**? I go over my design goals and decisions in [this blog post](https://www.nijho.lt/post/dotfiles). 
 
 ## 🚀 Quick Start
 
