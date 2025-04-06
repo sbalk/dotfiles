@@ -41,6 +41,8 @@
 # -- Only on MacOS --
 - defaults:
     link:
+      create: true
+      relink: true
       if: '[ "$(uname)" = "Darwin" ]'
 - link:
     ~/.gitconfig-sign: configs/git/gitconfig-sign
