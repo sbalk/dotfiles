@@ -5,18 +5,9 @@ if [ -f "/opt/homebrew/bin/brew" ]; then
    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-
 # atuin daemon management based on config
-is_home_on_zfs() {
-    mount | grep "$(df ~/ | tail -1 | awk '{print $1}')" | grep -q "zfs"
-    return $?
-}
-if is_home_on_zfs; then
+if [ ! -S "$HOME/.local/share/atuin/atuin.sock" ]; then
   export ATUIN_CONFIG_DIR="$HOME/.config/atuin/zfs"
-  if ! pgrep -f "atuin daemon" >/dev/null; then
-    echo "Starting Atuin daemon based on config"
-    nohup atuin daemon >/dev/null 2>&1 &
-  fi
 fi
 
 # Dotbins
