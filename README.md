@@ -14,7 +14,7 @@ See [this section](#trying-with-docker).
 
 > [!TIP]
 > I have written several blog posts about my shell setup and the tools I use.
-> See [Be a Ninja in the Terminal 🥷](https://www.nijho.lt/post/terminal-ninja/), [dotbins: Managing Binary Tools in Your Dotfiles 🧰](https://www.nijho.lt/post/dotbins/), and [Combining Keychain and 1Password CLI for SSH Agent Management 🔑](https://www.nijho.lt/post/ssh-1password-funtoo-keychain/) for more details.
+> See [Open Sourcing My Dotfiles: A Practical, Cross-Platform Terminal Setup 🏠](https://www.nijho.lt/post/dotfiles/), [Be a Ninja in the Terminal 🥷](https://www.nijho.lt/post/terminal-ninja/), [dotbins: Managing Binary Tools in Your Dotfiles 🧰](https://www.nijho.lt/post/dotbins/), and [Combining Keychain and 1Password CLI for SSH Agent Management 🔑](https://www.nijho.lt/post/ssh-1password-funtoo-keychain/) for more details.
 
 > [!NOTE]
 > I have maintained this repository since 2019-04 but started a new commit history when I made it public in 2025-04.
