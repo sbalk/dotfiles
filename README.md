@@ -80,6 +80,19 @@ cd dotfiles
 ./install
 ```
 
+### Trying with Docker
+
+If you want to quickly try out this shell environment without installing it on your main system, you can use the provided `Dockerfile`:
+
+```bash
+# Build the Docker image
+docker build -t dotfiles-env .
+
+# Run the container and drop into the configured shell
+docker run -it --rm dotfiles-env
+```
+This will give you an interactive Zsh session within an Ubuntu container, configured using these dotfiles.
+
 ### Update Remote Machines
 
 ```bash
