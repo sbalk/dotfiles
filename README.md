@@ -85,7 +85,10 @@ cd dotfiles
 
 ### Trying with Docker
 
-If you want to quickly try out this shell environment without installing it on your main system, you can use the provided `Dockerfile`:
+> [!NOTE]
+> Check out how minimal the [`Dockerfile`](./Dockerfile) really is, it only requires a barebones Ubuntu image and Git!
+
+If you want to quickly try out this shell environment without installing it on your main system, you can use the provided [`Dockerfile`](./Dockerfile):
 
 ```bash
 # Build the Docker image
