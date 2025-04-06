@@ -5,7 +5,7 @@
 mkdir -p ~/.config/systemd/user/
 
 # Create the service file
-cat > ~/.config/systemd/user/atuin.service << 'EOF'
+cat > ~/.config/systemd/user/atuin.service << EOF
 [Unit]
 Description=Atuin daemon service
 Documentation=https://docs.atuin.sh
@@ -16,7 +16,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/atuin daemon
+ExecStart=$(which atuin) daemon
 
 [Install]
 WantedBy=default.target
