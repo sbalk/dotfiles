@@ -423,11 +423,12 @@ This submodule requires SSH authentication to access, which is why setting up SS
 To customize these dotfiles for your own use:
 
 1. Fork this repository
-2. Update Git configurations with your information in `configs/git/`
-3. Modify shell configurations in `configs/shell/`
-4. Adjust the `install.conf.yaml` to match your needs
-5. Update the dotbins.yaml configuration with your preferred tools
-6. Remove or modify platform-specific configurations as necessary
+2. Remove the `secrets` submodule
+3. Update Git configurations with your information in `configs/git/`
+4. Modify shell configurations in `configs/shell/`
+5. Adjust the `install.conf.yaml` to match your needs
+6. Update the dotbins.yaml configuration with your preferred tools
+7. Remove or modify platform-specific configurations as necessary
 
 ## 📚 Additional Resources
 
