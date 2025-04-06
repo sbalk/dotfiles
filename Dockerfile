@@ -4,10 +4,8 @@
 
 FROM ubuntu:25.04
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    zsh
+# Install git and zsh (only Git is required!)
+RUN apt-get update && apt-get install -y git zsh
 
 # Clone the dotfiles repository using HTTPS instead of SSH
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -18,13 +16,12 @@ RUN git clone https://github.com/basnijholt/dotfiles.git ~/dotfiles
 # Initialize submodules and skip the private 'secrets' submodule
 RUN cd ~/dotfiles && \
     git submodule init && \
-    # Skip the private 'secrets' submodule
     git config submodule.secrets.update none && \
     git submodule update --init --recursive --jobs 8
 
 # Install the dotfiles
 RUN cd ~/dotfiles && ./install || true
 
+# Set the working directory and entrypoint
 WORKDIR /root/dotfiles
-
 CMD ["/bin/zsh"]
