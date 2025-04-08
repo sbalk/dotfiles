@@ -14,7 +14,7 @@ if [[ $- == *i* ]] && command -v squeue &> /dev/null; then
             grep "status" $f | tail -1
         done
     }
-    # Should test if this works... from https://unix.stackexchange.com/questions/417426/best-way-to-cancel-all-the-slurm-jobs-from-shell-command-output
+    # Based on https://unix.stackexchange.com/questions/417426/best-way-to-cancel-all-the-slurm-jobs-from-shell-command-output
     scancel_grep () {
         squeue -u $USER | grep $1 | awk '{print $1}' | xargs -n 1 scancel
     }
