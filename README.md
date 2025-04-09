@@ -447,7 +447,7 @@ To customize these dotfiles for your own use:
 
 1. Fork this repository
 2. Remove the `secrets` submodule
-3. Update Git configurations with your information in `configs/git/`
+3. Update Git configurations with your information in `configs/git/`, specifically `gitconfig-personal`
 4. Modify shell configurations in `configs/shell/`
 5. Adjust the `install.conf.yaml` to match your needs
 6. Update the dotbins.yaml configuration with your preferred tools
