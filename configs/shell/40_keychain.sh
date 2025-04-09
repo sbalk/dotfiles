@@ -1,6 +1,6 @@
 # keychain.sh - meant to be sourced in .bash_profile/.zshrc
 
-if command -v keychain &> /dev/null && [[ -f ~/.ssh/id_ed25519 ]]; then
+if [[ -f ~/.ssh/id_ed25519 ]]; then
     # Check if keychain is installed
     if [[ `uname` == 'Linux' ]]; then
         eval $(keychain --eval --quiet --agents ssh id_ed25519)
