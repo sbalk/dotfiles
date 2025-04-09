@@ -4,9 +4,6 @@
 [submodule "secrets"]
 	path = secrets
 	url = git@github.com:basnijholt/dotfiles-secrets.git
-[submodule "submodules/keychain"]
-	path = submodules/keychain
-	url = git@github.com:funtoo/keychain.git
 [submodule "submodules/dotbot"]
 	path = submodules/dotbot
 	url = https://github.com/anishathalye/dotbot

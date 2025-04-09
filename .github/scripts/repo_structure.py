@@ -24,7 +24,6 @@ descriptions = {
     "autoenv": "Directory-based environments",
     "dotbot": "Dotfiles installation",
     "dotbins": "Binaries manager in dotfiles",
-    "keychain": "SSH key management",
     "mydotbins": "CLI tool binaries managed by dotbins",
     "oh-my-zsh": "Zsh framework",
     "tmux": "oh-my-tmux configuration",
