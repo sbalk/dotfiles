@@ -453,6 +453,26 @@ To customize these dotfiles for your own use:
 6. Update the dotbins.yaml configuration with your preferred tools
 7. Remove or modify platform-specific configurations as necessary
 
+Commands to get started with the current setup:
+
+```bash
+# Clone the repository and initialize submodules (optionally fork and replace username)
+git clone https://github.com/basnijholt/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+# Remove the secrets submodule
+git rm -fr secrets
+git submodule update --init --recursive --jobs 8
+# Overwrite my personal gitconfig (Add your name in `gitconfig-personal` later)
+mv ~/dotfiles/configs/git/gitconfig-personal.example ~/dotfiles/configs/git/gitconfig-personal
+# Move existing files to backup
+mv ~/.zshrc ~/.zshrc.bak
+mv ~/.bash_profile ~/.bash_profile.bak
+mv ~/.bashrc ~/.bashrc.bak
+mv ~/.gitconfig ~/.gitconfig.bak
+# Run the installation script
+./install
+```
+
 ## 📚 Additional Resources
 
 - [dotbot repo](https://github.com/anishathalye/dotbot)
