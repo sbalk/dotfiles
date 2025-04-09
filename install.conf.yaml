@@ -16,15 +16,15 @@
     ~/.config/starship.toml: configs/starship/starship.toml
     ~/.direnvrc: configs/direnv/direnvrc
     ~/.dotbins: submodules/mydotbins
-    ~/.gitconfig: configs/git/gitconfig
     ~/.gitconfig-personal: configs/git/gitconfig-personal
+    ~/.gitconfig: configs/git/gitconfig
     ~/.local/bin/nbviewer: scripts/nbviewer.sh
     ~/.local/bin/pypi-sha256: scripts/pypi-sha256.sh
-    ~/.local/bin/upload-file: scripts/upload-file.sh
     ~/.local/bin/run: scripts/run.sh
     ~/.local/bin/sync-dotfiles: scripts/sync-dotfiles.sh
     ~/.local/bin/sync-local-dotfiles: scripts/sync-local-dotfiles.sh
     ~/.local/bin/sync-uv-tools: scripts/sync-uv-tools.sh
+    ~/.local/bin/upload-file: scripts/upload-file.sh
     ~/.mambarc: configs/mamba/mambarc
     ~/.oh-my-zsh: submodules/oh-my-zsh
     ~/.tmux.conf: submodules/tmux/.tmux.conf
