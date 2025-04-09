@@ -17,6 +17,7 @@
     ~/.direnvrc: configs/direnv/direnvrc
     ~/.dotbins: submodules/mydotbins
     ~/.gitconfig: configs/git/gitconfig
+    ~/.gitconfig-personal: configs/git/gitconfig-personal
     ~/.local/bin/nbviewer: scripts/nbviewer.sh
     ~/.local/bin/pypi-sha256: scripts/pypi-sha256.sh
     ~/.local/bin/upload-file: scripts/upload-file.sh
