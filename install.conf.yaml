@@ -18,7 +18,6 @@
     ~/.dotbins: submodules/mydotbins
     ~/.gitconfig-personal: configs/git/gitconfig-personal
     ~/.gitconfig: configs/git/gitconfig
-    ~/.local/bin/keychain: submodules/keychain/keychain.sh
     ~/.local/bin/nbviewer: scripts/nbviewer.sh
     ~/.local/bin/pypi-sha256: scripts/pypi-sha256.sh
     ~/.local/bin/run: scripts/run.sh
