@@ -7,6 +7,7 @@ if [[ $- == *i* ]]; then
     alias ccat='command cat'
     alias last_conda_repodata_update='curl -sI https://conda.anaconda.org/conda-forge/linux-64/repodata.json | grep "last-modified"'  # Also see https://anaconda.statuspage.io/ and https://github.com/conda/infrastructure/issues/892
     alias gs='git status'  # I use `gst` from `oh-my-zsh` git plugin but this is a frequent typo
+    alias fixssh='eval $(tmux show-env -s |grep "^SSH_")'  # https://stackoverflow.com/a/34683596
 
     if [[ `uname` == 'Darwin' ]]; then
         alias j='jupyter notebook'
