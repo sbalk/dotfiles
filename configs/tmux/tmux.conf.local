@@ -9,6 +9,7 @@
 # -- Bas Nijholt's only modifications ------------------------------------------
 
 # fix ssh agent when tmux is detached (from https://stackoverflow.com/a/23187030)
+set -g update-environment -r # (https://gist.github.com/bcomnes/e756624dc1d126ba2eb6)
 setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 
 # -- bindings ------------------------------------------------------------------
