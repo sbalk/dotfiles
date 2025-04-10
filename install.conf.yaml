@@ -29,7 +29,7 @@
     ~/.mambarc: configs/mamba/mambarc
     ~/.oh-my-zsh: submodules/oh-my-zsh
     ~/.tmux.conf: submodules/tmux/.tmux.conf
-    ~/.tmux.conf.local: submodules/tmux/.tmux.conf.local
+    ~/.tmux.conf.local: configs/tmux/tmux.conf.local
     ~/.zshrc: configs/zsh/zshrc
     ~/dotfiles/submodules/oh-my-zsh/themes/mytheme.zsh-theme: configs/zsh/mytheme.zsh-theme
 
