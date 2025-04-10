@@ -6,6 +6,10 @@
 #         without any warranty.
 #         Copyright 2012— Gregory Pakosz (@gpakosz).
 
+# -- Bas Nijholt's only modifications ------------------------------------------
+
+# fix ssh agent when tmux is detached (from https://stackoverflow.com/a/23187030)
+setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 
 # -- bindings ------------------------------------------------------------------
 

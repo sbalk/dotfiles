@@ -28,6 +28,7 @@
     ~/.local/bin/keychain: submodules/mydotbins/linux/amd64/bin/keychain
     ~/.mambarc: configs/mamba/mambarc
     ~/.oh-my-zsh: submodules/oh-my-zsh
+    ~/.ssh/rc: configs/ssh/rc
     ~/.tmux.conf: submodules/tmux/.tmux.conf
     ~/.tmux.conf.local: configs/tmux/tmux.conf.local
     ~/.zshrc: configs/zsh/zshrc
