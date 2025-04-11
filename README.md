@@ -350,25 +350,25 @@ See the output of `dotbins status` below:
 ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
 ┃ Tool       ┃ Version(s)   ┃ Platforms                             ┃ Last Updated ┃
 ┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
-│ atuin      │ 18.5.0       │ linux/amd64, linux/arm64, macos/arm64 │ 5h6m         │
-│ bat        │ 0.25.0       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ delta      │ 0.18.2       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ direnv     │ 2.35.0       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ duf        │ 0.8.1        │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ dust       │ 1.2.0        │ linux/amd64, linux/arm64, macos/arm64 │ 7d22h        │
-│ eza        │ 0.21.0       │ linux/amd64, linux/arm64              │ 7d4h         │
-│ fd         │ 10.2.0       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ fzf        │ 0.61.1       │ linux/amd64, linux/arm64, macos/arm64 │ 2d21h        │
-│ git-lfs    │ 3.6.1        │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ hyperfine  │ 1.19.0       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ keychain   │ 2.9.0_alpha1 │ linux/amd64, linux/arm64, macos/arm64 │ 14m2s        │
-│ lazygit    │ 0.48.0       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ micromamba │ 2.1.0-0      │ linux/amd64, linux/arm64, macos/arm64 │ 5h6m         │
-│ rg         │ 14.1.1       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ starship   │ 1.22.1       │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
-│ uv         │ 0.6.13       │ linux/amd64, linux/arm64, macos/arm64 │ 1d17h        │
-│ yazi       │ 25.4.8       │ linux/amd64, linux/arm64, macos/arm64 │ 5h6m         │
-│ zoxide     │ 0.9.7        │ linux/amd64, linux/arm64, macos/arm64 │ 7d23h        │
+│ atuin      │ 18.5.0       │ linux/amd64, linux/arm64, macos/arm64 │ 1d10h        │
+│ bat        │ 0.25.0       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ delta      │ 0.18.2       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ direnv     │ 2.35.0       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ duf        │ 0.8.1        │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ dust       │ 1.2.0        │ linux/amd64, linux/arm64, macos/arm64 │ 9d4h         │
+│ eza        │ 0.21.0       │ linux/amd64, linux/arm64              │ 8d10h        │
+│ fd         │ 10.2.0       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ fzf        │ 0.61.1       │ linux/amd64, linux/arm64, macos/arm64 │ 4d3h         │
+│ git-lfs    │ 3.6.1        │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ hyperfine  │ 1.19.0       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ keychain   │ 2.9.0_alpha1 │ linux/amd64, linux/arm64, macos/arm64 │ 1d5h         │
+│ lazygit    │ 0.48.0       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ micromamba │ 2.1.0-0      │ linux/amd64, linux/arm64, macos/arm64 │ 1d10h        │
+│ rg         │ 14.1.1       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ starship   │ 1.22.1       │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
+│ uv         │ 0.6.14       │ linux/amd64, linux/arm64, macos/arm64 │ 2m49s        │
+│ yazi       │ 25.4.8       │ linux/amd64, linux/arm64, macos/arm64 │ 1d10h        │
+│ zoxide     │ 0.9.7        │ linux/amd64, linux/arm64, macos/arm64 │ 9d5h         │
 └────────────┴──────────────┴───────────────────────────────────────┴──────────────┘
 
 
