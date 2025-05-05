@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Simple Debian update script. Run with sudo: sudo ./update_basic.sh
+# Simple Debian update script. Run with sudo: sudo ./apt-update.sh
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
