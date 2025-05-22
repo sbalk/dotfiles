@@ -36,3 +36,6 @@
 [submodule "submodules/autoenv"]
 	path = submodules/autoenv
 	url = https://github.com/hyperupcall/autoenv
+[submodule "submodules/mydotbins"]
+	path = submodules/mydotbins
+	url = git@github.com:sbalk/.dotbins.git

@@ -10,7 +10,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }: {
     darwinConfigurations = {
-      "basnijholt-macbook-pro" = nix-darwin.lib.darwinSystem {
+      "stijn-macbook-pro" = nix-darwin.lib.darwinSystem {
         modules = [
           ./configuration.nix
           ./homebrew.nix
@@ -25,7 +25,7 @@
           }
         ];
       };
-      "basnijholt-macbook-pro-2" = nix-darwin.lib.darwinSystem {
+      "stijn-macbook-air" = nix-darwin.lib.darwinSystem {
         modules = [
           ./configuration.nix
           ./homebrew.nix
