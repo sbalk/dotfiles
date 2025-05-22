@@ -1,5 +1,6 @@
 # zmodload zsh/zprof # Uncomment for profiling
 
+[ -f ~/.zshrclocal ] && source ~/.zshrclocal
 source ~/dotfiles/configs/shell/main.sh
 
 # zprof # Uncomment for profiling
