@@ -1,6 +1,0 @@
-[user]
-	email = stijn.balk@gmail.com
-	name = Stijn Balk
-	signingkey = ~/.ssh/stijn_ddg_gh.pub
-[url "git@github.com:"]
-	insteadOf = https://github.com/

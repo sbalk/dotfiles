@@ -10,6 +10,7 @@ if [[ $- == *i* ]]; then
     alias mmi="mm install -c conda-forge"
     alias mml="mm env list"
     alias mmremove="mm remove env -n"
+    alias cr="code -r ."
     alias p="pytest"
     alias py="python"
     alias ccat='command cat'
