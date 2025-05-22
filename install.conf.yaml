@@ -16,7 +16,7 @@
     ~/.config/starship.toml: configs/starship/starship.toml
     ~/.direnvrc: configs/direnv/direnvrc
     ~/.dotbins: submodules/mydotbins
-    ~/.gitconfig-personal: configs/git/gitconfig-personal
+    # ~/.gitconfig-personal: configs/git/gitconfig-personal
     ~/.gitconfig: configs/git/gitconfig
     ~/.local/bin/nbviewer: scripts/nbviewer.sh
     ~/.local/bin/pypi-sha256: scripts/pypi-sha256.sh
@@ -34,11 +34,11 @@
     ~/dotfiles/submodules/oh-my-zsh/themes/mytheme.zsh-theme: configs/zsh/mytheme.zsh-theme
 
 - shell:
-  - bash scripts/sync-uv-tools.sh
-  - git submodule sync --recursive
-  - git submodule update --init --recursive --remote
-  - command: '[[ "$(uname)" = "Darwin" ]] && [ -f ./secrets/install ] && (echo "SECRETS" && ./secrets/install) || true'
-    stdout: true
+    - bash scripts/sync-uv-tools.sh
+    - git submodule sync --recursive
+    - git submodule update --init --recursive --remote
+    - command: '[[ "$(uname)" = "Darwin" ]] && [ -f ./secrets/install ] && (echo "SECRETS" && ./secrets/install) || true'
+      stdout: true
 
 # -- Only on MacOS --
 - defaults:
