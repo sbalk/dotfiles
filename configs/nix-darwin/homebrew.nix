@@ -136,6 +136,7 @@
       "mounty"                      # NTFS mounter
       "mpv"                         # Media player
       "musicbrainz-picard"          # Music tagger
+      "mullvadvpn"                  # VPN client
       "nordvpn"                     # VPN client
       "obs"                         # Streaming software
       "obsidian"                    # Note taking app
