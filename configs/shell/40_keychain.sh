@@ -13,9 +13,8 @@ if command -v keychain &> /dev/null && [[ -f ~/.ssh/id_ed25519 ]]; then
     # Execute keychain:
     # --eval: Output shell commands (export SSH_AUTH_SOCK=...; export SSH_AGENT_PID=...)
     # --quiet: Suppress informational messages.
-    # --ssh-allow-forwarded: Replaces --inherit, allows reusing forwarded agents.
     # id_ed25519: The specific key to load into the agent (will use SSH_ASKPASS).
-    eval $(keychain --eval --quiet --ssh-allow-forwarded id_ed25519)
+    eval $(keychain --eval --quiet id_ed25519)
 
     # Clean up the temporary ASKPASS variables; they are only needed when adding keys.
     unset SSH_ASKPASS
