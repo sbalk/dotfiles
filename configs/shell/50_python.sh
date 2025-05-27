@@ -15,16 +15,28 @@ if command -v micromamba &> /dev/null; then
     export MAMBA_EXE="$(command -v micromamba)"
     export MAMBA_ROOT_PREFIX="$HOME/micromamba"
     eval "$($MAMBA_EXE shell hook --shell "$SHELL_TYPE" $MAMBA_ROOT_PREFIX)"
-elif [ -f "$HOME/mambaforge/etc/profile.d/conda.sh" ]; then
+else
+    [[ $- == *i* ]] && echo "No micromamba found"
+fi
+
+if [ -f "$HOME/mambaforge/etc/profile.d/conda.sh" ]; then
     # echo "Found mambaforge"
     eval "$($HOME/mambaforge/bin/conda shell.bash hook)"
     . "$HOME/mambaforge/etc/profile.d/mamba.sh"
-elif [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-    # echo "Found miniconda"
-    . "$HOME/miniconda3/etc/profile.d/conda.sh"
-else
-    [[ $- == *i* ]] && echo "No micromamba/mamba/conda found"
 fi
+
+__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        [[ $- == *i* ]] && echo "No conda found"
+    fi
+fi
+unset __conda_setup
+
 
 # -- Add pixi to PATH if installed
 if [ -f "$HOME/.pixi/bin/pixi" ]; then
