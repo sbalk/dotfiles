@@ -27,6 +27,6 @@ if [ -f "$HOME/.cargo/env" ]; then
 fi
 
 # -- Non-public parts
-if [ -f "$HOME/dotfiles/secrets/main.sh" ]; then
-    . "$HOME/dotfiles/secrets/main.sh"
+if [ -f "$HOME/dotfiles/secrets/configs/shell/main.sh" ]; then
+    . "$HOME/dotfiles/secrets/configs/shell/main.sh"
 fi
