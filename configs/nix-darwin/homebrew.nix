@@ -19,6 +19,7 @@
       "blueutil"             # Bluetooth utility
       "brew-cask-completion" # Completion for brew cask
       "btop"                 # System monitor
+      "claude"               # Claude Desktop (AI)
       "cloudflared"          # Cloudflare tunnel
       "cmake"                # Build system
       "cmatrix"              # Matrix-style screen animation
@@ -27,6 +28,7 @@
       "create-dmg"           # DMG creator
       "d2"                   # Diagram scripting language
       "eza"                  # ls alternative
+      "ffmpeg"               # Multimedia framework
       "findutils"            # GNU find utilities
       "fzf"                  # Fuzzy finder
       "gh"                   # GitHub CLI
@@ -92,6 +94,7 @@
       "airflow"                     # Video transcoder
       "avast-security"              # Antivirus
       "balenaetcher"                # USB image writer
+      "block-goose"                 # open source AI agent
       "brave-browser"               # Web browser
       "calibre"                     # E-book manager
       "chromedriver"                # Chrome automation
