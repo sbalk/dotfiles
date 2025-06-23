@@ -16,7 +16,7 @@ if command -v keychain &> /dev/null && [[ -f ~/.ssh/id_ed25519 ]]; then
     # id_ed25519: The specific key to load into the agent (will use SSH_ASKPASS).
     if [ -t 0 ]; then
         # Interactive terminal - allow prompting
-        eval $(keychain --eval --quiet id_ed25519)
+        eval $(keychain --eval --quiet id_ed25519) || true
     else
         # Non-interactive (like during login) - don't prompt
         eval $(keychain --eval --quiet --noask id_ed25519)
