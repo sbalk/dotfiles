@@ -32,6 +32,16 @@
   # --- Shell Configuration ---
   programs.zsh.enable = true;
 
+  # --- SSH ---
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      UseDns = true;
+      X11Forwarding = true;
+    };
+  };
+
   # --- System-Wide Permissions & Fonts ---
   nixpkgs.config.allowUnfree = true;
   fonts.packages = with pkgs; [
@@ -58,6 +68,7 @@
   services.xserver.desktopManager.gnome.enable = true;
   # Optional: Explicitly set the system-wide keyboard layout.
   services.xserver.xkb = { layout = "us"; variant = ""; };
+  programs.dconf.enable = true;
 
   # --- System Services ---
   programs.steam.enable = true;
@@ -72,9 +83,8 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    environmentVariables = {
-      OLLAMA_HOST = "0.0.0.0:11434";
-    };
+    host = "0.0.0.0";
+    openFirewall = true;
   };
 
   # --- GPG Agent Configuration ---
@@ -121,6 +131,7 @@
     bat
     btop
     coreutils
+    duf
     eza
     fzf
     gh
@@ -167,7 +178,7 @@
     (python3.withPackages (ps: [ ps.pipx ]))
     rust-analyzer
     winetricks
-
+    
     # Terminals & Linux-native Alternatives
     alacritty
     baobab
@@ -175,6 +186,9 @@
     ghostty
     kitty
     opensnitch
+
+    # Other
+    gnome-system-monitor
   ];
 
   # The system state version is critical and should match the installed NixOS release.
