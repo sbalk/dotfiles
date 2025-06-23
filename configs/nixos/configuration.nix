@@ -97,6 +97,11 @@
   # --- Run non-nix executables (e.g., micromamba) ---
   programs.nix-ld.enable = true;
 
+  # -- 1Password --
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
+  programs._1password-gui.polkitPolicyOwners = ["basnijholt"];
+
   # --- System-Wide Packages ---
   # All packages installed here are available to all users on the system.
   environment.systemPackages = with pkgs; [
@@ -178,7 +183,7 @@
     (python3.withPackages (ps: [ ps.pipx ]))
     rust-analyzer
     winetricks
-    
+
     # Terminals & Linux-native Alternatives
     alacritty
     baobab
