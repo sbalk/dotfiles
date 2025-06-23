@@ -30,3 +30,8 @@ fi
 if [ -f "$HOME/dotfiles/secrets/configs/shell/main.sh" ]; then
     . "$HOME/dotfiles/secrets/configs/shell/main.sh"
 fi
+
+# -- LM Studio CLI (lms)
+if [ -f "$HOME/.lmstudio/bin/lms" ]; then
+    export PATH="$PATH:$HOME/.lmstudio/bin"
+fi
