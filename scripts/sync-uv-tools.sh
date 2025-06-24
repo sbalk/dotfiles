@@ -11,7 +11,7 @@ uv tool install conda-lock
 uv tool install dotbins
 uv tool install dotbot
 uv tool install fileup
-uv tool install llm --with llm-gemini --with llm-anthropic
+uv tool install llm --with llm-gemini --with llm-anthropic --with llm-ollama
 uv tool install markdown-code-runner
 uv tool install mypy
 uv tool install pre-commit --with pre-commit-uv
