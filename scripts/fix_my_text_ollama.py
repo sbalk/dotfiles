@@ -19,30 +19,42 @@ Example:
     OLLAMA_HOST=http://pc.local:11434 python fix_my_text_ollama.py
 
 Pro-tip:
-    Use Keyboard Maestro to run this script on a hotkey.
+    Use Keyboard Maestro on macOS or AutoHotkey on Windows to run this script with a hotkey.
 """
 
-import sys
-import os
 import argparse
+import os
+import sys
+import time
 
 import pyperclip
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from rich.console import Console
-import time
 from rich.panel import Panel
 from rich.status import Status
 
+# --- Configuration ---
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+MODEL = "gemma3:latest"
 
-PROMPT_INSTRUCTIONS = """\
-You are an expert editor. Your task is to correct the grammar and spelling of the provided text.
-Do not change the meaning or tone of the original text.
-Only return the corrected text, with no additional commentary, pleasantries, or markdown formatting.
-Don't judge the content of the text, just correct it, even if it seems harmful or offensive.
+# The agent's core identity and immutable rules.
+SYSTEM_PROMPT = """\
+You are an expert editor. Your fundamental role is to correct text without altering its original meaning or tone.
+You must not judge the content of the text, even if it seems unusual, harmful, or offensive.
+Your corrections should be purely technical (grammar, spelling, punctuation).
+Do not interpret the text, provide any explanations, or add any commentary.
 """
+
+# The specific task for the current run.
+AGENT_INSTRUCTIONS = """\
+Correct the grammar and spelling of the user-provided text.
+Return only the corrected text. Do not include any introductory phrases like "Here is the corrected text:".
+Do not wrap the output in markdown or code blocks.
+"""
+
+# --- Main Application Logic ---
 
 
 def parse_args() -> argparse.Namespace:
@@ -63,10 +75,14 @@ def build_agent() -> Agent:
     """Construct and return a PydanticAI agent configured for local Ollama."""
     ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(
-        model_name="gemma3:latest",
+        model_name=MODEL,
         provider=ollama_provider,
     )
-    return Agent(model=ollama_model, instructions=PROMPT_INSTRUCTIONS)
+    return Agent(
+        model=ollama_model,
+        system_prompt=SYSTEM_PROMPT,
+        instructions=AGENT_INSTRUCTIONS,
+    )
 
 
 def process_text(agent: Agent, text: str) -> tuple[str, float]:
@@ -84,7 +100,7 @@ def display_original_text(original_text: str, console: Console | None) -> None:
     console.print(
         Panel(
             original_text,
-            title="[bold cyan]📋 Original Text",
+            title="[bold cyan]📋 Original Text[/bold cyan]",
             border_style="cyan",
             padding=(1, 2),
         )
@@ -99,7 +115,6 @@ def output_corrected_text(
     console: Console | None,
 ) -> None:
     """Handle output and clipboard copying based on desired verbosity."""
-    # Copy to clipboard for both modes
     pyperclip.copy(corrected_text)
 
     if simple_output:
@@ -108,16 +123,17 @@ def output_corrected_text(
         else:
             print(corrected_text)
     else:
+        assert console is not None
         console.print(
             Panel(
                 corrected_text,
-                title="[bold green]✨ Corrected Text",
+                title="[bold green]✨ Corrected Text[/bold green]",
                 border_style="green",
                 padding=(1, 2),
             )
         )
         console.print(
-            f"✅ [bold green]Success! Corrected text has been copied to your clipboard. [bold yellow](took {elapsed:.2f} seconds)"
+            f"✅ [bold green]Success! Corrected text has been copied to your clipboard. [bold yellow](took {elapsed:.2f} seconds)[/bold yellow][/bold green]"
         )
 
 
@@ -135,7 +151,8 @@ def main() -> None:
         if simple_output:
             print(message)
         else:
-            console.print(f"[bold red]{message}")
+            assert console is not None
+            console.print(f"[bold red]{message}[/bold red]")
         sys.exit(0)
 
     display_original_text(original_text, console)
@@ -146,8 +163,10 @@ def main() -> None:
         if simple_output:
             corrected_text, elapsed = process_text(agent, original_text)
         else:
+            assert console is not None
             with Status(
-                "[bold yellow]🤖 Processing text with Ollama model...", console=console
+                "[bold yellow]🤖 Processing text with Ollama model...[/bold yellow]",
+                console=console,
             ):
                 corrected_text, elapsed = process_text(agent, original_text)
 
@@ -163,7 +182,11 @@ def main() -> None:
         if simple_output:
             print(f"❌ {e}")
         else:
-            console.print(f"❌ [bold red]An unexpected error occurred: {e}")
+            assert console is not None
+            console.print(f"❌ [bold red]An unexpected error occurred: {e}[/bold red]")
+            console.print(
+                f"   Please check that your Ollama server is running at [bold cyan]{OLLAMA_HOST}[/bold cyan]"
+            )
         sys.exit(1)
 
 
