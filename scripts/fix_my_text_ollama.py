@@ -37,7 +37,7 @@ from rich.status import Status
 
 # --- Configuration ---
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-MODEL = "gemma3:latest"
+DEFAULT_MODEL = "gemma3:latest"
 
 # The agent's core identity and immutable rules.
 SYSTEM_PROMPT = """\
@@ -68,14 +68,20 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print minimal output (suitable for notifications/automation).",
     )
+    parser.add_argument(
+        "--model",
+        "-m",
+        default=DEFAULT_MODEL,
+        help=f"The Ollama model to use. Default is {DEFAULT_MODEL}.",
+    )
     return parser.parse_args()
 
 
-def build_agent() -> Agent:
+def build_agent(model: str) -> Agent:
     """Construct and return a PydanticAI agent configured for local Ollama."""
     ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(
-        model_name=MODEL,
+        model_name=model,
         provider=ollama_provider,
     )
     return Agent(
@@ -157,7 +163,7 @@ def main() -> None:
 
     display_original_text(original_text, console)
 
-    agent = build_agent()
+    agent = build_agent(args.model)
 
     try:
         if simple_output:
