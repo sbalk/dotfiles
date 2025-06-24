@@ -25,7 +25,6 @@ Pro-tip:
 import sys
 import os
 import argparse
-import textwrap
 
 import pyperclip
 from pydantic_ai import Agent
