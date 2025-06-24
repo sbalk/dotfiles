@@ -22,7 +22,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   # --- Core System Settings ---
-  networking.hostName = "nixos-powerhouse";
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
