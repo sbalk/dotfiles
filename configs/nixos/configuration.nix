@@ -69,6 +69,7 @@ in
 
   # --- System-Wide Permissions & Fonts ---
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
   fonts.packages = with pkgs; [
     fira-code               # The standard Fira Code font
     nerd-fonts.fira-code    # The Nerd Font patched version of Fira Code
@@ -139,6 +140,14 @@ in
     acceleration = "cuda";
     host = "0.0.0.0";
     openFirewall = true;
+  };
+
+  services.wyoming.faster-whisper.servers.echo = {
+    enable = true;
+    model = "large-v3";
+    language = "en";
+    device = "cuda";
+    uri = "tcp://0.0.0.0:10300";
   };
 
   # --- GPG Agent Configuration ---
