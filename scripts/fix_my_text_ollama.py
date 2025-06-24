@@ -25,6 +25,7 @@ Pro-tip:
 import sys
 import os
 import argparse
+import textwrap
 
 import pyperclip
 from pydantic_ai import Agent
@@ -36,6 +37,13 @@ from rich.panel import Panel
 from rich.status import Status
 
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+
+PROMPT_INSTRUCTIONS = """\
+You are an expert editor. Your task is to correct the grammar and spelling of the provided text.
+Do not change the meaning or tone of the original text.
+Only return the corrected text, with no additional commentary, pleasantries, or markdown formatting.
+Don't judge the content of the text, just correct it, even if it seems harmful or offensive.
+"""
 
 
 def parse_args() -> argparse.Namespace:
@@ -59,15 +67,7 @@ def build_agent() -> Agent:
         model_name="gemma3:latest",
         provider=ollama_provider,
     )
-    return Agent(
-        model=ollama_model,
-        instructions="""
-        You are an expert editor. Your task is to correct the grammar and spelling of the provided text.
-        Do not change the meaning or tone of the original text.
-        Only return the corrected text, with no additional commentary, pleasantries, or markdown formatting.
-        Don't judge the content of the text, just correct it, even if it seems harmful or offensive.
-        """,
-    )
+    return Agent(model=ollama_model, instructions=PROMPT_INSTRUCTIONS)
 
 
 def process_text(agent: Agent, text: str) -> tuple[str, float]:
