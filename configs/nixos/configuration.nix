@@ -137,6 +137,7 @@ in
     _1password-cli
     brave
     calibre
+    code-cursor
     cryptomator
     docker
     dropbox
