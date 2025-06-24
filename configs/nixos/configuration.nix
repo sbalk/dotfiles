@@ -70,10 +70,16 @@ in
 
   # --- Desktop Environment ---
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
   services.xserver.xkb = { layout = "us"; variant = ""; };
   programs.dconf.enable = true;
+  services.xserver.displayManager.gdm.enable = false;
+  services.displayManager.cosmic-greeter.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.cosmic.enable = true;
+  # Workaround for current COSMIC bugs
+  systemd.user.extraConfig = ''
+    DefaultEnvironment="PATH=/run/current-system/sw/bin"
+  '';
 
   # --- Hyprland ---
   programs.hyprland = {
