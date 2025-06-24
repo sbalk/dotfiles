@@ -27,6 +27,11 @@ in
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024; # 16GB
+  }];
+
   # --- User Account ---
   users.users.basnijholt = {
     isNormalUser = true;
