@@ -42,3 +42,6 @@
 [submodule "submodules/autoenv"]
 	path = submodules/autoenv
 	url = https://github.com/hyperupcall/autoenv
+[submodule "submodules/mechabar"]
+	path = submodules/mechabar
+	url = git@github.com:sejjy/mechabar.git

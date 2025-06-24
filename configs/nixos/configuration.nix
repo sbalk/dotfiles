@@ -54,6 +54,7 @@ in
     fira-code               # The standard Fira Code font
     nerd-fonts.fira-code    # The Nerd Font patched version of Fira Code
     nerd-fonts.droid-sans-mono # The Nerd Font patched version of Droid Sans
+    nerd-fonts.jetbrains-mono # For Mechabar
   ];
 
   # --- Hardware & Drivers ---
@@ -195,6 +196,7 @@ in
     ollama
     parallel
     pinentry-gnome3
+    psmisc # For killall
     pwgen
     rclone
     ripgrep
@@ -245,8 +247,18 @@ in
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.basnijholt = { pkgs, ... }: {
+    users.basnijholt = { pkgs, config, ... }: {
       home.stateVersion = "25.05";
+
+      # --- Mechabar Configuration ---
+      home.packages = with pkgs; [
+        bluetui
+        bluez
+        brightnessctl
+        pipewire
+        wireplumber
+        rofi-wayland
+      ];
     };
   };
 
