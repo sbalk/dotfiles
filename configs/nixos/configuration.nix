@@ -7,7 +7,7 @@ let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
 in
 {
-  imports = [ 
+  imports = [
     ./hardware-configuration.nix
     (import "${home-manager}/nixos")
   ];
@@ -102,7 +102,7 @@ in
       };
     };
   };
- 
+
   # --- System Services ---
   programs.steam.enable = true;
   programs.virt-manager.enable = true;
