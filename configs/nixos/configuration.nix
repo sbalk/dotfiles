@@ -80,6 +80,7 @@ in
   systemd.user.extraConfig = ''
     DefaultEnvironment="PATH=/run/current-system/sw/bin"
   '';
+  services.geoclue2.enable = true;  # https://github.com/NixOS/nixpkgs/issues/259641#issuecomment-2910335440
 
   # --- Hyprland ---
   programs.hyprland = {
