@@ -188,6 +188,7 @@ in
     lm_sensors
     micro
     neovim
+    nixfmt
     nmap
     nvtopPackages.full
     ollama
