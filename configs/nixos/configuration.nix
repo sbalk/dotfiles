@@ -3,8 +3,14 @@
 
 { config, pkgs, ... }:
 
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
+in
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix
+    (import "${home-manager}/nixos")
+  ];
 
   # --- Bootloader ---
   boot.loader.grub = {
@@ -66,10 +72,31 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  # Optional: Explicitly set the system-wide keyboard layout.
   services.xserver.xkb = { layout = "us"; variant = ""; };
   programs.dconf.enable = true;
 
+  # --- Hyprland ---
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = "gtk";
+      };
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+      };
+    };
+  };
+ 
   # --- System Services ---
   programs.steam.enable = true;
   programs.virt-manager.enable = true;
@@ -192,9 +219,27 @@
     kitty
     opensnitch
 
-    # Other
-    gnome-system-monitor
+    # Hyprland Essentials
+    polkit_gnome
+    waybar          # Status bar (most popular by far)
+    wofi            # Application launcher (simpler than rofi)
+    mako            # Notification daemon (Wayland-native)
+    swww            # Wallpaper daemon (smooth transitions)
+    wl-clipboard    # Clipboard manager (copy/paste support)
+    cliphist        # Clipboard history
+    hyprlock        # Screen locker
+    hyprpicker      # Color picker
+    hyprshot        # Screenshot tool (Hyprland-specific)
   ];
+
+  # --- Home Manager ---
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.basnijholt = { pkgs, ... }: {
+      home.stateVersion = "25.05";
+    };
+  };
 
   # The system state version is critical and should match the installed NixOS release.
   system.stateVersion = "25.05";
