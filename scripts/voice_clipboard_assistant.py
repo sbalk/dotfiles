@@ -49,6 +49,7 @@ import asyncio
 import logging
 import os
 import signal
+import subprocess
 import sys
 import time
 from contextlib import contextmanager, nullcontext
@@ -430,8 +431,20 @@ async def process_and_update_clipboard(
                 )
             )
         else:
-            # For quiet mode, still provide some feedback for notifications
-            print("✅ Done! Result copied to clipboard.")
+            # For quiet mode, say "Done!" (cannot get macOS notifications to work)
+            if sys.platform == "darwin":
+                try:
+                    subprocess.run(
+                        ["say", "-v", "Samantha", "Done!"],
+                        check=True,
+                        capture_output=True,
+                    )
+                except (subprocess.CalledProcessError, FileNotFoundError) as e:
+                    logger.error("Failed to trigger 'say': %s", e)
+                    print("✅ Done! Result copied to clipboard.")
+            else:
+                # Fallback for non-macOS systems
+                print("✅ Done! Result copied to clipboard.")
 
     except Exception as e:
         logger.exception("An error occurred during LLM processing: %s", e)
