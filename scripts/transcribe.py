@@ -14,6 +14,7 @@ import signal
 import wave
 from contextlib import contextmanager, nullcontext
 from datetime import datetime
+from pathlib import Path
 from typing import Generator
 
 import pyaudio
@@ -21,15 +22,19 @@ import pyperclip
 from rich.console import Console
 from rich.live import Live
 from rich.text import Text
+
 from wyoming.asr import (
-    Transcript,
     Transcribe,
+    Transcript,
     TranscriptChunk,
     TranscriptStart,
     TranscriptStop,
 )
 from wyoming.audio import AudioChunk, AudioStart, AudioStop
 from wyoming.client import AsyncClient
+
+
+HERE = Path(__file__).parent
 
 # --- Configuration ---
 SERVER_IP = "192.168.1.143"
@@ -248,7 +253,7 @@ async def run_transcription(
 
     client = AsyncClient.from_uri(uri)
     output_wav = (
-        f"recording_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
+        HERE / f"recording_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
         if args.save_recording
         else None
     )
