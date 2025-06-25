@@ -151,7 +151,11 @@ def parse_args() -> argparse.Namespace:
     # General arguments
     parser.add_argument("--log-file", help="Path to log file (default: stdout only).")
     parser.add_argument(
-        "--debug", action="store_true", help="Enable debug-level logging."
+        "--log-level",
+        type=str.upper,
+        default="WARNING",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Set the logging level (default: WARNING).",
     )
     parser.add_argument(
         "--quiet",
@@ -163,12 +167,11 @@ def parse_args() -> argparse.Namespace:
 
 def setup_logging(args: argparse.Namespace) -> logging.Logger:
     """Set up logging to console and optionally a file."""
-    log_level = logging.DEBUG if args.debug else logging.INFO
     handlers = [logging.StreamHandler()] if not args.quiet else []
     if args.log_file:
         handlers.append(logging.FileHandler(args.log_file, mode="w"))
     logging.basicConfig(
-        level=log_level,
+        level=args.log_level,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
         handlers=handlers,
     )
