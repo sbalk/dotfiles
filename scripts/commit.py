@@ -159,7 +159,9 @@ def get_diff(console: Console, repo_path: str | None, all_changes: bool) -> str 
         command = ["git", "diff"]
         if not all_changes:
             command.append("--staged")
-        command.append("--patch-with-raw")
+
+        # Ignore dirty submodules so unstaged changes within them don't pollute the diff.
+        command.extend(["--ignore-submodules=dirty", "--patch-with-raw"])
         result = subprocess.run(
             command,
             capture_output=True,
@@ -313,12 +315,17 @@ def main() -> None:
                 # We don't check=True because the user might abort the commit, which is not an error.
                 # This command tells git to open the editor with the content of our temp file.
                 # Because we don't pipe stdin, the editor can correctly attach to the terminal.
-                subprocess.run(
+                result = subprocess.run(
                     commit_command,
                     check=False,
                     cwd=args.repo_path,
                 )
-                console.print("[bold green]✅ Commit process finished.[/bold green]")
+                if result.returncode == 0:
+                    console.print("[bold green]✅ Commit successful![/bold green]")
+                else:
+                    console.print(
+                        "[bold yellow]ℹ️ Commit aborted by user.[/bold yellow]"
+                    )
             except FileNotFoundError:
                 console.print("[bold red]❌ Error: 'git' command not found.[/bold red]")
             except Exception as e:
