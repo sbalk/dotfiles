@@ -3,6 +3,7 @@
 # -- Dotbins: ensures uv is in the PATH
 source "$HOME/.dotbins/shell/bash.sh"
 
+uv tool install agent-cli
 uv tool install asciinema
 uv tool install black
 uv tool install bump-my-version
