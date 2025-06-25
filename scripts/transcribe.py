@@ -15,7 +15,6 @@ import wave
 from contextlib import contextmanager, nullcontext
 from datetime import datetime
 from typing import Generator
-import os
 
 import pyaudio
 import pyperclip
@@ -70,6 +69,11 @@ def parse_args() -> argparse.Namespace:
         "--debug", action="store_true", help="Enable debug-level logging."
     )
     parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Don't print anything to the console.",
+    )
+    parser.add_argument(
         "--save-recording",
         action="store_true",
         help="Save the microphone audio to a timestamped WAV file.",
@@ -119,13 +123,13 @@ def open_pyaudio_stream(
         stream.close()
 
 
-def list_input_devices(pa: pyaudio.PyAudio, console: Console) -> None:
+def list_input_devices(pa: pyaudio.PyAudio, console: Console | None) -> None:
     """Print a numbered list of available input devices."""
-    console.print("[bold]Available input devices:[/bold]")
+    _print(console, "[bold]Available input devices:[/bold]")
     for i in range(pa.get_device_count()):
         info = pa.get_device_info_by_index(i)
         if info.get("maxInputChannels", 0) > 0:
-            console.print(f"  [yellow]{i}[/yellow]: {info['name']}")
+            _print(console, f"  [yellow]{i}[/yellow]: {info['name']}")
 
 
 # --- Core Application Logic ---
@@ -137,7 +141,7 @@ async def send_audio(
     wav_file: wave.Wave_write | None,
     stop_event: asyncio.Event,
     logger: logging.Logger,
-    console: Console,
+    console: Console | None,
 ):
     """Read from mic, write to WAV, and send to server."""
     logger.debug("Sending Transcribe request")
@@ -146,12 +150,17 @@ async def send_audio(
     await client.write_event(AudioStart(rate=RATE, width=2, channels=CHANNELS).event())
 
     try:
-        with Live(
-            Text("Streaming...", style="blue"),
-            console=console,
-            transient=True,
-            refresh_per_second=10,
-        ) as live:
+        if console is not None:
+            live = Live(
+                Text("Streaming...", style="blue"),
+                console=console,
+                transient=True,
+                refresh_per_second=10,
+            )
+        else:
+            live = nullcontext()
+
+        with live:
             counter = 0
             while not stop_event.is_set():
                 chunk = await asyncio.to_thread(stream.read, CHUNK_SIZE)
@@ -165,12 +174,13 @@ async def send_audio(
                     ).event()
                 )
                 counter += 1
-                live.update(
-                    Text(
-                        f"Streaming... ({counter * CHUNK_SIZE / RATE:.1f}s)",
-                        style="blue",
+                if console is not None:
+                    live.update(
+                        Text(
+                            f"Streaming... ({counter * CHUNK_SIZE / RATE:.1f}s)",
+                            style="blue",
+                        )
                     )
-                )
     finally:
         logger.debug("Sending AudioStop")
         await client.write_event(AudioStop().event())
@@ -179,7 +189,7 @@ async def send_audio(
 async def receive_text(
     client: AsyncClient,
     logger: logging.Logger,
-    console: Console,
+    console: Console | None,
     args: argparse.Namespace,
 ):
     """Receive transcription events and handle final transcript."""
@@ -192,12 +202,12 @@ async def receive_text(
         if Transcript.is_type(event.type):
             transcript = Transcript.from_event(event)
             transcript_text = transcript.text
-            console.print(f"\n[bold green]Transcript:[/bold green] {transcript_text}")
+            _print(console, f"\n[bold green]Transcript:[/bold green] {transcript_text}")
             logger.info("Transcript [final]: %s", transcript_text)
             break
         elif TranscriptChunk.is_type(event.type):
             chunk = TranscriptChunk.from_event(event)
-            console.print(chunk.text, end="")
+            _print(console, chunk.text, end="")
             logger.debug("Transcript chunk: %s", chunk.text)
         elif TranscriptStart.is_type(event.type):
             logger.debug("Received TranscriptStart")
@@ -211,12 +221,17 @@ async def receive_text(
         try:
             pyperclip.copy(transcript_text)
             logger.info("Copied transcript to clipboard.")
-            console.print("[italic green]Copied to clipboard.[/italic green]")
+            _print(console, "[italic green]Copied to clipboard.[/italic green]")
         except pyperclip.PyperclipException as e:
             logger.error("Could not copy to clipboard: %s", e)
-            console.print(
-                f"[bold red]Error:[/bold red] Could not copy to clipboard: {e}"
+            _print(
+                console, f"[bold red]Error:[/bold red] Could not copy to clipboard: {e}"
             )
+
+
+def _print(console: Console | None, message: str, end: str = "\n"):
+    if console is not None:
+        console.print(message, end=end)
 
 
 async def run_transcription(
@@ -224,12 +239,12 @@ async def run_transcription(
     logger: logging.Logger,
     p: pyaudio.PyAudio,
     stop_event: asyncio.Event,
-    console: Console,
+    console: Console | None,
 ):
     """Connects to server and manages transcription lifecycle."""
     uri = f"tcp://{args.server_ip}:{args.server_port}"
     logger.info("Connecting to Wyoming server at %s", uri)
-    console.print(f"Connecting to Wyoming server at [cyan]{uri}[/cyan]...")
+    _print(console, f"Connecting to Wyoming server at [cyan]{uri}[/cyan]...")
 
     client = AsyncClient.from_uri(uri)
     output_wav = (
@@ -241,7 +256,7 @@ async def run_transcription(
     try:
         await client.connect()
         logger.info("Connection established")
-        console.print("[green]Connection successful.[/green] Listening...")
+        _print(console, "[green]Connection successful.[/green] Listening...")
 
         wav_manager = wave.open(output_wav, "wb") if output_wav else nullcontext()
 
@@ -274,7 +289,7 @@ async def run_transcription(
         logger.info("run_transcription finally block reached.")
         if output_wav:
             logger.debug("Closed WAV file")
-            console.print(f"Saved recording to [cyan]{output_wav}[/cyan]")
+            _print(console, f"Saved recording to [cyan]{output_wav}[/cyan]")
 
         await client.disconnect()
 
@@ -283,7 +298,7 @@ async def main() -> None:
     """Sets up logging, arguments, and the main asyncio loop."""
     args = parse_args()
     logger = setup_logging(args)
-    console = Console()
+    console = Console() if not args.quiet else None
 
     with pyaudio_context() as p:
         if args.list_devices:
@@ -291,15 +306,16 @@ async def main() -> None:
             return
 
         if args.device_index is not None:
-            console.print(
-                f"Using input device index [bold yellow]{args.device_index}[/bold yellow]"
+            _print(
+                console,
+                f"Using input device index [bold yellow]{args.device_index}[/bold yellow]",
             )
 
         loop = asyncio.get_running_loop()
         stop_event = asyncio.Event()
 
         def shutdown_handler():
-            console.print("\n[yellow]Stopping... (Ctrl+C)[/yellow]")
+            _print(console, "\n[yellow]Stopping... (Ctrl+C)[/yellow]")
             logger.info("Shutdown signal received.")
             stop_event.set()
 
@@ -311,14 +327,15 @@ async def main() -> None:
         except asyncio.CancelledError:
             pass
         except ConnectionRefusedError:
-            console.print(
-                f"[bold red]Connection refused.[/bold red] Is the server running and firewall open on port {args.server_port}?"
+            _print(
+                console,
+                f"[bold red]Connection refused.[/bold red] Is the server running and firewall open on port {args.server_port}?",
             )
         except Exception as e:
             logger.exception("Unhandled exception: %s", e)
-            console.print(f"[bold red]An error occurred:[/bold red] {e}")
+            _print(console, f"[bold red]An error occurred:[/bold red] {e}")
         finally:
-            console.print("[bold]Done.[/bold]")
+            _print(console, "[bold]Done.[/bold]")
 
 
 if __name__ == "__main__":
