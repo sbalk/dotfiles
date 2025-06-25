@@ -176,7 +176,7 @@ async def send_audio(
     stop_event: asyncio.Event,
     logger: logging.Logger,
     console: Console | None,
-):
+) -> None:
     """Read from mic, write to WAV, and send to server."""
     logger.debug("Sending Transcribe request")
     await client.write_event(Transcribe().event())
@@ -225,7 +225,7 @@ async def receive_text(
     logger: logging.Logger,
     console: Console | None,
     args: argparse.Namespace,
-):
+) -> None:
     """Receive transcription events and handle final transcript."""
     transcript_text = ""
     while True:
@@ -263,7 +263,7 @@ async def receive_text(
             )
 
 
-def _print(console: Console | None, message: str, end: str = "\n"):
+def _print(console: Console | None, message: str, end: str = "\n") -> None:
     if console is not None:
         console.print(message, end=end)
 
@@ -274,7 +274,7 @@ async def run_transcription(
     p: pyaudio.PyAudio,
     stop_event: asyncio.Event,
     console: Console | None,
-):
+) -> None:
     """Connects to server and manages transcription lifecycle."""
     uri = f"tcp://{args.server_ip}:{args.server_port}"
     logger.info("Connecting to Wyoming server at %s", uri)
@@ -348,7 +348,7 @@ async def main() -> None:
         loop = asyncio.get_running_loop()
         stop_event = asyncio.Event()
 
-        def shutdown_handler():
+        def shutdown_handler() -> None:
             _print(console, "\n[yellow]Stopping... (Ctrl+C)[/yellow]")
             logger.info("Shutdown signal received.")
             stop_event.set()
