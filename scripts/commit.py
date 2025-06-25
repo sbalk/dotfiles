@@ -73,12 +73,20 @@ class ConventionalCommit(BaseModel):
     )
 
     def to_message(self) -> str:
-        """Formats the structured data into a conventional commit message string."""
+        """
+        Formats the structured data into a conventional commit message string.
+        The body is automatically formatted to have one sentence per line.
+        """
         scope_str = f"({self.scope})" if self.scope else ""
         header = f"{self.commit_type}{scope_str}: {self.subject}"
-        if self.body:
-            return f"{header}\n\n{self.body}"
-        return header
+
+        if not self.body:
+            return header
+
+        # Normalize newlines and multiple spaces, then split sentences.
+        formatted_body = " ".join(self.body.split()).replace(". ", ".\n")
+
+        return f"{header}\n\n{formatted_body}"
 
 
 # --- Main Application Logic ---
@@ -140,9 +148,7 @@ def get_staged_diff(console: Console) -> str | None:
     except subprocess.CalledProcessError as e:
         # This can happen for various reasons, e.g., not a git repository
         error_message = e.stderr.strip()
-        console.print(
-            f"[bold red]Error getting git diff:[/bold red]\n{error_message}"
-        )
+        console.print(f"[bold red]Error getting git diff:[/bold red]\n{error_message}")
         return None
 
 
@@ -161,7 +167,9 @@ def build_agent(model: str) -> Agent:
     )
 
 
-def generate_commit_message(agent: Agent, diff: str) -> tuple[ConventionalCommit, float]:
+def generate_commit_message(
+    agent: Agent, diff: str
+) -> tuple[ConventionalCommit, float]:
     """Run the agent synchronously and return the commit message and elapsed time."""
     t_start = time.monotonic()
     result = agent.run_sync(diff)
@@ -212,7 +220,7 @@ def main() -> None:
                     input=commit_message,
                     text=True,
                     check=True,
-                    capture_output=True, # Capture output to check for commit success
+                    capture_output=True,  # Capture output to check for commit success
                 )
                 console.print("[bold green]✅ Commit successful![/bold green]")
             except subprocess.CalledProcessError as e:
@@ -223,10 +231,16 @@ def main() -> None:
         elif args.copy:
             try:
                 pyperclip.copy(commit_message)
-                console.print("\n[bold green]✅ Commit message copied to clipboard.[/bold green]")
-                console.print("💡 [bold]Run `git commit -F -` and paste the message to commit.[/bold]")
+                console.print(
+                    "\n[bold green]✅ Commit message copied to clipboard.[/bold green]"
+                )
+                console.print(
+                    "💡 [bold]Run `git commit -F -` and paste the message to commit.[/bold]"
+                )
             except pyperclip.PyperclipException:
-                console.print("[bold red]❌ Could not copy to clipboard. Is a tool like xclip or pbcopy installed?[/bold red]")
+                console.print(
+                    "[bold red]❌ Could not copy to clipboard. Is a tool like xclip or pbcopy installed?[/bold red]"
+                )
 
         elif args.edit:
             console.print("\n[bold yellow]Opening editor for review...[/bold yellow]")
@@ -251,13 +265,17 @@ def main() -> None:
             except FileNotFoundError:
                 console.print("[bold red]❌ Error: 'git' command not found.[/bold red]")
             except Exception as e:
-                console.print(f"[bold red]❌ An error occurred during the edit process: {e}[/bold red]")
+                console.print(
+                    f"[bold red]❌ An error occurred during the edit process: {e}[/bold red]"
+                )
             finally:
                 if tmp_file_path and os.path.exists(tmp_file_path):
                     os.remove(tmp_file_path)
 
-        else: # Default "dry-run" behavior
-            console.print("\n💡 [bold]To commit, run the command below or use `--edit` to review in your editor.[/bold]")
+        else:  # Default "dry-run" behavior
+            console.print(
+                "\n💡 [bold]To commit, run the command below or use `--edit` to review in your editor.[/bold]"
+            )
             console.print("\n[bold]Command:[/bold]")
             console.print(f"""
 cat <<'EOM' | git commit -F -
@@ -274,4 +292,4 @@ EOM
 
 
 if __name__ == "__main__":
-    main() 
+    main()
