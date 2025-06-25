@@ -183,6 +183,26 @@ def _print(console: Console | None, message, **kwargs):
         console.print(message, **kwargs)
 
 
+def get_clipboard_text(logger: logging.Logger, console: Console | None) -> str | None:
+    """
+    Retrieves text from the clipboard.
+    Returns the text or None if clipboard is empty or an error occurs.
+    """
+    try:
+        original_text = pyperclip.paste()
+        if not original_text or not original_text.strip():
+            _print(
+                console,
+                "[bold red]❌ Clipboard is empty. Nothing to edit.[/bold red]",
+            )
+            return None
+        return original_text
+    except pyperclip.PyperclipException as e:
+        logger.error("Could not read from clipboard: %s", e)
+        _print(console, f"[bold red]❌ Error reading from clipboard:[/bold red] {e}")
+        return None
+
+
 @contextmanager
 def pyaudio_context() -> Generator[pyaudio.PyAudio, None, None]:
     """Context manager for PyAudio lifecycle."""
@@ -372,6 +392,60 @@ async def process_with_llm(
     return result.output, t_end - t_start
 
 
+async def process_and_update_clipboard(
+    args: argparse.Namespace,
+    logger: logging.Logger,
+    console: Console | None,
+    original_text: str,
+    instruction: str,
+):
+    """
+    Processes the text with the LLM, updates the clipboard, and displays the result.
+    """
+    agent = build_agent(args.model)
+    try:
+        status_cm = (
+            Status(
+                f"[bold yellow]🤖 Applying instruction with {args.model}...[/bold yellow]",
+                console=console,
+            )
+            if console
+            else nullcontext()
+        )
+        with status_cm:
+            result_text, elapsed = await process_with_llm(
+                agent, original_text, instruction
+            )
+
+        pyperclip.copy(result_text)
+        logger.info("Copied result to clipboard.")
+
+        if console:
+            console.print(
+                Panel(
+                    result_text,
+                    title="[bold green]✨ Result (Copied to Clipboard)[/bold green]",
+                    border_style="green",
+                    subtitle=f"[dim]took {elapsed:.2f}s[/dim]",
+                )
+            )
+        else:
+            # For quiet mode, still provide some feedback for notifications
+            print("✅ Done! Result copied to clipboard.")
+
+    except Exception as e:
+        logger.exception("An error occurred during LLM processing: %s", e)
+        _print(
+            console,
+            f"❌ [bold red]An unexpected LLM error occurred: {e}[/bold red]",
+        )
+        _print(
+            console,
+            f"   Please check your Ollama server at [cyan]{OLLAMA_HOST}[/cyan]",
+        )
+        sys.exit(1)
+
+
 # --- Main Application Logic ---
 
 
@@ -386,19 +460,8 @@ async def main() -> None:
             list_input_devices(p, console)
             return
 
-        try:
-            original_text = pyperclip.paste()
-            if not original_text or not original_text.strip():
-                _print(
-                    console,
-                    "[bold red]❌ Clipboard is empty. Nothing to edit.[/bold red]",
-                )
-                return
-        except pyperclip.PyperclipException as e:
-            logger.error("Could not read from clipboard: %s", e)
-            _print(
-                console, f"[bold red]❌ Error reading from clipboard:[/bold red] {e}"
-            )
+        original_text = get_clipboard_text(logger, console)
+        if not original_text:
             return
 
         _print(console, Panel(original_text, title="[cyan]📝 Text to Process[/cyan]"))
@@ -430,48 +493,9 @@ async def main() -> None:
             _print(console, "[yellow]No instruction was transcribed. Exiting.[/yellow]")
             return
 
-        agent = build_agent(args.model)
-        try:
-            status_cm = (
-                Status(
-                    f"[bold yellow]🤖 Applying instruction with {args.model}...[/bold yellow]",
-                    console=console,
-                )
-                if console
-                else nullcontext()
-            )
-            with status_cm:
-                result_text, elapsed = await process_with_llm(
-                    agent, original_text, instruction
-                )
-
-            pyperclip.copy(result_text)
-            logger.info("Copied result to clipboard.")
-
-            if console:
-                console.print(
-                    Panel(
-                        result_text,
-                        title="[bold green]✨ Result (Copied to Clipboard)[/bold green]",
-                        border_style="green",
-                        subtitle=f"[dim]took {elapsed:.2f}s[/dim]",
-                    )
-                )
-            else:
-                # For quiet mode, still provide some feedback for notifications
-                print("✅ Done! Result copied to clipboard.")
-
-        except Exception as e:
-            logger.exception("An error occurred during LLM processing: %s", e)
-            _print(
-                console,
-                f"❌ [bold red]An unexpected LLM error occurred: {e}[/bold red]",
-            )
-            _print(
-                console,
-                f"   Please check your Ollama server at [cyan]{OLLAMA_HOST}[/cyan]",
-            )
-            sys.exit(1)
+        await process_and_update_clipboard(
+            args, logger, console, original_text, instruction
+        )
 
 
 if __name__ == "__main__":
