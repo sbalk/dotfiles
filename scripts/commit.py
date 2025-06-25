@@ -17,6 +17,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import textwrap
 
 import pyperclip
 from pydantic import BaseModel, Field
@@ -113,6 +114,12 @@ def parse_args() -> argparse.Namespace:
         help="Automatically stage all modified and deleted files (like `git commit -a`).",
     )
     parser.add_argument(
+        "-p",
+        "--prompt",
+        default=None,
+        help="Add a custom one-time instruction to the AI model.",
+    )
+    parser.add_argument(
         "--repo-path",
         default=None,
         help="Path to the git repository. Defaults to the current working directory.",
@@ -174,8 +181,14 @@ def get_diff(console: Console, repo_path: str | None, all_changes: bool) -> str 
         return None
 
 
-def build_agent(model: str) -> Agent:
+def build_agent(model: str, custom_prompt: str | None = None) -> Agent:
     """Construct and return a PydanticAI agent configured for local Ollama."""
+    agent_instructions = AGENT_INSTRUCTIONS
+    if custom_prompt:
+        agent_instructions += (
+            f"\n\nIMPORTANT: You must also follow this instruction: {custom_prompt}"
+        )
+
     ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(
         model_name=model,
@@ -184,7 +197,7 @@ def build_agent(model: str) -> Agent:
     return Agent(
         model=ollama_model,
         system_prompt=SYSTEM_PROMPT,
-        instructions=AGENT_INSTRUCTIONS,
+        instructions=agent_instructions,
         output_type=ConventionalCommit,
     )
 
@@ -220,9 +233,14 @@ def main() -> None:
             )
         sys.exit(0)
 
-    agent = build_agent(args.model)
+    agent = build_agent(args.model, args.prompt)
 
     try:
+        if args.prompt:
+            console.print(
+                f"🕵️  [bold yellow]Custom instruction added:[/bold yellow] [italic]'{args.prompt}'[/italic]"
+            )
+
         with Status(
             f"[bold yellow]🤖 Analyzing diff with {args.model}...[/bold yellow]",
             console=console,
@@ -318,11 +336,15 @@ def main() -> None:
             console.print("\n[bold]Command:[/bold]")
             git_prefix = f"git -C '{args.repo_path}'" if args.repo_path else "git"
             commit_verb = "commit -a" if args.all else "commit"
-            console.print(f"""
-cat <<'EOM' | {git_prefix} {commit_verb} -F -
-{commit_message}
-EOM
-""")
+            console.print(
+                textwrap.dedent(
+                    f"""
+                    cat <<'EOM' | {git_prefix} {commit_verb} -F -
+                    {commit_message}
+                    EOM
+                    """
+                )
+            )
 
     except Exception as e:
         console.print(f"❌ [bold red]An unexpected error occurred: {e}[/bold red]")
