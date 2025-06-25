@@ -42,6 +42,7 @@ To create a hotkey toggle for this script, set up a Keyboard Maestro macro with:
      #!/bin/zsh
      source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true
      ${HOME}/dotfiles/scripts/voice_clipboard_assistant.py --device-index 1 --quiet &
+   - Select "Display results in a notification"
 """
 
 import argparse
@@ -49,7 +50,6 @@ import asyncio
 import logging
 import os
 import signal
-import subprocess
 import sys
 import time
 from contextlib import contextmanager, nullcontext
@@ -402,6 +402,7 @@ async def process_and_update_clipboard(
 ):
     """
     Processes the text with the LLM, updates the clipboard, and displays the result.
+    In quiet mode, only the result is printed to stdout.
     """
     agent = build_agent(args.model)
     try:
@@ -431,20 +432,8 @@ async def process_and_update_clipboard(
                 )
             )
         else:
-            # For quiet mode, say "Done!" (cannot get macOS notifications to work)
-            if sys.platform == "darwin":
-                try:
-                    subprocess.run(
-                        ["say", "-v", "Samantha", "Done!"],
-                        check=True,
-                        capture_output=True,
-                    )
-                except (subprocess.CalledProcessError, FileNotFoundError) as e:
-                    logger.error("Failed to trigger 'say': %s", e)
-                    print("✅ Done! Result copied to clipboard.")
-            else:
-                # Fallback for non-macOS systems
-                print("✅ Done! Result copied to clipboard.")
+            # Quiet mode: print result to stdout for Keyboard Maestro to capture
+            print(result_text)
 
     except Exception as e:
         logger.exception("An error occurred during LLM processing: %s", e)
