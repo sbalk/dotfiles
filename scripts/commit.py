@@ -75,7 +75,8 @@ class ConventionalCommit(BaseModel):
     def to_message(self) -> str:
         """
         Formats the structured data into a conventional commit message string.
-        The body is automatically formatted to have one sentence per line.
+        The body is automatically formatted to have one sentence per line,
+        while preserving original line breaks for lists.
         """
         scope_str = f"({self.scope})" if self.scope else ""
         header = f"{self.commit_type}{scope_str}: {self.subject}"
@@ -83,8 +84,10 @@ class ConventionalCommit(BaseModel):
         if not self.body:
             return header
 
-        # Normalize newlines and multiple spaces, then split sentences.
-        formatted_body = " ".join(self.body.split()).replace(". ", ".\n")
+        # Process each line to split sentences, preserving original line breaks.
+        lines = self.body.strip().split("\n")
+        processed_lines = [line.replace(". ", ".\n") for line in lines]
+        formatted_body = "\n".join(processed_lines)
 
         return f"{header}\n\n{formatted_body}"
 
