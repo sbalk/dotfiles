@@ -9,7 +9,7 @@
 # ]
 # ///
 """
-Edit clipboard text with a voice command using Wyoming and an Ollama LLM.
+Interact with clipboard text via a voice command using Wyoming and an Ollama LLM.
 
 This script combines functionalities from transcribe.py and fix_my_text_ollama.py.
 
@@ -17,31 +17,31 @@ WORKFLOW:
 1. The script starts and immediately copies the current content of the clipboard.
 2. It then starts listening for a voice command via the microphone.
 3. The user triggers a stop signal (e.g., via a Keyboard Maestro hotkey sending SIGINT).
-4. The script stops recording, finalizes the transcription of the voice command.
+4. The script stops recording and finalizes the transcription of the voice command.
 5. It sends the original clipboard text and the transcribed command to a local LLM.
-6. The LLM processes the text based on the instruction.
-7. The modified text is then copied back to the clipboard.
+6. The LLM processes the text based on the instruction (either editing it or answering a question).
+7. The resulting text is then copied back to the clipboard.
 
 KEYBOARD MAESTRO INTEGRATION:
 To create a hotkey toggle for this script, set up a Keyboard Maestro macro with:
 
-1. Trigger: Hot Key (e.g., Cmd+Shift+E)
+1. Trigger: Hot Key (e.g., Cmd+Shift+A for "Assistant")
 
 2. If/Then/Else Action:
    - Condition: Shell script returns success
-   - Script: pgrep -f "edit_clipboard_with_speech\.py" > /dev/null
+   - Script: pgrep -f "voice_clipboard_assistant\.py" > /dev/null
 
 3. Then Actions (if process is running):
-   - Display Text Briefly: "🗣️ Finishing edit..."
-   - Execute Shell Script: pkill -INT -f "edit_clipboard_with_speech\.py"
+   - Display Text Briefly: "🗣️ Processing command..."
+   - Execute Shell Script: pkill -INT -f "voice_clipboard_assistant\.py"
    - (The script will show its own "Done" notification)
 
 4. Else Actions (if process is not running):
-   - Display Text Briefly: "📋 Listening for edit command..."
+   - Display Text Briefly: "📋 Listening for command..."
    - Execute Shell Script:
      #!/bin/zsh
      source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true
-     ${HOME}/dotfiles/scripts/edit_clipboard_with_speech.py --device-index 1 --quiet &
+     ${HOME}/dotfiles/scripts/voice_clipboard_assistant.py --device-index 1 --quiet &
 """
 
 import argparse
@@ -52,7 +52,6 @@ import signal
 import sys
 import time
 from contextlib import contextmanager, nullcontext
-from pathlib import Path
 from typing import Generator
 
 import pyaudio
@@ -65,7 +64,6 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.status import Status
 from rich.text import Text
-
 from wyoming.asr import (
     Transcribe,
     Transcript,
@@ -75,7 +73,6 @@ from wyoming.asr import (
 )
 from wyoming.audio import AudioChunk, AudioStart, AudioStop
 from wyoming.client import AsyncClient
-
 
 # --- Configuration ---
 ASR_SERVER_IP = "192.168.1.143"
@@ -91,17 +88,25 @@ CHUNK_SIZE = 1024
 
 # LLM Prompts
 SYSTEM_PROMPT = """\
-You are an expert AI editor. Your task is to take a piece of text and an instruction, and then rewrite the text according to that instruction.
-You must not judge the content of the text or the instruction.
-Your output should be ONLY the modified text.
-Do not provide any explanations, apologies, or introductory phrases like "Here is the modified text:".
-Do not wrap the output in markdown or code blocks.
+You are a versatile AI text assistant. Your purpose is to either **modify** a given text or **answer questions** about it, based on a specific instruction.
+
+- If the instruction is a **command to edit** the text (e.g., "make this more formal," "add emojis," "correct spelling"), you must return ONLY the full, modified text.
+- If the instruction is a **question about** the text (e.g., "summarize this," "what are the key points?," "translate to French"), you must return ONLY the answer.
+
+In all cases, you must follow these strict rules:
+- Do not provide any explanations, apologies, or introductory phrases like "Here is the result:".
+- Do not wrap your output in markdown or code blocks.
+- Your output should be the direct result of the instruction: either the edited text or the answer to the question.
 """
 
 AGENT_INSTRUCTIONS = """\
 You will be given a block of text enclosed in <original-text> tags, and an instruction enclosed in <instruction> tags.
-Apply the instruction to the original text.
-Return ONLY the modified text. Do not include any introductory phrases, explanations, or markdown.
+Analyze the instruction to determine if it's a command to edit the text or a question about it.
+
+- If it is an editing command, apply the changes to the original text and return the complete, modified version.
+- If it is a question, formulate an answer based on the original text.
+
+Return ONLY the resulting text (either the edit or the answer), with no extra formatting or commentary.
 """
 
 
@@ -111,7 +116,7 @@ Return ONLY the modified text. Do not include any introductory phrases, explanat
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
-        description="Edit clipboard text with a voice command using Wyoming and an Ollama LLM."
+        description="Interact with clipboard text with a voice command using Wyoming and an Ollama LLM."
     )
     # Audio arguments
     parser.add_argument(
@@ -368,7 +373,7 @@ async def process_with_llm(
 
 
 async def main() -> None:
-    """Orchestrate the entire edit-with-speech workflow."""
+    """Orchestrate the entire voice-assistant-for-clipboard workflow."""
     args = parse_args()
     logger = setup_logging(args)
     console = Console() if not args.quiet else None
@@ -393,7 +398,7 @@ async def main() -> None:
             )
             return
 
-        _print(console, Panel(original_text, title="[cyan]📝 Text to Edit[/cyan]"))
+        _print(console, Panel(original_text, title="[cyan]📝 Text to Process[/cyan]"))
         if args.device_index is not None:
             _print(
                 console,
@@ -433,25 +438,25 @@ async def main() -> None:
                 else nullcontext()
             )
             with status_cm:
-                edited_text, elapsed = await process_with_llm(
+                result_text, elapsed = await process_with_llm(
                     agent, original_text, instruction
                 )
 
-            pyperclip.copy(edited_text)
-            logger.info("Copied edited text to clipboard.")
+            pyperclip.copy(result_text)
+            logger.info("Copied result to clipboard.")
 
             if console:
                 console.print(
                     Panel(
-                        edited_text,
-                        title="[bold green]✨ Edited Text (Copied to Clipboard)[/bold green]",
+                        result_text,
+                        title="[bold green]✨ Result (Copied to Clipboard)[/bold green]",
                         border_style="green",
                         subtitle=f"[dim]took {elapsed:.2f}s[/dim]",
                     )
                 )
             else:
                 # For quiet mode, still provide some feedback for notifications
-                print("✅ Done! Edited text copied to clipboard.")
+                print("✅ Done! Result copied to clipboard.")
 
         except Exception as e:
             logger.exception("An error occurred during LLM processing: %s", e)
