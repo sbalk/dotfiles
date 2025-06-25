@@ -103,6 +103,11 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_MODEL,
         help=f"The Ollama model to use. Default is {DEFAULT_MODEL}.",
     )
+    parser.add_argument(
+        "--repo-path",
+        default=None,
+        help="Path to the git repository. Defaults to the current working directory.",
+    )
 
     action_group = parser.add_mutually_exclusive_group()
     action_group.add_argument(
@@ -126,7 +131,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def get_staged_diff(console: Console) -> str | None:
+def get_staged_diff(console: Console, repo_path: str | None) -> str | None:
     """
     Retrieves the staged git diff.
 
@@ -137,7 +142,12 @@ def get_staged_diff(console: Console) -> str | None:
         # The --patch-with-raw option is used to handle binary files
         command = ["git", "diff", "--staged", "--patch-with-raw"]
         result = subprocess.run(
-            command, capture_output=True, text=True, check=True, encoding="utf-8"
+            command,
+            capture_output=True,
+            text=True,
+            check=True,
+            encoding="utf-8",
+            cwd=repo_path,
         )
         return result.stdout
     except FileNotFoundError:
@@ -182,7 +192,7 @@ def main() -> None:
     args = parse_args()
     console = Console()
 
-    diff = get_staged_diff(console)
+    diff = get_staged_diff(console, args.repo_path)
 
     if diff is None:
         sys.exit(1)
@@ -221,6 +231,7 @@ def main() -> None:
                     text=True,
                     check=True,
                     capture_output=True,  # Capture output to check for commit success
+                    cwd=args.repo_path,
                 )
                 console.print("[bold green]✅ Commit successful![/bold green]")
             except subprocess.CalledProcessError as e:
@@ -260,6 +271,7 @@ def main() -> None:
                 subprocess.run(
                     ["git", "commit", "--edit", f"--file={tmp_file_path}"],
                     check=False,
+                    cwd=args.repo_path,
                 )
                 console.print("[bold green]✅ Commit process finished.[/bold green]")
             except FileNotFoundError:
@@ -277,8 +289,9 @@ def main() -> None:
                 "\n💡 [bold]To commit, run the command below or use `--edit` to review in your editor.[/bold]"
             )
             console.print("\n[bold]Command:[/bold]")
+            git_prefix = f"git -C '{args.repo_path}'" if args.repo_path else "git"
             console.print(f"""
-cat <<'EOM' | git commit -F -
+cat <<'EOM' | {git_prefix} commit -F -
 {commit_message}
 EOM
 """)
