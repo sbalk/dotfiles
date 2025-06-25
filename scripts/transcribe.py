@@ -7,6 +7,35 @@
 #   "pyperclip",
 # ]
 # ///
+"""
+Wyoming ASR Client for streaming microphone audio to a transcription server.
+
+KEYBOARD MAESTRO INTEGRATION:
+To create a hotkey toggle for this script, set up a Keyboard Maestro macro with:
+
+1. Trigger: Hot Key (e.g., Cmd+Shift+R)
+
+2. If/Then/Else Action:
+   - Condition: Shell script returns success
+   - Script: pgrep -f "transcribe\.py.*--clipboard" > /dev/null
+
+3. Then Actions (if process is running):
+   - Display Text Briefly: "Stopping transcription"
+   - Execute Shell Script: pkill -INT -f "transcribe\.py.*--clipboard"
+   - Display Text Briefly: "🛑 Stopped transcription"
+
+4. Else Actions (if process is not running):
+   - Display Text Briefly: "🎤 Starting transcription"
+   - Execute Shell Script:
+     #!/bin/zsh
+     cd "${HOME}/dotfiles/scripts"  # Adjust path to your script location
+     source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true  # Adjust to your env setup
+     ./transcribe.py --device-index 1 --clipboard --quiet &
+   - Display Text Briefly: "Started transcription"
+
+This creates a single hotkey that toggles transcription on/off with visual feedback.
+*Note that Keyboard Maestro requires notification permission to show the notification.*
+"""
 import argparse
 import asyncio
 import logging
