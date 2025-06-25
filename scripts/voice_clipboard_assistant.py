@@ -40,7 +40,7 @@ To create a hotkey toggle for this script, set up a Keyboard Maestro macro with:
    - Display Text Briefly: "📋 Listening for command..."
    - Execute Shell Script:
      #!/bin/zsh
-     source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true
+     source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true  # Adds uv to PATH
      ${HOME}/dotfiles/scripts/voice_clipboard_assistant.py --device-index 1 --quiet &
    - Select "Display results in a notification"
 """

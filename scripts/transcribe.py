@@ -28,9 +28,8 @@ To create a hotkey toggle for this script, set up a Keyboard Maestro macro with:
    - Display Text Briefly: "🎤 Starting transcription"
    - Execute Shell Script:
      #!/bin/zsh
-     cd "${HOME}/dotfiles/scripts"  # Adjust path to your script location
-     source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true  # Adjust to your env setup
-     ./transcribe.py --device-index 1 --clipboard --quiet &
+     source "$HOME/.dotbins/shell/zsh.sh" 2>/dev/null || true  # Adds uv to PATH
+     ${HOME}/dotfiles/scripts/transcribe.py --device-index 1 --clipboard --quiet &
    - Display Text Briefly: "Started transcription"
 
 This creates a single hotkey that toggles transcription on/off with visual feedback.
