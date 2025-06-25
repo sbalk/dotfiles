@@ -107,6 +107,12 @@ def parse_args() -> argparse.Namespace:
         help=f"The Ollama model to use. Default is {DEFAULT_MODEL}.",
     )
     parser.add_argument(
+        "-a",
+        "--all",
+        action="store_true",
+        help="Automatically stage all modified and deleted files (like `git commit -a`).",
+    )
+    parser.add_argument(
         "--repo-path",
         default=None,
         help="Path to the git repository. Defaults to the current working directory.",
@@ -134,16 +140,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def get_staged_diff(console: Console, repo_path: str | None) -> str | None:
+def get_diff(console: Console, repo_path: str | None, all_changes: bool) -> str | None:
     """
-    Retrieves the staged git diff.
+    Retrieves the git diff.
 
-    Returns:
-        The staged diff as a string, or None if an error occurs.
+    If `all_changes` is True, it gets the diff of all tracked files (like `git diff`).
+    Otherwise, it retrieves the diff of staged changes only (like `git diff --staged`).
     """
     try:
         # The --patch-with-raw option is used to handle binary files
-        command = ["git", "diff", "--staged", "--patch-with-raw"]
+        command = ["git", "diff"]
+        if not all_changes:
+            command.append("--staged")
+        command.append("--patch-with-raw")
         result = subprocess.run(
             command,
             capture_output=True,
@@ -195,13 +204,20 @@ def main() -> None:
     args = parse_args()
     console = Console()
 
-    diff = get_staged_diff(console, args.repo_path)
+    diff = get_diff(console, args.repo_path, args.all)
 
     if diff is None:
         sys.exit(1)
 
     if not diff.strip():
-        console.print("[yellow]No staged changes found. Nothing to commit.[/yellow]")
+        if args.all:
+            console.print(
+                "[yellow]No tracked changes found. Nothing to commit.[/yellow]"
+            )
+        else:
+            console.print(
+                "[yellow]No staged changes found. Nothing to commit.[/yellow]"
+            )
         sys.exit(0)
 
     agent = build_agent(args.model)
@@ -228,8 +244,12 @@ def main() -> None:
         if args.execute:
             console.print("\n[bold yellow]Executing git commit...[/bold yellow]")
             try:
+                commit_command = ["git", "commit"]
+                if args.all:
+                    commit_command.append("-a")
+                commit_command.extend(["-F", "-"])
                 subprocess.run(
-                    ["git", "commit", "-F", "-"],
+                    commit_command,
                     input=commit_message,
                     text=True,
                     check=True,
@@ -268,11 +288,15 @@ def main() -> None:
                     tmp_file.write(commit_message)
                     tmp_file_path = tmp_file.name
 
+                commit_command = ["git", "commit", "--edit"]
+                if args.all:
+                    commit_command.append("-a")
+                commit_command.append(f"--file={tmp_file_path}")
                 # We don't check=True because the user might abort the commit, which is not an error.
                 # This command tells git to open the editor with the content of our temp file.
                 # Because we don't pipe stdin, the editor can correctly attach to the terminal.
                 subprocess.run(
-                    ["git", "commit", "--edit", f"--file={tmp_file_path}"],
+                    commit_command,
                     check=False,
                     cwd=args.repo_path,
                 )
@@ -293,8 +317,9 @@ def main() -> None:
             )
             console.print("\n[bold]Command:[/bold]")
             git_prefix = f"git -C '{args.repo_path}'" if args.repo_path else "git"
+            commit_verb = "commit -a" if args.all else "commit"
             console.print(f"""
-cat <<'EOM' | {git_prefix} commit -F -
+cat <<'EOM' | {git_prefix} {commit_verb} -F -
 {commit_message}
 EOM
 """)
