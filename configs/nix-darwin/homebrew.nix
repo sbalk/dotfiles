@@ -62,6 +62,7 @@
       "openjdk"             # Java development kit
       "parallel"            # GNU parallel
       "pipx"                # Python app installer
+      "portaudio"           # Audio I/O library
       "pwgen"               # Password generator
       "rbenv"               # Ruby version manager
       "rclone"              # Cloud storage sync
@@ -77,8 +78,8 @@
       "tealdeer"            # Fast alternative to tldr
       "terraform"           # Infrastructure as code
       "tmux"                # Terminal multiplexer
-      "tree"                # Directory listing
       "tre-command"         # Tree command, improved
+      "tree"                # Directory listing
       "typst"               # Markup-based typesetting
       "vsftpd"              # FTP server
       "wget"                # File downloader
