@@ -308,7 +308,7 @@ def main() -> None:
                     tmp_file.write(commit_message)
                     tmp_file_path = tmp_file.name
 
-                commit_command = ["git", "commit", "--edit"]
+                commit_command = ["git", "commit", "--edit", "--verbose"]
                 if args.all:
                     commit_command.append("-a")
                 commit_command.append(f"--file={tmp_file_path}")
