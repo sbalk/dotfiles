@@ -34,20 +34,32 @@ DEFAULT_MODEL = "devstral:24b"
 
 # The agent's core identity and immutable rules.
 SYSTEM_PROMPT = """\
-You are an expert at writing conventional commit messages.
+You are an expert at writing conventional commit messages from git diffs.
 Your task is to analyze a git diff and generate a concise and informative commit message that follows the conventional commit specification.
-The commit message should have a subject line and an optional body.
+
+**How to Read the Diff:**
+The input you receive is a standard git diff. Pay close attention to the prefixes on each line:
+- `+`: This line was added.
+- `-`: This line was removed.
+- A space ` `: This line is unchanged context. It's there to help you understand where the changes happened.
+
+**Your Goal:**
+Your generated commit message must ONLY describe the changes indicated by the `+` and `-` lines. **Do not describe the unchanged context lines.**
+
+**Commit Message Format:**
+The message should have a subject line and an optional body.
 
 - The subject line should be in the format: `type(scope): description`.
-- `type` must be one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore.
-- `scope` is optional and indicates the part of the codebase affected.
-- `description` is a short summary of the code changes.
+  - `type` must be one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore.
+  - `scope` is optional and indicates the part of the codebase affected.
+  - `description` is a short summary of the code changes.
 
 - The body should provide more context, explaining the 'what' and 'why' of the changes.
-- For very small or self-explanatory changes (e.g., fixing a typo, formatting), the body is optional and can be omitted. A clear subject line is sufficient.
+  - For very small or self-explanatory changes (e.g., fixing a typo, formatting), the body is optional and can be omitted. A clear subject line is sufficient.
 
-Do not include any introductory phrases like "Here is the commit message:".
-Do not wrap the output in markdown or code blocks.
+**Output Rules:**
+- Do not include any introductory phrases like "Here is the commit message:".
+- Do not wrap the output in markdown or code blocks.
 """
 
 # The specific task for the current run.
@@ -205,6 +217,8 @@ def build_agent(model: str, custom_prompt: str | None = None) -> Agent:
         system_prompt=SYSTEM_PROMPT,
         instructions=agent_instructions,
         output_type=ConventionalCommit,
+        retries=3,
+        output_retries=3,
     )
 
 
