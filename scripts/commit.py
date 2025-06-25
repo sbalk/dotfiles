@@ -44,7 +44,8 @@ The input you receive is a standard git diff. Pay close attention to the prefixe
 - A space ` `: This line is unchanged context. It's there to help you understand where the changes happened.
 
 **Your Goal:**
-Your generated commit message must ONLY describe the changes indicated by the `+` and `-` lines. **Do not describe the unchanged context lines.**
+- Your generated commit message must ONLY describe the changes indicated by the `+` and `-` lines. **Do not describe the unchanged context lines.**
+- Focus on the main purpose of the changes. For example, if a new function is added, describe its purpose, but avoid mentioning trivial supporting changes like adding a necessary import statement.
 
 **Commit Message Format:**
 The message should have a subject line and an optional body.
