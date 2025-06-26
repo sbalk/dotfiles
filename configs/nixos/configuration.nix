@@ -270,10 +270,13 @@ in
     cargo
     cmake
     cudatoolkit
+    gcc
     go
     meson
     nodejs_20
     openjdk
+    pkg-config
+    portaudio
     (python3.withPackages (ps: [ ps.pipx ]))
     rust-analyzer
     winetricks
