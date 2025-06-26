@@ -8,6 +8,7 @@ let
 in
 {
   imports = [
+    ./kinto.nix
     ./hardware-configuration.nix
     (import "${home-manager}/nixos")
   ];
