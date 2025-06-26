@@ -13,7 +13,9 @@ in
     (import "${home-manager}/nixos")
   ];
 
-  # --- Bootloader ---
+  # ===================================
+  # Boot Configuration
+  # ===================================
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
@@ -22,41 +24,40 @@ in
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # --- Core System Settings ---
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [ 10300 ];
-  time.timeZone = "America/Los_Angeles";
-  i18n.defaultLocale = "en_US.UTF-8";
+  # ===================================
+  # Hardware Configuration
+  # ===================================
+  # --- NVIDIA Graphics ---
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
 
+  # --- Swap ---
   swapDevices = [{
     device = "/swapfile";
     size = 16 * 1024; # 16GB
   }];
 
-  # --- User Account ---
-  users.users.basnijholt = {
-    isNormalUser = true;
-    description = "Bas Nijholt";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
-    shell = pkgs.zsh;
-  };
+  # ===================================
+  # System Configuration
+  # ===================================
+  # --- Core Settings ---
+  time.timeZone = "America/Los_Angeles";
+  i18n.defaultLocale = "en_US.UTF-8";
 
-  # --- Shell Configuration ---
-  programs.zsh.enable = true;
+  # --- Hostname & Networking ---
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 10300 ];
 
-  # --- SSH ---
-  services.openssh = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      PasswordAuthentication = false;
-      UseDns = true;
-      X11Forwarding = true;
-    };
-  };
-
-  # --- Settings ---
+  # --- Nix Package Manager Settings ---
   nix.settings = {
     substituters = [
       "https://cache.nixos.org/"
@@ -70,29 +71,34 @@ in
     ];
   };
 
-  # --- System-Wide Permissions & Fonts ---
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
+  # --- Nixpkgs Configuration ---
+  nixpkgs.config = {
+    allowUnfree = true;
+    cudaSupport = true;
+  };
+
+  # --- Fonts ---
   fonts.packages = with pkgs; [
-    fira-code               # The standard Fira Code font
-    nerd-fonts.fira-code    # The Nerd Font patched version of Fira Code
-    nerd-fonts.droid-sans-mono # The Nerd Font patched version of Droid Sans
-    nerd-fonts.jetbrains-mono # For Mechabar
+    fira-code
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
+    nerd-fonts.jetbrains-mono
   ];
 
-  # --- Hardware & Drivers ---
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # ===================================
+  # User Configuration
+  # ===================================
+  users.users.basnijholt = {
+    isNormalUser = true;
+    description = "Bas Nijholt";
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    shell = pkgs.zsh;
   };
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
 
-  # --- Desktop Environment ---
+  # ===================================
+  # Desktop Environment
+  # ===================================
+  # --- X11 & Display Managers ---
   services.xserver.enable = true;
   services.xserver.xkb = { layout = "us"; variant = ""; };
   programs.dconf.enable = true;
@@ -128,23 +134,45 @@ in
     };
   };
 
-  # --- System Services ---
-  programs.steam.enable = true;
-  programs.virt-manager.enable = true;
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.syncthing.enable = true;
-  services.tailscale.enable = true;
+  # ===================================
+  # System Programs & Services
+  # ===================================
+  # --- Shell & Terminal ---
+  programs.zsh.enable = true;
+
+  # --- SSH ---
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      PasswordAuthentication = false;
+      UseDns = true;
+      X11Forwarding = true;
+    };
+  };
+
+  # --- Security & Authentication ---
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
+  };
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
+  programs._1password-gui.polkitPolicyOwners = ["basnijholt"];
+
+  # --- Virtualization ---
   virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
-  services.printing.enable = true;
+  programs.virt-manager.enable = true;
+
+  # --- AI & Machine Learning ---
   services.ollama = {
     enable = true;
     acceleration = "cuda";
     host = "0.0.0.0";
     openFirewall = true;
   };
-
   services.wyoming.faster-whisper.servers.echo = {
     enable = true;
     model = "large-v3";
@@ -153,23 +181,20 @@ in
     uri = "tcp://0.0.0.0:10300";
   };
 
-  # --- GPG Agent Configuration ---
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
+  # --- Other Services ---
+  programs.steam.enable = true;
+  services.blueman.enable = true;
+  services.fwupd.enable = true;
+  services.syncthing.enable = true;
+  services.tailscale.enable = true;
+  services.printing.enable = true;
 
-  # --- Run non-nix executables (e.g., micromamba) ---
-  programs.nix-ld.enable = true;
+  # --- System Compatibility ---
+  programs.nix-ld.enable = true;  # Run non-nix executables (e.g., micromamba)
 
-  # -- 1Password --
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = ["basnijholt"];
-
-  # --- System-Wide Packages ---
-  # All packages installed here are available to all users on the system.
+  # ===================================
+  # System Packages
+  # ===================================
   environment.systemPackages = with pkgs; [
     # GUI Applications
     _1password-gui
@@ -274,14 +299,16 @@ in
     hyprshot        # Screenshot tool (Hyprland-specific)
   ];
 
-  # --- Home Manager ---
+  # ===================================
+  # Home Manager Configuration
+  # ===================================
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     users.basnijholt = { pkgs, config, ... }: {
       home.stateVersion = "25.05";
 
-      # --- Mechabar Configuration ---
+      # --- Mechabar Dependencies ---
       home.packages = with pkgs; [
         bluetui
         bluez
