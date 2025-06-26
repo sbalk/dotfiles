@@ -25,7 +25,7 @@ in
   # --- Core System Settings ---
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [ 10300 22 ];
+  networking.firewall.allowedTCPPorts = [ 10300 ];
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -48,6 +48,7 @@ in
   # --- SSH ---
   services.openssh = {
     enable = true;
+    openFirewall = true;
     settings = {
       PasswordAuthentication = false;
       UseDns = true;
