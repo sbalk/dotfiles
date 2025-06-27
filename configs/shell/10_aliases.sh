@@ -12,10 +12,10 @@ if [[ $- == *i* ]]; then
     alias fixssh='eval $(tmux show-env -s |grep "^SSH_")'  # https://stackoverflow.com/a/34683596
     alias gcai="${HOME}/dotfiles/scripts/commit.py --edit "
     alias gcaia="${HOME}/dotfiles/scripts/commit.py --edit --all "
+    alias c='code'
 
     if [[ `uname` == 'Darwin' ]]; then
         alias j='jupyter notebook'
-        alias c='code'
         alias ci='code-insiders'
         alias s='/usr/local/bin/subl'
         alias ss='open -b com.apple.ScreenSaver.Engine'
@@ -26,5 +26,8 @@ if [[ $- == *i* ]]; then
         # arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         alias x86brew="arch -x86_64 /usr/local/bin/brew"
         alias brew="/opt/homebrew/bin/brew"  # M1 version, to avoid from using x86 version accidentally
+    fi
+    if [[ `uname` == 'Linux' ]]; then
+        alias pbcopy='wl-copy'  # Just because of muscle memory...
     fi
 fi
