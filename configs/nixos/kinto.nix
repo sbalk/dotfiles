@@ -42,7 +42,6 @@
 # • enableAppleKeyboard = true/false   - Apple keyboard driver support
 # • enableVSCodeFixes = true/false     - VS Code keybinding fixes  
 # • appleKeyboardSwapKeys = true/false - Hardware-level Alt/Cmd swapping
-# • enablePalmRejectionFix = true/false - Optional fix for libinput palm rejection
 #
 # To use:
 # 1. Add this module to your NixOS configuration
@@ -59,10 +58,9 @@
 
 let
   # Configuration options - modify these to customize behavior
-  enableAppleKeyboard = true;    # Set to false if not using Apple keyboards
+  enableAppleKeyboard = false;   # Set to false if not using Apple keyboards
   enableVSCodeFixes = true;      # Set to false to manage VS Code settings manually
-  appleKeyboardSwapKeys = true;  # Set to false to keep Alt/Cmd in original positions
-  enablePalmRejectionFix = true; # Set to false to disable libinput palm rejection quirk
+  appleKeyboardSwapKeys = false; # Set to false to keep Alt/Cmd in original positions
 in
 
 {
@@ -257,7 +255,7 @@ in
 
   # ========== DESKTOP ENVIRONMENT SPECIFIC SHORTCUTS ==========
   # Source: xkeysnail_service.sh, lines 254-259 (GNOME configuration)
-  services.xserver.desktopManager.gnome = lib.mkIf (config.services.xserver.desktopManager.gnome.enable or false) {
+  services.xserver.desktopManager.gnome = lib.mkIf (config.services.desktopManager.gnome.enable or false) {
     extraGSettingsOverrides = ''
       # Disable overlay key so Super+Space can be used for app launcher
       # Source: xkeysnail_service.sh, line 258
@@ -325,12 +323,4 @@ in
     ];
   };
 
-  # ========== Optional: Palm Rejection Fix ==========
-  # Source: https://github.com/rvaiya/keyd/issues/723
-  environment.etc."libinput/local-overrides.quirks".text = lib.mkIf enablePalmRejectionFix ''
-    [Serial Keyboards]
-    MatchUdevType=keyboard
-    MatchName=keyd virtual keyboard
-    AttrKeyboardIntegration=internal
-  '';
 }
