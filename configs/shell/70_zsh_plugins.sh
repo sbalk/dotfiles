@@ -36,4 +36,13 @@ if [[ ($- == *i*) && -n "$ZSH_VERSION" ]]; then
         export AUTOENV_ENV_LEAVE_FILENAME=".envrc.leave"
         source ~/.autoenv/activate.sh
     fi
+
+    # -- if on Linux
+    if [[ "$(uname -s)" == "Linux" ]]; then
+        # Provides ctrl+backspace and ctrl+delete
+        # Note: in kinto.nix I remap these to Alt+Backspace and Alt+Delete
+        bindkey '^H' backward-kill-word
+        bindkey '^[[3;5~' kill-word
+    fi
+
 fi

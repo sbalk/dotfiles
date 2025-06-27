@@ -86,11 +86,19 @@ in
           rightmeta = layer(meta_mac)
 
           # ----------------------------------------------------------------------
+          # Moving words with Alt (Option) key.
+          # Source: Mine
+          # ----------------------------------------------------------------------
+          leftalt = layer(alt_mac)
+          rightalt = layer(alt_mac)
+
+          # ----------------------------------------------------------------------
           # Emacs-style bindings, typically using Ctrl on Linux.
           # This module adds them to the Ctrl key for consistency with Linux apps.
           # Source: Inspired by linux/kinto.py, lines 586-594 (which maps them to the Super key).
           # ----------------------------------------------------------------------
           leftcontrol = layer(emacs)
+
           [emacs]
           # Beginning of Line (C-a)
           a = home
@@ -108,6 +116,17 @@ in
           k = macro(S-end delete)
           # Delete character (C-d)
           d = delete
+
+          [alt_mac]
+          # Alt moving words (C-left, C-right)
+          left = C-left
+          right = C-right
+
+          # Alt removing words (source: https://github.com/ohmyzsh/ohmyzsh/issues/7609)
+          # Delete word left (Alt-Backspace)
+          backspace = C-backspace
+          # Delete word right (Alt-Delete)
+          delete = C-delete
 
           # ----------------------------------------------------------------------
           # The meta_mac layer. The ':C' means "send Control plus the key".
