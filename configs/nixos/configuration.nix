@@ -1,5 +1,5 @@
 # /etc/nixos/configuration.nix
-# Final, merged configuration for the new system.
+# NixOS -- basnijholt/dotfiles
 
 { config, pkgs, ... }:
 
