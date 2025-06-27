@@ -65,7 +65,6 @@ in
 
 # TODO:
 # - Command+space to open Spotlight equivalent (app launcher)
-# - Command+backspace to delete the line to the left of the cursor in VS Code, browser, etc.
 
 {
   # Enable keyd service for key remapping
@@ -151,10 +150,10 @@ in
           right = end
           up = C-home
           down = C-end
-          # Delete word left (from Alt-Backspace on line 615)
-          backspace = C-backspace
-          # Delete word right (from Alt-Delete on line 617)
-          delete = C-delete
+          # Delete line left (source: mine)
+          backspace = macro(S-home delete)
+          # Delete line right (source: mine)
+          delete = macro(S-end delete)
 
           # ----------------------------------------------------------------------
           # Standard shortcuts.
