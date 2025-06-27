@@ -99,7 +99,7 @@ in
           # ----------------------------------------------------------------------
           leftcontrol = layer(emacs)
 
-          [emacs]
+          [emacs:C]
           # Beginning of Line (C-a)
           a = home
           # End of Line (C-e)
@@ -117,7 +117,7 @@ in
           # Delete character (C-d)
           d = delete
 
-          [alt_mac]
+          [alt_mac:A]
           # Alt moving words (C-left, C-right)
           left = C-left
           right = C-right
