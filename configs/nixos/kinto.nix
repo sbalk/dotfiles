@@ -65,6 +65,7 @@ in
 
 # TODO:
 # - Command+space to open Spotlight equivalent (app launcher)
+# - Rectangle App like functionality for window management in GNOME
 
 {
   # Enable keyd service for key remapping
