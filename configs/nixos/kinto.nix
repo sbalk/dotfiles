@@ -63,6 +63,10 @@ let
   appleKeyboardSwapKeys = false; # Set to false to keep Alt/Cmd in original positions
 in
 
+# TODO:
+# - Command+space to open Spotlight equivalent (app launcher)
+# - Command+backspace to delete the line to the left of the cursor in VS Code, browser, etc.
+
 {
   # Enable keyd service for key remapping
   # Source: `linux/xkeysnail.service` - Kinto uses xkeysnail as a systemd service.
