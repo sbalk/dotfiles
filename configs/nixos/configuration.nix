@@ -242,6 +242,7 @@ in
     iperf3
     jq
     just
+    keyd
     lazygit
     lm_sensors
     micro
@@ -263,8 +264,8 @@ in
     tree
     typst
     wget
-    yq-go
     xclip
+    yq-go
 
     # Development Toolchains
     cargo
