@@ -35,7 +35,6 @@
 # • Browser tab navigation with Cmd+1-9
 # • File manager shortcuts
 # • VS Code integration with Alt+F19 workaround
-# • Emacs-style bindings on Ctrl key
 # • Apple keyboard hardware support
 #
 # Configuration Options (modify at the top of this file):
@@ -66,6 +65,8 @@ in
 # TODO:
 # - Command+space to open Spotlight equivalent (app launcher)
 # - Rectangle App like functionality for window management in GNOME
+# - Allow repeated Command+backspace
+# - Alt+Shift+up/down arrow to copy selected lines in VS Code
 
 {
   # Enable keyd service for key remapping
@@ -95,31 +96,6 @@ in
           # ----------------------------------------------------------------------
           leftalt = layer(alt_mac)
           rightalt = layer(alt_mac)
-
-          # ----------------------------------------------------------------------
-          # Emacs-style bindings, typically using Ctrl on Linux.
-          # This module adds them to the Ctrl key for consistency with Linux apps.
-          # Source: Inspired by linux/kinto.py, lines 586-594 (which maps them to the Super key).
-          # ----------------------------------------------------------------------
-          leftcontrol = layer(emacs)
-
-          [emacs:C]
-          # Beginning of Line (C-a)
-          a = home
-          # End of Line (C-e)
-          e = end
-          # Back one character (C-b)
-          b = left
-          # Forward one character (C-f)
-          f = right
-          # Next line (C-n)
-          n = down
-          # Previous line (C-p)
-          p = up
-          # Kill line (C-k)
-          k = macro(S-end delete)
-          # Delete character (C-d)
-          d = delete
 
           # -------------------------------------------------------------------------
           # The alt_mac layer. Moving and deleting words with Alt (Option) key.
@@ -243,7 +219,7 @@ in
       # Disable overlay key so Super+Space can be used for app launcher
       # Source: xkeysnail_service.sh, line 258
       [org.gnome.mutter]
-      overlay-key='''
+      overlay-key='<Alt>F1'
 
       # Set up Mac-style shortcuts
       # Source: xkeysnail_service.sh, lines 295, 326, 335
@@ -254,6 +230,16 @@ in
 
       [org.gnome.shell.keybindings]
       toggle-application-view=['<Super>space']
+
+      # Rectangle like window management
+      # Source: Mine
+      # TODO: Conflicts with keyd...
+      # [org.gnome.mutter.keybindings]
+      # toggle-tiled-left=['<Shift><Control><Alt>Left']
+      # toggle-tiled-right=['<Shift><Control><Alt>Right']
+
+      [org.gnome.desktop.wm.keybindings]
+      toggle-maximized=['<Shift><Control><Alt>f']
     '';
   };
 
