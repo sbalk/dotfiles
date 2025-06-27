@@ -117,6 +117,10 @@ in
           # Delete character (C-d)
           d = delete
 
+          # -------------------------------------------------------------------------
+          # The alt_mac layer. Moving and deleting words with Alt (Option) key.
+          # Source: Mine
+          # -------------------------------------------------------------------------
           [alt_mac:A]
           # Alt moving words (C-left, C-right)
           left = C-left
@@ -157,6 +161,7 @@ in
           # Quit application
           q = A-f4
           # Application launcher (like Spotlight)
+          # TODO: Does not yet work correctly
           space = A-f1
 
           # ----------------------------------------------------------------------
