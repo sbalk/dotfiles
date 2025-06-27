@@ -23,9 +23,9 @@
 #                                          (exact commit used for conversion)
 
 # ========== USAGE INSTRUCTIONS ==========
-# 
+#
 # This configuration provides Mac-style keyboard shortcuts on Linux similar to Kinto:
-# 
+#
 # Core Features:
 # • Cmd+C/V/X for copy/paste/cut
 # • Cmd+Tab for app switching
@@ -40,7 +40,7 @@
 #
 # Configuration Options (modify at the top of this file):
 # • enableAppleKeyboard = true/false   - Apple keyboard driver support
-# • enableVSCodeFixes = true/false     - VS Code keybinding fixes  
+# • enableVSCodeFixes = true/false     - VS Code keybinding fixes
 # • appleKeyboardSwapKeys = true/false - Hardware-level Alt/Cmd swapping
 #
 # To use:
@@ -91,16 +91,23 @@ in
           # Source: Inspired by linux/kinto.py, lines 586-594 (which maps them to the Super key).
           # ----------------------------------------------------------------------
           leftcontrol = layer(emacs)
-
           [emacs]
-          a = home          # Beginning of Line (C-a)
-          e = end           # End of Line (C-e)
-          b = left          # Back one character (C-b)
-          f = right         # Forward one character (C-f)
-          n = down          # Next line (C-n)
-          p = up            # Previous line (C-p)
-          k = S-end, delete # Kill line (C-k)
-          d = delete        # Delete character (C-d)
+          # Beginning of Line (C-a)
+          a = home
+          # End of Line (C-e)
+          e = end
+          # Back one character (C-b)
+          b = left
+          # Forward one character (C-f)
+          f = right
+          # Next line (C-n)
+          n = down
+          # Previous line (C-p)
+          p = up
+          # Kill line (C-k)
+          k = macro(S-end delete)
+          # Delete character (C-d)
+          d = delete
 
           # ----------------------------------------------------------------------
           # The meta_mac layer. The ':C' means "send Control plus the key".
@@ -117,38 +124,34 @@ in
           right = end
           up = C-home
           down = C-end
-          S-left = S-home
-          S-right = S-end
-          S-up = C-S-home
-          S-down = C-S-end
-          backspace = C-backspace # Delete word left (from Alt-Backspace on line 615)
-          delete = C-delete       # Delete word right (from Alt-Delete on line 617)
+          # Delete word left (from Alt-Backspace on line 615)
+          backspace = C-backspace
+          # Delete word right (from Alt-Delete on line 617)
+          delete = C-delete
 
           # ----------------------------------------------------------------------
           # App and tab switching.
           # Source: linux/kinto.py, "General GUI" section, lines 554-558
           # ----------------------------------------------------------------------
-          tab = A-tab          # Switch applications
-          S-tab = A-S-tab      # Switch applications (reverse)
-          grave = A-grave      # Switch windows of the same application
-          S-grave = A-S-grave  # Switch windows of the same application (reverse)
+          # Switch applications
+          tab = A-tab
+          # Switch windows of the same application
+          grave = A-grave
 
           # ----------------------------------------------------------------------
           # Standard shortcuts.
           # Source: linux/kinto.py, "General GUI" section, lines 546, 547, 548, 552, 553
           # ----------------------------------------------------------------------
-          h = super(h)         # Hide window
-          q = A-f4             # Quit application
-          space = A-f1         # Application launcher (like Spotlight)
-          f3 = super(d)        # Show desktop
-          super(f) = A-f10     # Maximize window
-
-          # ----------------------------------------------------------------------
-          # Tab navigation in applications like browsers, file managers, etc.
-          # Source: linux/kinto.py, "General GUI" section, lines 544-545
-          # ----------------------------------------------------------------------
-          S-leftbrace = C-pageup
-          S-rightbrace = C-pagedown
+          # Hide window (Command+H)
+          h = M-h
+          # Quit application
+          q = A-f4
+          # Application launcher (like Spotlight)
+          space = A-f1
+          # Show desktop (Command+D)
+          f3 = M-d
+          # Maximize window (Command+F)
+          f = A-f10
 
           # ----------------------------------------------------------------------
           # Browser-specific shortcuts.
@@ -162,13 +165,33 @@ in
           6 = A-6
           7 = A-7
           8 = A-8
-          9 = A-9 # Last tab
+          9 = A-9
+
+          [meta_mac+shift]
+          # -- From "Word-wise navigation and selection" section, lines 598-617
+          left = S-home
+          right = S-end
+          up = C-S-home
+          down = C-S-end
+
+          # -- From "App and tab switching" section, lines 554-558
+          # Switch applications (reverse)
+          tab = A-S-tab
+          # Switch windows of the same application (reverse)
+          grave = A-S-grave
+
+          # ----------------------------------------------------------------------
+          # Tab navigation in applications like browsers, file managers, etc.
+          # Source: linux/kinto.py, "General GUI" section, lines 544-545
+          # ----------------------------------------------------------------------
+          leftbrace = C-pageup
+          rightbrace = C-pagedown
 
           # ----------------------------------------------------------------------
           # Terminal overrides.
           # Source: linux/kinto.py, "terminals" list (line 10) and keymap (lines 785-846)
           # ----------------------------------------------------------------------
-          [window=^(alacritty|kitty|konsole|gnome-terminal|terminator|xterm|io.elementary.terminal)$]
+          [window=^(konsole|terminator|xterm|ghostty)$]
           # In terminals, Cmd+C should be copy, not interrupt.
           # We map Cmd+C to Ctrl+Shift+C, which is the standard "copy" shortcut in many terminals.
           # Source: linux/kinto.py, line 837
@@ -208,10 +231,10 @@ in
           [window=^(code|vscodium)$]
           # Word-wise navigation with Alt, avoiding the menu bar focus issue.
           # Source: linux/kinto.py, line 652
-          A-left = A-f19, C-left
-          A-right = A-f19, C-right
-          A-S-left = A-f19, C-S-left
-          A-S-right = A-f19, C-S-right
+          A-left = A-f19 C-left
+          A-right = A-f19 C-right
+          A-S-left = A-f19 C-S-left
+          A-S-right = A-f19 C-S-right
           # Go to Line... (Cmd+G -> Ctrl+G)
           # Source: linux/kinto.py, line 666 (adapted from Super+g)
           g = C-g
@@ -261,19 +284,19 @@ in
       # Source: xkeysnail_service.sh, line 258
       [org.gnome.mutter]
       overlay-key='''
-      
+
       # Set up Mac-style shortcuts
       # Source: xkeysnail_service.sh, lines 295, 326, 335
       [org.gnome.desktop.wm.keybindings]
       minimize=['<Super>h', '<Alt>F9']
       show-desktop=['<Super>d']
       close=['<Alt>F4']
-      
+
       [org.gnome.shell.keybindings]
       toggle-application-view=['<Super>space']
     '';
   };
-  
+
   # ========== APPLE KEYBOARD HARDWARE SUPPORT ==========
   # Source: xkeysnail_service.sh, lines 100-112 (Apple keyboard driver options)
   boot.kernelModules = lib.mkIf enableAppleKeyboard [ "hid_apple" ];
@@ -281,12 +304,12 @@ in
     # Swap Alt and Cmd keys on Apple keyboards at hardware level
     # Source: removeAppleKB function in xkeysnail_service.sh, line 104
     options hid_apple swap_opt_cmd=${if appleKeyboardSwapKeys then "1" else "0"}
-    
+
     # Additional Apple keyboard options
     options hid_apple fnmode=2      # Function keys work as F1-F12 by default
     options hid_apple iso_layout=0  # Use ANSI layout
   '';
-  
+
   # ========== VS CODE INTEGRATION ==========
   # Source: linux/vscode_keybindings.json - VS Code specific fixes
   # The Alt+F19 workaround and word navigation fixes are essential for VS Code
@@ -298,7 +321,7 @@ in
         when = "terminalFocus";
       }
       {
-        key = "alt+right"; 
+        key = "alt+right";
         command = "-workbench.action.terminal.focusNextPane";
         when = "terminalFocus";
       }
