@@ -149,15 +149,6 @@ in
           delete = C-delete
 
           # ----------------------------------------------------------------------
-          # App and tab switching.
-          # Source: linux/kinto.py, "General GUI" section, lines 554-558
-          # ----------------------------------------------------------------------
-          # Switch applications
-          tab = A-tab
-          # Switch windows of the same application
-          grave = A-grave
-
-          # ----------------------------------------------------------------------
           # Standard shortcuts.
           # Source: linux/kinto.py, "General GUI" section, lines 546, 547, 548, 552, 553
           # ----------------------------------------------------------------------
@@ -167,10 +158,6 @@ in
           q = A-f4
           # Application launcher (like Spotlight)
           space = A-f1
-          # Show desktop (Command+D)
-          f3 = M-d
-          # Maximize window (Command+F)
-          f = A-f10
 
           # ----------------------------------------------------------------------
           # Browser-specific shortcuts.
@@ -186,18 +173,45 @@ in
           8 = A-8
           9 = A-9
 
-          [meta_mac+shift]
-          # -- From "Word-wise navigation and selection" section, lines 598-617
-          left = S-home
-          right = S-end
-          up = C-S-home
-          down = C-S-end
+          # ----------------------------------------------------------------------
+          # Copy, Paste, Cut shortcuts.
+          # Source: https://www.reddit.com/r/AsahiLinux/comments/1fj9xvt
+          # ----------------------------------------------------------------------
+          # Copy
+          c = C-insert
+          # Paste
+          v = S-insert
+          # Cut
+          x = S-delete
 
-          # -- From "App and tab switching" section, lines 554-558
-          # Switch applications (reverse)
-          tab = A-S-tab
-          # Switch windows of the same application (reverse)
-          grave = A-S-grave
+          # ----------------------------------------------------------------------
+          # macOS-style App and Window Switching
+          # This section replicates macOS's app/window switcher behavior. It uses a
+          # temporary 'app_switch_state' layer that becomes active after you press
+          # Cmd+Tab or Cmd+`, allowing navigation with arrow keys while Cmd is held.
+          # Source: https://www.reddit.com/r/AsahiLinux/comments/1fj9xvt
+          # ----------------------------------------------------------------------
+
+          # --- Step 1: Trigger the switcher ---
+          # The `swapm` function sends an initial keypress to open a switcher,
+          # then immediately activates the 'app_switch_state' layer for navigation.
+
+          # Cmd+Tab: Activate app switcher (Alt+Tab) and prepare for navigation.
+          tab = swapm(app_switch_state, M-tab)
+          # Cmd+`: Activate window switcher for the current app (Alt+`).
+          ` = swapm(app_switch_state, M-grave)
+
+          # --- Step 2: Navigate while holding Cmd ---
+          # This layer is only active while holding Cmd after triggering the switcher.
+          [app_switch_state:M]
+
+          # Navigate forward (next app/window)
+          tab = M-tab
+          right = M-tab
+
+          # Navigate backward (previous app/window)
+          ` = M-S-grave
+          left = M-S-tab
 
           # ----------------------------------------------------------------------
           # Tab navigation in applications like browsers, file managers, etc.
