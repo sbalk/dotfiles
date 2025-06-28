@@ -64,7 +64,10 @@ in
   # --- Hostname & Networking ---
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [ 10300 ];
+  networking.firewall.allowedTCPPorts = [
+    10200  # Wyoming Piper
+    10300  # Wyoming Faster Whisper
+  ];
 
   # --- Nix Package Manager Settings ---
   nix.settings = {
@@ -188,6 +191,13 @@ in
     language = "en";
     device = "cuda";
     uri = "tcp://0.0.0.0:10300";
+  };
+  services.wyoming.piper = {
+    servers.main = {
+      enable = true;
+      voice = "en-us-ryan-high";
+      uri = "tcp://0.0.0.0:10200";
+    };
   };
 
   # --- Other Services ---
