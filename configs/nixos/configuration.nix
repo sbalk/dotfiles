@@ -5,13 +5,22 @@
 
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  # This is from nixos-unstable around Jan 5, 2025 (before the wyoming v2.5.0 update
+  nixpkgs-fixed = builtins.fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/8eff0be761d12d7e463c2f2f3a863393ab5c5c4c.tar.gz";
+    sha256 = "0211hq7f34rc4d9k92lpsh54v9h7kqmjimsz14ahmdwyacfhyqwk";
+  };
 in
 {
+  # Use the fixed wyoming module
+  disabledModules = [ "services/home-automation/wyoming/faster-whisper.nix" ];
   imports = [
     ./kinto.nix
     ./hardware-configuration.nix
     (import "${home-manager}/nixos")
+    "${nixpkgs-fixed}/nixos/modules/services/home-automation/wyoming/faster-whisper.nix"
   ];
+
 
   # ===================================
   # Boot Configuration
