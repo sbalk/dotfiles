@@ -12,6 +12,7 @@ if [[ $- == *i* ]]; then
     alias cl="conda info --envs"
     alias ci="conda install -c conda-forge"
     alias cr="code -r ."
+    alias countfiles='f(){ ls -1 "$1" | wc -l; }; f'
     alias p="pytest"
     alias py="python"
     alias ccat='command cat'
