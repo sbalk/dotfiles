@@ -88,23 +88,28 @@ in
           # Source: linux/kinto.py, lines 151-155 (Mac Only modmap)
           # ----------------------------------------------------------------------
           leftmeta = layer(meta_mac)
-          rightmeta = layer(meta_mac)
+          # I only remap the left meta because the right meta is included in my hyperkey.
+
+          rightcontrol = rightcontrol
+          rightalt = rightalt
+          rightshift = rightshift
 
           # ----------------------------------------------------------------------
           # Moving words with Alt (Option) key.
           # Source: Mine
           # ----------------------------------------------------------------------
           leftalt = layer(alt_mac)
-          rightalt = layer(alt_mac)
+          # I only remap the left alt because the right alt is included in my hyperkey.
 
           # -------------------------------------------------------------------------
           # The alt_mac layer. Moving and deleting words with Alt (Option) key.
           # Source: Mine
           # -------------------------------------------------------------------------
           [alt_mac:A]
+          # Temporarily disabling this because it interferes with the hyper key.
           # Alt moving words (C-left, C-right)
-          left = C-left
-          right = C-right
+          # left = C-left
+          # right = C-right
 
           # Alt removing words (source: https://github.com/ohmyzsh/ohmyzsh/issues/7609)
           # Delete word left (Alt-Backspace)
