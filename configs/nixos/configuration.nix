@@ -176,6 +176,9 @@ in
     acceleration = "cuda";
     host = "0.0.0.0";
     openFirewall = true;
+    environmentVariables = {
+      OLLAMA_KEEP_ALIVE = "1h";
+    };
   };
   services.wyoming.faster-whisper.servers.echo = {
     enable = true;
