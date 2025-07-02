@@ -19,9 +19,6 @@
     ~/.dotbins: submodules/mydotbins
     ~/.gitconfig-personal: configs/git/gitconfig-personal
     ~/.gitconfig: configs/git/gitconfig
-    ~/.config/hypr/hyprland.conf: configs/hypr/hyprland.conf
-    ~/.config/waybar: submodules/mechabar
-    ~/.config/rofi: submodules/mechabar/rofi
     ~/.local/bin/nbviewer: scripts/nbviewer.sh
     ~/.local/bin/pypi-sha256: scripts/pypi-sha256.sh
     ~/.local/bin/run: scripts/run.sh
@@ -43,6 +40,17 @@
   - git submodule update --init --recursive --remote
   - command: '[[ "$(uname)" = "Darwin" ]] && [ -f ./secrets/install ] && (echo "SECRETS" && ./secrets/install) || true'
     stdout: true
+
+# -- Only on Linux --
+- defaults:
+    link:
+      create: true
+      relink: true
+      if: '[ "$(uname)" = "Linux" ]'
+- link:
+    ~/.config/hypr/hyprland.conf: configs/hypr/hyprland.conf
+    ~/.config/waybar: submodules/mechabar
+    ~/.config/rofi: submodules/mechabar/rofi
 
 # -- Only on MacOS --
 - defaults:
