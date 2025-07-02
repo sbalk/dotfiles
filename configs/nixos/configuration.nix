@@ -143,6 +143,7 @@ in
   # ===================================
   # --- Shell & Terminal ---
   programs.zsh.enable = true;
+  programs.direnv.enable = true;
 
   # --- SSH ---
   services.openssh = {
