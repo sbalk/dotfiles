@@ -55,6 +55,11 @@ create_and_activate_x86_conda_env() {
     micromamba activate $ENV_NAME
 }
 
+create_direnv_nix() {
+    echo "use nix" > .envrc
+    direnv allow .
+}
+
 # -- Fix Conda messing up prompt
 if [[ $SHELL == *zsh ]]; then
     # https://github.com/conda/conda/issues/7031#issuecomment-560587364
