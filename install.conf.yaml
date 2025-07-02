@@ -9,6 +9,7 @@
     ~/.bashrc: configs/bash/bashrc
     ~/.condarc: configs/conda/condarc
     ~/.config/atuin: configs/atuin
+    ~/.config/agent-cli: configs/agent-cli
     ~/.config/dask/distributed.yaml: configs/dask/distributed.yaml
     ~/.config/dotbins/config.yaml: submodules/dotbins/dotbins.yaml
     ~/.config/git/attributes: configs/git/attributes
