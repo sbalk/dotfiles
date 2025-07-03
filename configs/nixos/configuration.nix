@@ -63,7 +63,9 @@ in
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [
     10200  # Wyoming Piper
-    10300  # Wyoming Faster Whisper
+    10300  # Wyoming Faster Whisper - English
+    10301  # Wyoming Faster Whisper - Dutch
+    10400  # Wyoming OpenWakeword
   ];
 
   # --- Nix Package Manager Settings ---
@@ -186,19 +188,35 @@ in
       OLLAMA_KEEP_ALIVE = "1h";
     };
   };
-  services.wyoming.faster-whisper.servers.echo = {
-    enable = true;
-    model = "large-v3";
-    language = "en";
-    device = "cuda";
-    uri = "tcp://0.0.0.0:10300";
-  };
-  services.wyoming.piper = {
-    servers.main = {
+  services.wyoming.faster-whisper = {
+    servers.english = {
       enable = true;
-      voice = "en-us-ryan-high";
-      uri = "tcp://0.0.0.0:10200";
+      model = "large-v3";
+      language = "en";
+      device = "cuda";
+      uri = "tcp://0.0.0.0:10300";
     };
+    servers.dutch = {
+      enable = true;
+      model = "large-v3";
+      language = "nl";
+      device = "cuda";
+      uri = "tcp://0.0.0.0:10301";
+    };
+  };
+  services.wyoming.piper.servers.yoda = {
+    enable = true;
+    voice = "en-us-ryan-high";
+    uri = "tcp://0.0.0.0:10200";
+  };
+  services.wyoming.openwakeword = {
+    enable = true;
+    preloadModels = [
+      "alexa"
+      "hey_jarvis"
+      "ok_nabu"
+    ];
+    uri = "tcp://0.0.0.0:10400";
   };
 
   # --- Other Services ---
