@@ -42,6 +42,7 @@ in
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+  hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
 
@@ -197,7 +198,7 @@ in
       uri = "tcp://0.0.0.0:10300";
     };
     servers.dutch = {
-      enable = true;
+      enable = false;
       model = "large-v3";
       language = "nl";
       device = "cuda";
@@ -304,6 +305,7 @@ in
     wget
     xclip
     yq-go
+    zellij
 
     # Development Toolchains
     cargo
