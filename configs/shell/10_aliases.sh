@@ -13,6 +13,7 @@ if [[ $- == *i* ]]; then
     alias gcai="${HOME}/dotfiles/scripts/commit.py --edit "
     alias gcaia="${HOME}/dotfiles/scripts/commit.py --edit --all "
     alias c='code'
+    alias ze='zellij attach --create'
 
     if [[ `uname` == 'Darwin' ]]; then
         alias j='jupyter notebook'
