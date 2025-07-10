@@ -1,8 +1,12 @@
 [defaults]
-model = "devstral:24b"
-ollama_host = "http://pc.local:11434"
-asr_server_ip = "192.168.1.143"
-tts_server_ip = "192.168.1.143"
-wake_server_ip = "192.168.1.143"
-input_device_name = "logitech,airpods,macbook"
-output_device_name = "iloud,airpods,dell,macbook"
+llm-ollama-model = "devstral:24b"
+llm-ollama-host = "http://pc.local:11434"
+asr-wyoming-ip = "192.168.1.143"
+tts-wyoming-ip = "192.168.1.143"
+tts-kokoro-host = "http://pc.local:8880/v1"
+wake-server-ip = "192.168.1.143"
+input-device-name = "logitech,airpods,macbook"
+output-device-name = "iloud,airpods,dell,macbook"
+
+[transcribe]
+extra-instructions = "Assume the user is often discussing Python programming. Use backticks for variable names, function names, and other code elements. Follow PEP8: use `snake_case` for variables, functions, and package names; `CamelCase` for classes. Other frequent words are `pipefunc`, IonQ, trapped-ion quantum computer. My name is Bas Nijholt."
