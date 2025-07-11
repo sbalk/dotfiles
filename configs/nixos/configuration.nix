@@ -220,6 +220,20 @@ in
     ];
     uri = "tcp://0.0.0.0:10400";
   };
+  services.qdrant = {
+    enable = true;
+    settings = {
+      storage = {
+        storage_path = "/var/lib/qdrant/storage";
+        snapshots_path = "/var/lib/qdrant/snapshots";
+      };
+      service = {
+        host = "0.0.0.0";
+        http_port = 6333;
+      };
+      telemetry_disabled = true;
+    };
+  };
 
   # --- Other Services ---
   programs.steam.enable = true;
