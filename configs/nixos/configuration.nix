@@ -242,6 +242,13 @@ in
   services.syncthing.enable = true;
   services.tailscale.enable = true;
   services.printing.enable = true;
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
 
   # --- System Compatibility ---
   programs.nix-ld.enable = true;  # Run non-nix executables (e.g., micromamba)
