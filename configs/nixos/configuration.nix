@@ -115,15 +115,8 @@ in
   services.xserver.enable = true;
   services.xserver.xkb = { layout = "us"; variant = ""; };
   programs.dconf.enable = true;
-  services.displayManager.gdm.enable = false;
-  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
-  services.desktopManager.cosmic.enable = true;
-  # Workaround for current COSMIC bugs
-  systemd.user.extraConfig = ''
-    DefaultEnvironment="PATH=/run/current-system/sw/bin"
-  '';
-  services.geoclue2.enable = true;  # https://github.com/NixOS/nixpkgs/issues/259641#issuecomment-2910335440
 
   # --- Hyprland ---
   programs.hyprland = {
