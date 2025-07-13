@@ -235,6 +235,10 @@ in
   services.syncthing.enable = true;
   services.tailscale.enable = true;
   services.printing.enable = true;
+
+  # Sunshine notes: Had to change the `https://discourse.nixos.org/t/give-user-cap-sys-admin-p-capabillity/62611/2`
+  # in Sunshine Steam App `sudo -u myuser setsid steam steam://open/bigpicture` as Detached Command
+  # then in Steam Settings: Interface -> "Enable GPU accelerated ..." but disable "hardware video decoding"
   services.sunshine = {
     enable = true;
     autoStart = true;
@@ -263,6 +267,7 @@ in
     firefox
     handbrake
     inkscape
+    moonlight-qt
     mullvad-vpn
     obs-studio
     obsidian
