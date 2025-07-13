@@ -68,6 +68,7 @@ in
     10301  # Wyoming Faster Whisper - Dutch
     10400  # Wyoming OpenWakeword
     8880   # Kokoro TTS
+    6333   # Qdrant
   ];
 
   # --- Nix Package Manager Settings ---
