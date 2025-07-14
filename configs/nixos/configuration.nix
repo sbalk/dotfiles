@@ -290,6 +290,7 @@ in
     coreutils
     duf
     eza
+    fastfetch
     fzf
     gh
     git
