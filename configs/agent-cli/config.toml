@@ -1,5 +1,5 @@
 [defaults]
-llm-ollama-model = "devstral:24b"
+llm-ollama-model = "hf.co/unsloth/Devstral-Small-2507-GGUF:Q4_K_M"
 llm-ollama-host = "http://pc.local:11434"
 asr-wyoming-ip = "192.168.1.143"
 tts-wyoming-ip = "192.168.1.143"
