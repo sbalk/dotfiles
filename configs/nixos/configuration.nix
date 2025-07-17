@@ -99,6 +99,13 @@ in
     nerd-fonts.jetbrains-mono
   ];
 
+
+  # --- Block every real sleep state ---
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=no
+  '';
+
   # ===================================
   # User Configuration
   # ===================================
