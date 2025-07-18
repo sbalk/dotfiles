@@ -52,6 +52,29 @@ in
     size = 16 * 1024; # 16GB
   }];
 
+  # --- Bluetooth & Xbox Controller ---
+  services.blueman.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true; # Automatically powers on Bluetooth after booting.
+    settings.General = {
+      experimental = true;  # Show battery levels
+      # Helps controllers reconnect more reliably.
+      JustWorksRepairing = "always";
+      FastConnectable = true;
+    };
+  };
+
+  # Enable the advanced driver for modern Xbox wireless controllers.
+  # This is crucial for proper functionality in Steam and other games.
+  hardware.xpadneo.enable = true;
+
+  # This kernel option is a common fix for Bluetooth controller issues on Linux.
+  # It disables Enhanced Re-Transmission Mode, which can cause lag or disconnects.
+  boot.extraModprobeConfig = ''
+    options bluetooth disable_ertm=Y
+  '';
+
   # ===================================
   # System Configuration
   # ===================================
@@ -82,10 +105,9 @@ in
     RuntimeWatchdogSec=120
   '';
 
-  # 5. Tell the NVIDIA driver *not* to preserve (and thus remap) VRAM
-  #    across suspend / VT switches – that’s where the bug is triggered.
+  # 5.  Tell the NVIDIA driver *not* to preserve (and thus remap) VRAM
+  #     across suspend / VT switches – that’s where the bug might be triggered.
   boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=0" ];
-
 
   # --- Hostname & Networking ---
   networking.hostName = "nixos";
@@ -266,7 +288,6 @@ in
 
   # --- Other Services ---
   programs.steam.enable = true;
-  services.blueman.enable = true;
   services.fwupd.enable = true;
   services.syncthing.enable = true;
   services.tailscale.enable = true;
