@@ -148,7 +148,7 @@ in
           q = A-f4
           # Application launcher (like Spotlight)
           # TODO: Does not yet work correctly
-          space = A-f1
+          space = M-space
 
           # ----------------------------------------------------------------------
           # Copy, Paste, Cut shortcuts.
