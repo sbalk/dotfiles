@@ -93,6 +93,7 @@ in
           rightcontrol = rightcontrol
           rightalt = rightalt
           rightshift = rightshift
+          rightmeta = rightmeta
 
           # ----------------------------------------------------------------------
           # Moving words with Alt (Option) key.
