@@ -52,6 +52,11 @@ in
     size = 16 * 1024; # 16GB
   }];
 
+  # --- Ensure WiFi stays up ----
+  networking.networkmanager.settings."connection" = {
+    "wifi.powersave" = 2;
+  };
+
   # --- Bluetooth & Xbox Controller ---
   services.blueman.enable = true;
   hardware.bluetooth = {
