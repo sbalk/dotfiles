@@ -292,6 +292,7 @@ in
   services.syncthing.enable = true;
   services.tailscale.enable = true;
   services.printing.enable = true;
+  programs.thunderbird.enable = true;
 
   # Sunshine notes: Had to change the `https://discourse.nixos.org/t/give-user-cap-sys-admin-p-capabillity/62611/2`
   # in Sunshine Steam App `sudo -u myuser setsid steam steam://open/bigpicture` as Detached Command
@@ -302,7 +303,6 @@ in
     capSysAdmin = true;
     openFirewall = true;
   };
-
 
   # --- System Compatibility ---
   programs.nix-ld.enable = true;  # Run non-nix executables (e.g., micromamba)
@@ -315,7 +315,7 @@ in
     _1password-gui
     _1password-cli
     brave
-    calibre
+    # calibre
     code-cursor
     cryptomator
     docker
@@ -340,7 +340,7 @@ in
     # CLI Power Tools & Utilities
     asciinema
     atuin
-    azure-cli
+    # azure-cli
     bat
     btop
     coreutils
