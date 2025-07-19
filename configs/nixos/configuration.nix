@@ -52,7 +52,7 @@ in
     size = 16 * 1024; # 16GB
   }];
 
-  # --- Ensure WiFi stays up ----
+  # --- Ensure WiFi stays up ---
   networking.networkmanager.settings."connection" = {
     "wifi.powersave" = 2;
   };
@@ -366,6 +366,7 @@ in
     just
     keyd
     lazygit
+    libnotify
     lm_sensors
     micro
     neovim
@@ -376,6 +377,7 @@ in
     parallel
     pinentry-gnome3
     psmisc # For killall
+    pulseaudio
     pwgen
     rclone
     ripgrep
