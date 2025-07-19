@@ -50,7 +50,7 @@
       relink: true
       if: '[ "$(uname)" = "Linux" ]'
 - link:
-    ~/.config/hypr/hyprland.conf: configs/hypr/hyprland.conf
+    ~/.config/hypr: configs/hypr
     ~/.config/waybar: submodules/mechabar
     ~/.config/rofi: submodules/mechabar/rofi
 
