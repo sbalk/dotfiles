@@ -14,7 +14,7 @@ if pgrep -f "agent-cli transcribe" > /dev/null; then
     # Transcription is running - stop it
     # SIGINT tells agent-cli to stop recording and process the audio
     pkill -INT -f "agent-cli transcribe"
-    notify-send "🛑 Transcription Stopped" "Processing results..."
+    notify-send -t 3000 "🛑 Transcription Stopped" "Processing results..."
 else
     # Transcription is not running - start it
 
@@ -22,7 +22,7 @@ else
     export PATH="$PATH:/home/$(whoami)/.local/bin"
 
     # Notify user that recording has started
-    notify-send "🎙️ Transcription Started" "Listening in background..."
+    notify-send -t 3000 "🎙️ Transcription Started" "Listening in background..."
 
     # Start transcription in background:
     # - agent-cli transcribe --llm: Runs transcription with LLM processing
@@ -31,5 +31,5 @@ else
     # - &&: Only show result notification if command succeeds
     # - &: Runs entire command chain in background
     OUTPUT=$(agent-cli transcribe --llm --quiet 2>/dev/null) && \
-    notify-send "📄 Transcription Result" "$OUTPUT" &
+    notify-send -t 5000 "📄 Transcription Result" "$OUTPUT" &
 fi

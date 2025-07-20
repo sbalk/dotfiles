@@ -14,7 +14,7 @@ if pgrep -f "agent-cli voice-edit" > /dev/null; then
     # Voice edit is running - stop it
     # SIGINT tells agent-cli to stop recording and process the audio
     pkill -INT -f "agent-cli voice-edit"
-    notify-send "🛑 Voice edit Stopped" "Processing results..."
+    notify-send -t 3000 "🛑 Voice edit Stopped" "Processing results..."
 else
     # Voice edit is not running - start it
 
@@ -22,7 +22,7 @@ else
     export PATH="$PATH:/home/$(whoami)/.local/bin"
 
     # Notify user that recording has started
-    notify-send "🎙️ Voice edit Started" "Listening in background..."
+    notify-send -t 3000 "🎙️ Voice edit Started" "Listening in background..."
 
     # Start voice-edit in background:
     # - agent-cli voice-edit: Runs voice-edit
@@ -31,5 +31,5 @@ else
     # - &&: Only show result notification if command succeeds
     # - &: Runs entire command chain in background
     OUTPUT=$(agent-cli voice-edit --quiet 2>/dev/null) && \
-    notify-send "📄 Voice edit Result" "$OUTPUT" &
+    notify-send -t 5000 "📄 Voice edit Result" "$OUTPUT" &
 fi
