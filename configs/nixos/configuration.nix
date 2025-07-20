@@ -432,11 +432,20 @@ in
     mako            # Notification daemon (Wayland-native)
     swww            # Wallpaper daemon (smooth transitions)
     wl-clipboard    # Clipboard manager (copy/paste support)
+    wl-clip-persist # Clipboard persistence
     cliphist        # Clipboard history
     hyprlock        # Screen locker
     hyprpicker      # Color picker
     hyprshot        # Screenshot tool (Hyprland-specific)
   ];
+
+  # ===================================
+  # Environment Variables
+  # ===================================
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1"; # covers all nixpkgs-wrapped Chromium/Electron apps
+    ELECTRON_OZONE_PLATFORM_HINT = "auto"; # covers Flatpak/AppImage/binaries that bypass the wrapper
+  };
 
   # ===================================
   # Home Manager Configuration
