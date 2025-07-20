@@ -30,6 +30,9 @@ else
     # - OUTPUT=$(...): Captures the transcription result when process ends
     # - &&: Only show result notification if command succeeds
     # - &: Runs entire command chain in background
-    OUTPUT=$(agent-cli transcribe --llm --quiet 2>/dev/null) && \
-    notify-send -t 5000 "📄 Transcription Result" "$OUTPUT" &
+    OUTPUT=$(agent-cli transcribe --llm --quiet 2>/dev/null) && {
+        # Sync clipboard to primary selection
+        wl-paste | wl-copy -p
+        notify-send -t 5000 "📄 Transcription Result" "$OUTPUT"
+    } &
 fi

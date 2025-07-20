@@ -30,6 +30,9 @@ else
     # - OUTPUT=$(...): Captures the voice-edit result when process ends
     # - &&: Only show result notification if command succeeds
     # - &: Runs entire command chain in background
-    OUTPUT=$(agent-cli voice-edit --quiet 2>/dev/null) && \
-    notify-send -t 5000 "📄 Voice edit Result" "$OUTPUT" &
+    OUTPUT=$(agent-cli voice-edit --quiet 2>/dev/null) && {
+        # Sync clipboard to primary selection
+        wl-paste | wl-copy -p
+        notify-send -t 5000 "📄 Voice edit Result" "$OUTPUT"
+    } &
 fi
