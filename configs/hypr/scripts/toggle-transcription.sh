@@ -8,6 +8,7 @@ if pgrep -f "agent-cli transcribe" > /dev/null; then
     notify-send "Transcription Stopped" "The transcription process has been terminated."
 else
     # Start transcription in background
+    export PATH="$PATH:/home/$(whoami)/.local/bin"
     agent-cli transcribe --llm > /dev/null 2>&1 &
     notify-send "Transcription Started" "Listening in background..."
 fi
