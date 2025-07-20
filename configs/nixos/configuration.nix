@@ -465,6 +465,8 @@ in
         wireplumber
         rofi-wayland
       ];
+
+      services.mako.enable = true;
     };
   };
 
