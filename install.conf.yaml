@@ -52,6 +52,7 @@
 - link:
     ~/.config/hypr: configs/hypr
     ~/.config/waybar: submodules/mechabar
+    ~/.config/mako/config: configs/mako/config
     ~/.config/rofi: submodules/mechabar/rofi
 
 # -- Only on MacOS --
