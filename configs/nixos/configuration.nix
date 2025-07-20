@@ -384,6 +384,7 @@ in
     nvtopPackages.full
     ollama
     parallel
+    pavucontrol
     pinentry-gnome3
     psmisc # For killall
     pulseaudio
