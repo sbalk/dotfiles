@@ -329,7 +329,6 @@ in
     _1password-gui
     _1password-cli
     brave
-    # calibre
     code-cursor
     cryptomator
     docker
