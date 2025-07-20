@@ -399,6 +399,7 @@ in
     typst
     wget
     xclip
+    xsel
     yq-go
     zellij
 
