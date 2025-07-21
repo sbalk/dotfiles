@@ -428,6 +428,7 @@ in
     # Hyprland Essentials
     polkit_gnome
     waybar          # Status bar (most popular by far)
+    hyprpanel       # Status bar (alternative to waybar)
     wofi            # Application launcher (simpler than rofi)
     mako            # Notification daemon (Wayland-native)
     swww            # Wallpaper daemon (smooth transitions)
@@ -465,8 +466,6 @@ in
         wireplumber
         rofi-wayland
       ];
-
-      services.mako.enable = true;
     };
   };
 
