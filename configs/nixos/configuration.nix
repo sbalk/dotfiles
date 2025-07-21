@@ -357,6 +357,7 @@ in
     # azure-cli
     bat
     btop
+    claude-code
     coreutils
     duf
     eza
