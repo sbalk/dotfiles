@@ -17,3 +17,4 @@ Follow PEP8: use `snake_case` for variables, functions, and package names; `Came
 Other frequent words are `pipefunc` (or `PipeFunc`), IonQ (a quantum computing company), trapped-ion quantum computer, `pre-commit`, `pytest`, `ruff`, `unidep`.
 My name is Bas Nijholt.
 """
+transcription-log = "~/transcription.log"
