@@ -14,6 +14,7 @@
     ~/.config/dask/distributed.yaml: configs/dask/distributed.yaml
     ~/.config/dotbins/config.yaml: submodules/dotbins/dotbins.yaml
     ~/.config/git/attributes: configs/git/attributes
+    ~/.config/lazygit/config.yml: configs/lazygit/config.yml
     ~/.config/nix-darwin: configs/nix-darwin
     ~/.config/starship.toml: configs/starship/starship.toml
     ~/.config/zellij/config.kdl: configs/zellij/config.kdl
