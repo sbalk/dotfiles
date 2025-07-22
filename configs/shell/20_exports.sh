@@ -7,5 +7,5 @@ export TMPDIR=/tmp # https://github.com/dotnet/runtime/issues/3168#issuecomment-
 export UPLOAD_FILE_TO="transfer.sh"  # For upload-file.sh
 export PATH="$HOME/.local/bin:$PATH"  # Common place, e.g., my upload-file script
 export PATH="/nix/var/nix/profiles/default/bin:$PATH"  # nix path
-export OLLAMA_HOST=http://pc.local:11434
+export MY_OLLAMA_HOST=http://pc.local:11434
 export XDG_CONFIG_HOME="$HOME/.config"

@@ -78,7 +78,7 @@ from wyoming.client import AsyncClient
 # --- Configuration ---
 ASR_SERVER_IP = "192.168.1.143"
 ASR_SERVER_PORT = 10300
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+MY_OLLAMA_HOST = os.getenv("MY_OLLAMA_HOST", "http://localhost:11434")
 DEFAULT_MODEL = "devstral:24b"
 
 # PyAudio settings
@@ -365,7 +365,7 @@ async def get_voice_instruction(
 
 def build_agent(model: str) -> Agent:
     """Construct and return a PydanticAI agent configured for local Ollama."""
-    ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
+    ollama_provider = OpenAIProvider(base_url=f"{MY_OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(model_name=model, provider=ollama_provider)
     return Agent(
         model=ollama_model,
@@ -443,7 +443,7 @@ async def process_and_update_clipboard(
         )
         _print(
             console,
-            f"   Please check your Ollama server at [cyan]{OLLAMA_HOST}[/cyan]",
+            f"   Please check your Ollama server at [cyan]{MY_OLLAMA_HOST}[/cyan]",
         )
         sys.exit(1)
 

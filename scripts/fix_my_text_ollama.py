@@ -12,11 +12,11 @@ Usage:
     python fix_my_text_ollama.py
 
 Environment variables:
-    OLLAMA_HOST: The host of the Ollama server. Default is "http://localhost:11434".
+    MY_OLLAMA_HOST: The host of the Ollama server. Default is "http://localhost:11434".
 
 
 Example:
-    OLLAMA_HOST=http://pc.local:11434 python fix_my_text_ollama.py
+    MY_OLLAMA_HOST=http://pc.local:11434 python fix_my_text_ollama.py
 
 Pro-tip:
     Use Keyboard Maestro on macOS or AutoHotkey on Windows to run this script with a hotkey.
@@ -36,7 +36,7 @@ from rich.panel import Panel
 from rich.status import Status
 
 # --- Configuration ---
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+MY_OLLAMA_HOST = os.getenv("MY_OLLAMA_HOST", "http://localhost:11434")
 DEFAULT_MODEL = "gemma3:latest"
 
 # The agent's core identity and immutable rules.
@@ -79,7 +79,7 @@ def parse_args() -> argparse.Namespace:
 
 def build_agent(model: str) -> Agent:
     """Construct and return a PydanticAI agent configured for local Ollama."""
-    ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
+    ollama_provider = OpenAIProvider(base_url=f"{MY_OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(
         model_name=model,
         provider=ollama_provider,
@@ -191,7 +191,7 @@ def main() -> None:
             assert console is not None
             console.print(f"❌ [bold red]An unexpected error occurred: {e}[/bold red]")
             console.print(
-                f"   Please check that your Ollama server is running at [bold cyan]{OLLAMA_HOST}[/bold cyan]"
+                f"   Please check that your Ollama server is running at [bold cyan]{MY_OLLAMA_HOST}[/bold cyan]"
             )
         sys.exit(1)
 

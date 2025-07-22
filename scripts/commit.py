@@ -29,7 +29,7 @@ from rich.panel import Panel
 from rich.status import Status
 
 # --- Configuration ---
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+MY_OLLAMA_HOST = os.getenv("MY_OLLAMA_HOST", "http://localhost:11434")
 DEFAULT_MODEL = "devstral:24b"
 
 # The agent's core identity and immutable rules.
@@ -208,7 +208,7 @@ def build_agent(model: str, custom_prompt: str | None = None) -> Agent:
             f"\n\nIMPORTANT: You must also follow this instruction: {custom_prompt}"
         )
 
-    ollama_provider = OpenAIProvider(base_url=f"{OLLAMA_HOST}/v1")
+    ollama_provider = OpenAIProvider(base_url=f"{MY_OLLAMA_HOST}/v1")
     ollama_model = OpenAIModel(
         model_name=model,
         provider=ollama_provider,
@@ -375,7 +375,7 @@ def main() -> None:
     except Exception as e:
         console.print(f"❌ [bold red]An unexpected error occurred: {e}[/bold red]")
         console.print(
-            f"   Please check that your Ollama server is running at [bold cyan]{OLLAMA_HOST}[/bold cyan]"
+            f"   Please check that your Ollama server is running at [bold cyan]{MY_OLLAMA_HOST}[/bold cyan]"
         )
         sys.exit(1)
 
