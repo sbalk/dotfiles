@@ -6,13 +6,20 @@
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 
-  # The following is a workaround for the NVIDIA VRAM leak on Wayland.
-  # Hyprland was using >3GB of VRAM after a day of use
-  # See: https://github.com/NVIDIA/egl-wayland/issues/126#issuecomment-2379945259
+  ###############################################################################
+  # NVIDIA Wayland VRAM workaround (driver ≥ R565)
+  #
+  # • Fresh login → Hyprland grabs ~3.2 GiB of GPU memory on a 5 K screen.
+  # • Adding a profile that targets the real ELF
+  #     procname = ".Hyprland‑wrapped"
+  #   caps the driver’s free‑buffer pool → usage drops to ~800 MiB.
+  #
+  # Upstream references:
+  #   – https://github.com/NVIDIA/egl-wayland/issues/126#issuecomment-2379945259
+  #   – https://github.com/hyprwm/Hyprland/issues/7704#issuecomment-2639212608
+  ###############################################################################
   limitFreeBufferProfile = builtins.toJSON {
     rules = [
-      # See https://github.com/hyprwm/Hyprland/issues/7704#issuecomment-2639212608
-      # for tip about using `.Hyprland-wrapped` instead of `hyprland`.
       { pattern = { feature = "procname"; matches = ".Hyprland-wrapped"; };
         profile = "Limit Free Buffer Pool On Wayland Compositors"; }
       { pattern = { feature = "procname"; matches = "gnome-shell"; };
