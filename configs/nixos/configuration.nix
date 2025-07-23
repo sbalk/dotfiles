@@ -346,7 +346,6 @@ in
       ProctrackType=proctrack/cgroup
       ReturnToService=1
       SlurmdSpoolDir=/var/spool/slurmd
-      StateSaveLocation=/var/spool/slurm
     '';
   };
 
