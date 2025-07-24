@@ -120,19 +120,6 @@ config.keys = {
     mods = 'ALT',
     action = wezterm.action.SendString '\x1bf',  -- Move forward one word
   },
-  
-  -- Move to beginning/end of line: Command + A/E (common macOS shortcuts)
-  -- Note: We can't use Command+Left/Right as those are for tab switching
-  {
-    key = 'a',
-    mods = 'CMD',
-    action = wezterm.action.SendString '\x01',  -- Move to beginning of line (Ctrl-A)
-  },
-  {
-    key = 'e',
-    mods = 'CMD',
-    action = wezterm.action.SendString '\x05',  -- Move to end of line (Ctrl-E)
-  },
 }
 
 -- Mouse Behavior
