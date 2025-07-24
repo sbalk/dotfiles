@@ -24,7 +24,7 @@ local editor_flags = '-r'                  -- Default flags for the editor
 
 -- Platform-specific settings
 local macos_extra_paths = '/opt/homebrew/bin:/usr/local/bin'
-local linux_extra_paths = '/usr/local/bin:/usr/bin'
+local linux_extra_paths = '/run/current-system/sw/bin:' .. os.getenv('HOME') .. '/.nix-profile/bin:/usr/local/bin:/usr/bin'
 local modifier_key = wezterm.target_triple:find('darwin') and 'CMD' or 'CTRL'
 
 -- Font and Appearance
