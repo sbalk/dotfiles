@@ -105,19 +105,40 @@ config.keys = {
     mods = 'CMD',
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
+  
+  -- Text Navigation
+  -- ---------------
+  
+  -- Move by word: Alt + Left/Right Arrow (same as iTerm2)
+  {
+    key = 'LeftArrow',
+    mods = 'ALT',
+    action = wezterm.action.SendString '\x1bb',  -- Move backward one word
+  },
+  {
+    key = 'RightArrow',
+    mods = 'ALT',
+    action = wezterm.action.SendString '\x1bf',  -- Move forward one word
+  },
+  
+  -- Move to beginning/end of line: Command + Left/Right Arrow (same as iTerm2)
+  {
+    key = 'LeftArrow',
+    mods = 'CMD',
+    action = wezterm.action.SendString '\x01',  -- Move to beginning of line (Ctrl-A)
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CMD',
+    action = wezterm.action.SendString '\x05',  -- Move to end of line (Ctrl-E)
+  },
 }
 
 -- Mouse Behavior
 -- ==============
 -- Configure mouse behavior to match iTerm2
+-- Note: We're only overriding Command+Click behavior; regular clicks use defaults
 config.mouse_bindings = {
-  -- Regular left click selects text (default behavior)
-  {
-    event = { Up = { streak = 1, button = 'Left' } },
-    mods = 'NONE',
-    action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor('ClipboardAndPrimarySelection'),
-  },
-  
   -- Command+Click opens links (same as iTerm2)
   -- This is essential for opening files in VS Code
   {
@@ -180,7 +201,8 @@ table.insert(config.hyperlink_rules, {
 wezterm.on('open-uri', function(window, pane, uri)
   -- Only handle file:// URLs, let others (http://, https://, etc.) open normally
   if not uri:match('^file://') then
-    return false  -- Let default handler open it
+    -- Don't return anything for non-file URLs, let WezTerm handle them
+    return
   end
   
   -- Extract the file path from the file:// URI
