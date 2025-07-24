@@ -32,6 +32,11 @@ local font_name = 'FiraMono Nerd Font Mono'
 local font_size = 16.0
 local color_scheme = 'Gruvbox dark, hard (base16)'
 
+-- Pane Selection Visual Settings
+local inactive_pane_hsb = { brightness = 0.7, saturation = 0.7 }  -- Dim inactive panes (0.0 = black, 1.0 = normal)
+local pane_border_active_color = '#fab387'      -- Gruvbox orange for active pane border
+local pane_border_inactive_color = '#45403d'    -- Gruvbox dark gray for inactive borders
+
 
 -- Appearance
 -- ==========
@@ -53,6 +58,16 @@ config.window_decorations = "RESIZE"
 
 -- Enable native macOS fullscreen
 config.native_macos_fullscreen_mode = true
+
+-- Pane Selection Styling
+-- ======================
+-- Make it much clearer which pane is active (like iTerm2)
+config.inactive_pane_hsb = inactive_pane_hsb
+
+-- Pane border colors for better visual separation
+config.colors = {
+  split = pane_border_active_color,
+}
 
 -- Key Bindings
 -- ============
