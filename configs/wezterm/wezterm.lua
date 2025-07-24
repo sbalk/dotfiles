@@ -22,9 +22,10 @@ local config = wezterm.config_builder()
 local default_editor = 'code'              -- Command to open files (e.g., 'code', 'vim', 'nano')
 local editor_flags = '-r'                  -- Default flags for the editor
 
--- Platform-specific PATH additions for GUI launches
+-- Platform-specific settings
 local macos_extra_paths = '/opt/homebrew/bin:/usr/local/bin'
 local linux_extra_paths = '/usr/local/bin:/usr/bin'
+local modifier_key = wezterm.target_triple:find('darwin') and 'CMD' or 'CTRL'
 
 -- Font and Appearance
 local font_name = 'FiraMono Nerd Font Mono'
@@ -70,56 +71,56 @@ config.keys = {
   -- Tab Management
   -- --------------
   
-  -- New tab: Command + T (same as iTerm2)
+  -- New tab: Modifier + T (same as iTerm2)
   {
     key = 't',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
   },
   
-  -- Cycle to next tab: Command + Right Arrow (same as iTerm2)
+  -- Cycle to next tab: Modifier + Right Arrow (same as iTerm2)
   {
     key = 'RightArrow',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.ActivateTabRelative(1),
   },
   
-  -- Cycle to previous tab: Command + Left Arrow (same as iTerm2)
+  -- Cycle to previous tab: Modifier + Left Arrow (same as iTerm2)
   {
     key = 'LeftArrow',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.ActivateTabRelative(-1),
   },
   
   -- Pane Management
   -- ---------------
   
-  -- Split pane vertically (new pane on right): Command + D (same as iTerm2)
+  -- Split pane vertically (new pane on right): Modifier + D (same as iTerm2)
   {
     key = 'd',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
   
-  -- Navigate to pane on the right: Command + ] (same as iTerm2)
+  -- Navigate to pane on the right: Modifier + ] (same as iTerm2)
   {
     key = ']',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.ActivatePaneDirection 'Right',
   },
   
-  -- Navigate to pane on the left: Command + [ (same as iTerm2)
+  -- Navigate to pane on the left: Modifier + [ (same as iTerm2)
   {
     key = '[',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.ActivatePaneDirection 'Left',
   },
   
-  -- Close current pane/tab: Command + W (same as iTerm2)
+  -- Close current pane/tab: Modifier + W (same as iTerm2)
   -- Closes the current pane. If it's the last pane in a tab, closes the tab.
   {
     key = 'w',
-    mods = 'CMD',
+    mods = modifier_key,
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
   
@@ -142,13 +143,14 @@ config.keys = {
 -- Mouse Behavior
 -- ==============
 -- Configure mouse behavior to match iTerm2
--- Note: We're only overriding Command+Click behavior; regular clicks use defaults
+-- Note: We're only overriding Modifier+Click behavior; regular clicks use defaults
+local mouse_modifier = wezterm.target_triple:find('darwin') and 'SUPER' or 'CTRL'
 config.mouse_bindings = {
-  -- Command+Click opens links (same as iTerm2)
-  -- This is essential for opening files in VS Code
+  -- Modifier+Click opens links (same as iTerm2)
+  -- This is essential for opening files in the editor
   {
     event = { Up = { streak = 1, button = 'Left' } },
-    mods = 'SUPER',  -- SUPER is Command key on macOS
+    mods = mouse_modifier,
     action = wezterm.action.OpenLinkAtMouseCursor,
   },
 }
