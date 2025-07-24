@@ -121,14 +121,15 @@ config.keys = {
     action = wezterm.action.SendString '\x1bf',  -- Move forward one word
   },
   
-  -- Move to beginning/end of line: Command + Left/Right Arrow (same as iTerm2)
+  -- Move to beginning/end of line: Command + A/E (common macOS shortcuts)
+  -- Note: We can't use Command+Left/Right as those are for tab switching
   {
-    key = 'LeftArrow',
+    key = 'a',
     mods = 'CMD',
     action = wezterm.action.SendString '\x01',  -- Move to beginning of line (Ctrl-A)
   },
   {
-    key = 'RightArrow',
+    key = 'e',
     mods = 'CMD',
     action = wezterm.action.SendString '\x05',  -- Move to end of line (Ctrl-E)
   },
@@ -155,13 +156,6 @@ config.mouse_bindings = {
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
 -- Additional custom rules for development workflows:
-
--- Make GitHub-style username/project paths clickable
--- Examples: "nvim-treesitter/nvim-treesitter", wbthomason/packer.nvim, "wez/wezterm.git"
-table.insert(config.hyperlink_rules, {
-  regex = [[["]?([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)["]?]],
-  format = 'https://www.github.com/$1/$3',
-})
 
 -- Make URLs with IP addresses clickable
 -- Examples: http://127.0.0.1:8000, http://192.168.1.1
@@ -201,72 +195,41 @@ table.insert(config.hyperlink_rules, {
 wezterm.on('open-uri', function(window, pane, uri)
   -- Only handle file:// URLs, let others (http://, https://, etc.) open normally
   if not uri:match('^file://') then
-    -- Don't return anything for non-file URLs, let WezTerm handle them
-    return
+    return  -- Let WezTerm handle non-file URLs
   end
   
   -- Extract the file path from the file:// URI
   local file_path = uri:gsub('^file://', '')
   
-  -- Get the current working directory to resolve relative paths
-  local cwd_uri = pane:get_current_working_dir()
-  local cwd = ''
+  -- Parse file path with optional line:column notation
+  local path, line, col = file_path:match('^([^:]+):?(%d*):?(%d*)$')
+  path = path or file_path
   
-  if cwd_uri and cwd_uri.path then
-    cwd = cwd_uri.path
+  -- Resolve the full path
+  if path:match('^~') then
+    -- Expand ~ to home directory
+    path = os.getenv('HOME') .. path:sub(2)
+  elseif not path:match('^/') then
+    -- Resolve relative paths using current working directory
+    local cwd = pane:get_current_working_dir()
+    if cwd and cwd.path then
+      path = cwd.path .. '/' .. path
+    end
   end
   
-  -- Check if this is a file path with line:column notation
-  -- Format: filename:line:column or filename:line
-  local path, line, col = file_path:match('^([^:]+):(%d+):?(%d*)$')
-  
-  if path and line then
-    -- Handle file paths with line numbers (from error messages, grep output, etc.)
-    local full_path = path
-    
-    -- Expand ~ to home directory
-    if full_path:match('^~') then
-      full_path = os.getenv('HOME') .. full_path:sub(2)
-    elseif not full_path:match('^/') then
-      -- Resolve relative paths using current working directory
-      full_path = cwd .. '/' .. full_path
-    end
-    
-    -- Build VS Code command with line number (and optional column)
-    local cmd
-    if col and col ~= '' then
-      cmd = string.format('code -r -g "%s:%s:%s"', full_path, line, col)
-    else
-      cmd = string.format('code -r -g "%s:%s"', full_path, line)
-    end
-    
-    -- Execute through login shell to ensure VS Code is in PATH
-    -- This fixes the issue where WezTerm launched from Spotlight doesn't have PATH set
-    local shell_cmd = '/bin/sh -l -c \'' .. cmd .. '\''
-    os.execute(shell_cmd)
-    
-    return false  -- Prevent default action
+  -- Build VS Code command
+  local cmd = 'code -r'
+  if line and line ~= '' then
+    -- Add line:column if present
+    cmd = cmd .. string.format(' -g "%s:%s%s"', path, line, col ~= '' and ':' .. col or '')
   else
-    -- Handle plain file paths (from ls output, etc.)
-    local full_path = file_path
-    
-    -- Expand ~ to home directory
-    if full_path:match('^~') then
-      full_path = os.getenv('HOME') .. full_path:sub(2)
-    elseif not full_path:match('^/') then
-      -- Resolve relative paths using current working directory
-      full_path = cwd .. '/' .. full_path
-    end
-    
-    -- Open file in VS Code
-    local cmd = string.format('code -r "%s"', full_path)
-    
-    -- Execute through login shell to ensure VS Code is in PATH
-    local shell_cmd = '/bin/sh -l -c \'' .. cmd .. '\''
-    os.execute(shell_cmd)
-    
-    return false  -- Prevent default action
+    cmd = cmd .. string.format(' "%s"', path)
   end
+  
+  -- Execute through login shell to ensure VS Code is in PATH
+  os.execute('/bin/sh -l -c \'' .. cmd .. '\'')
+  
+  return false  -- Prevent default action
 end)
 
 return config
