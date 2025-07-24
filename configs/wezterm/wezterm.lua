@@ -213,8 +213,18 @@ wezterm.on('open-uri', function(window, pane, uri)
     cmd = cmd .. string.format(' "%s"', path)
   end
   
-  -- Execute through login shell to ensure VS Code is in PATH
-  os.execute('/bin/sh -l -c \'' .. cmd .. '\'')
+  -- Execute with platform-specific PATH for VS Code
+  local extra_paths
+  if wezterm.target_triple:find('darwin') then
+    -- macOS: include Homebrew paths where VS Code is commonly installed
+    extra_paths = '/opt/homebrew/bin:/usr/local/bin'
+  else
+    -- Linux: include common binary locations
+    extra_paths = '/usr/local/bin:/usr/bin'
+  end
+  
+  local fast_cmd = string.format('export PATH="%s:$PATH"; %s', extra_paths, cmd)
+  os.execute('/bin/sh -c \'' .. fast_cmd .. '\'')
   
   return false  -- Prevent default action
 end)
