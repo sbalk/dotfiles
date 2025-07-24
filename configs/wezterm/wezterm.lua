@@ -32,16 +32,6 @@ local font_name = 'FiraMono Nerd Font Mono'
 local font_size = 16.0
 local color_scheme = 'Gruvbox dark, hard (base16)'
 
--- Environment Setup
--- =================
--- Fix PATH for GUI applications on macOS
--- When WezTerm is launched from Spotlight/Dock, it doesn't inherit the shell's PATH,
--- which causes issues with commands like the default editor
-if wezterm.target_triple:find('darwin') then
-  config.set_environment_variables = {
-    PATH = macos_extra_paths .. ':/usr/bin:/bin:/usr/sbin:/sbin:' .. (os.getenv('PATH') or ''),
-  }
-end
 
 -- Appearance
 -- ==========
