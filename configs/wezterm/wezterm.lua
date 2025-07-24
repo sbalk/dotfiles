@@ -14,28 +14,45 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
+-- Configuration Variables
+-- =======================
+-- Customize these variables to match your preferences and system setup
+
+-- Editor and Applications
+local default_editor = 'code'              -- Command to open files (e.g., 'code', 'vim', 'nano')
+local editor_flags = '-r'                  -- Default flags for the editor
+
+-- Platform-specific PATH additions for GUI launches
+local macos_extra_paths = '/opt/homebrew/bin:/usr/local/bin'
+local linux_extra_paths = '/usr/local/bin:/usr/bin'
+
+-- Font and Appearance
+local font_name = 'FiraMono Nerd Font Mono'
+local font_size = 16.0
+local color_scheme = 'Gruvbox dark, hard (base16)'
+
 -- Environment Setup
 -- =================
 -- Fix PATH for GUI applications on macOS
 -- When WezTerm is launched from Spotlight/Dock, it doesn't inherit the shell's PATH,
--- which causes issues with commands like 'code' for VS Code
+-- which causes issues with commands like the default editor
 if wezterm.target_triple:find('darwin') then
   config.set_environment_variables = {
-    PATH = '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:' .. (os.getenv('PATH') or ''),
+    PATH = macos_extra_paths .. ':/usr/bin:/bin:/usr/sbin:/sbin:' .. (os.getenv('PATH') or ''),
   }
 end
 
 -- Appearance
 -- ==========
 -- Font configuration to match iTerm2 setup
-config.font = wezterm.font('FiraMono Nerd Font Mono', { weight = 'Regular' })
-config.font_size = 16.0
+config.font = wezterm.font(font_name, { weight = 'Regular' })
+config.font_size = font_size
 
 -- Enable unlimited scrollback like iTerm2
 config.scrollback_lines = 999999
 
--- Colors and theme - using Gruvbox dark theme
-config.color_scheme = 'Gruvbox dark, hard (base16)'
+-- Colors and theme
+config.color_scheme = color_scheme
 
 -- Tab bar settings
 config.use_fancy_tab_bar = true
@@ -204,8 +221,8 @@ wezterm.on('open-uri', function(window, pane, uri)
     end
   end
   
-  -- Build VS Code command
-  local cmd = 'code -r'
+  -- Build editor command
+  local cmd = default_editor .. ' ' .. editor_flags
   if line and line ~= '' then
     -- Add line:column if present
     cmd = cmd .. string.format(' -g "%s:%s%s"', path, line, col ~= '' and ':' .. col or '')
@@ -213,16 +230,8 @@ wezterm.on('open-uri', function(window, pane, uri)
     cmd = cmd .. string.format(' "%s"', path)
   end
   
-  -- Execute with platform-specific PATH for VS Code
-  local extra_paths
-  if wezterm.target_triple:find('darwin') then
-    -- macOS: include Homebrew paths where VS Code is commonly installed
-    extra_paths = '/opt/homebrew/bin:/usr/local/bin'
-  else
-    -- Linux: include common binary locations
-    extra_paths = '/usr/local/bin:/usr/bin'
-  end
-  
+  -- Execute with platform-specific PATH
+  local extra_paths = wezterm.target_triple:find('darwin') and macos_extra_paths or linux_extra_paths
   local fast_cmd = string.format('export PATH="%s:$PATH"; %s', extra_paths, cmd)
   os.execute('/bin/sh -c \'' .. fast_cmd .. '\'')
   
