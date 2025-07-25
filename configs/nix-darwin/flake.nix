@@ -8,38 +8,44 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }: {
-    darwinConfigurations = {
-      "basnijholt-macbook-pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./configuration.nix
-          ./homebrew.nix
-          {
-            options = {
-              isPersonal = nixpkgs.lib.mkOption {
-                type = nixpkgs.lib.types.bool;
-                default = false;
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+    }:
+    {
+      darwinConfigurations = {
+        "basnijholt-macbook-pro" = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./configuration.nix
+            ./homebrew.nix
+            {
+              options = {
+                isPersonal = nixpkgs.lib.mkOption {
+                  type = nixpkgs.lib.types.bool;
+                  default = false;
+                };
               };
-            };
-            config.isPersonal = true;
-          }
-        ];
-      };
-      "basnijholt-macbook-pro-2" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./configuration.nix
-          ./homebrew.nix
-          {
-            options = {
-              isPersonal = nixpkgs.lib.mkOption {
-                type = nixpkgs.lib.types.bool;
-                default = false;
+              config.isPersonal = true;
+            }
+          ];
+        };
+        "basnijholt-macbook-pro-2" = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./configuration.nix
+            ./homebrew.nix
+            {
+              options = {
+                isPersonal = nixpkgs.lib.mkOption {
+                  type = nixpkgs.lib.types.bool;
+                  default = false;
+                };
               };
-            };
-            config.isPersonal = false;
-          }
-        ];
+              config.isPersonal = false;
+            }
+          ];
+        };
       };
     };
-  };
 }

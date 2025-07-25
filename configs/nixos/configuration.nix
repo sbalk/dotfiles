@@ -20,14 +20,31 @@ let
   ###############################################################################
   limitFreeBufferProfile = builtins.toJSON {
     rules = [
-      { pattern = { feature = "procname"; matches = ".Hyprland-wrapped"; };
-        profile = "Limit Free Buffer Pool On Wayland Compositors"; }
-      { pattern = { feature = "procname"; matches = "gnome-shell"; };
-        profile = "Limit Free Buffer Pool On Wayland Compositors"; }
+      {
+        pattern = {
+          feature = "procname";
+          matches = ".Hyprland-wrapped";
+        };
+        profile = "Limit Free Buffer Pool On Wayland Compositors";
+      }
+      {
+        pattern = {
+          feature = "procname";
+          matches = "gnome-shell";
+        };
+        profile = "Limit Free Buffer Pool On Wayland Compositors";
+      }
     ];
     profiles = [
-      { name = "Limit Free Buffer Pool On Wayland Compositors";
-        settings = [{ key = "GLVidHeapReuseRatio"; value = 0; }]; }
+      {
+        name = "Limit Free Buffer Pool On Wayland Compositors";
+        settings = [
+          {
+            key = "GLVidHeapReuseRatio";
+            value = 0;
+          }
+        ];
+      }
     ];
   };
 in
@@ -37,7 +54,6 @@ in
     ./hardware-configuration.nix
     (import "${home-manager}/nixos")
   ];
-
 
   # ===================================
   # Boot Configuration
@@ -72,10 +88,12 @@ in
   hardware.graphics.enable32Bit = true;
 
   # --- Swap ---
-  swapDevices = [{
-    device = "/swapfile";
-    size = 16 * 1024; # 16GB
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 16 * 1024; # 16GB
+    }
+  ];
 
   # --- Ensure WiFi stays up ---
   networking.networkmanager.settings."connection" = {
@@ -87,8 +105,8 @@ in
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-    pulse.enable = true;  # This provides PulseAudio compatibility
-    jack.enable = true;   # For compatibility with JACK applications
+    pulse.enable = true; # This provides PulseAudio compatibility
+    jack.enable = true; # For compatibility with JACK applications
   };
 
   # --- Bluetooth & Xbox Controller ---
@@ -97,7 +115,7 @@ in
     enable = true;
     powerOnBoot = true; # Automatically powers on Bluetooth after booting.
     settings.General = {
-      experimental = true;  # Show battery levels
+      experimental = true; # Show battery levels
       # Helps controllers reconnect more reliably.
       JustWorksRepairing = "always";
       FastConnectable = true;
@@ -133,7 +151,7 @@ in
   # 2.  Panic after 60 s total CPU stall + keep NMI watchdog on
   boot.kernel.sysctl = {
     "kernel.hung_task_timeout_secs" = 60;
-    "kernel.watchdog"               = 1;
+    "kernel.watchdog" = 1;
   };
 
   # 3.  Load the AMD/X570 watchdog module so systemd can kick it
@@ -152,17 +170,20 @@ in
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [
-    10200  # Wyoming Piper
-    10300  # Wyoming Faster Whisper - English
-    10301  # Wyoming Faster Whisper - Dutch
-    10400  # Wyoming OpenWakeword
-    8880   # Kokoro TTS
-    6333   # Qdrant
+    10200 # Wyoming Piper
+    10300 # Wyoming Faster Whisper - English
+    10301 # Wyoming Faster Whisper - Dutch
+    10400 # Wyoming OpenWakeword
+    8880 # Kokoro TTS
+    6333 # Qdrant
   ];
 
   # --- Nix Package Manager Settings ---
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [
       "https://cache.nixos.org/"
       "https://nix-community.cachix.org"
@@ -189,7 +210,6 @@ in
     nerd-fonts.jetbrains-mono
   ];
 
-
   # --- Block every real sleep state ---
   systemd.sleep.extraConfig = ''
     AllowSuspend=no
@@ -202,7 +222,12 @@ in
   users.users.basnijholt = {
     isNormalUser = true;
     description = "Bas Nijholt";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -211,7 +236,10 @@ in
   # ===================================
   # --- X11 & Display Managers ---
   services.xserver.enable = true;
-  services.xserver.xkb = { layout = "us"; variant = ""; };
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
   programs.dconf.enable = true;
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -233,7 +261,10 @@ in
         default = "gtk";
       };
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
       };
     };
   };
@@ -264,7 +295,7 @@ in
   };
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = ["basnijholt"];
+  programs._1password-gui.polkitPolicyOwners = [ "basnijholt" ];
 
   # --- Virtualization ---
   virtualisation.docker.enable = true;
@@ -360,7 +391,7 @@ in
     clusterName = "homelab";
     controlMachine = "nixos";
     nodeName = [
-      "nixos CPUs=24 State=UNKNOWN"  # Adjust CPUs to match your system
+      "nixos CPUs=24 State=UNKNOWN" # Adjust CPUs to match your system
     ];
     partitionName = [
       "cpu Nodes=nixos Default=YES MaxTime=INFINITE State=UP"
@@ -385,7 +416,7 @@ in
   };
 
   # --- System Compatibility ---
-  programs.nix-ld.enable = true;  # Run non-nix executables (e.g., micromamba)
+  programs.nix-ld.enable = true; # Run non-nix executables (e.g., micromamba)
 
   # ===================================
   # System Packages
@@ -494,17 +525,17 @@ in
 
     # Hyprland Essentials
     polkit_gnome
-    waybar          # Status bar (most popular by far)
-    hyprpanel       # Status bar (alternative to waybar)
-    wofi            # Application launcher (simpler than rofi)
-    mako            # Notification daemon (Wayland-native)
-    swww            # Wallpaper daemon (smooth transitions)
-    wl-clipboard    # Clipboard manager (copy/paste support)
+    waybar # Status bar (most popular by far)
+    hyprpanel # Status bar (alternative to waybar)
+    wofi # Application launcher (simpler than rofi)
+    mako # Notification daemon (Wayland-native)
+    swww # Wallpaper daemon (smooth transitions)
+    wl-clipboard # Clipboard manager (copy/paste support)
     wl-clip-persist # Clipboard persistence
-    cliphist        # Clipboard history
-    hyprlock        # Screen locker
-    hyprpicker      # Color picker
-    hyprshot        # Screenshot tool (Hyprland-specific)
+    cliphist # Clipboard history
+    hyprlock # Screen locker
+    hyprpicker # Color picker
+    hyprshot # Screenshot tool (Hyprland-specific)
   ];
 
   # ===================================
@@ -525,19 +556,21 @@ in
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.basnijholt = { pkgs, config, ... }: {
-      home.stateVersion = "25.05";
+    users.basnijholt =
+      { pkgs, config, ... }:
+      {
+        home.stateVersion = "25.05";
 
-      # --- Mechabar Dependencies ---
-      home.packages = with pkgs; [
-        bluetui
-        bluez
-        brightnessctl
-        pipewire
-        wireplumber
-        rofi-wayland
-      ];
-    };
+        # --- Mechabar Dependencies ---
+        home.packages = with pkgs; [
+          bluetui
+          bluez
+          brightnessctl
+          pipewire
+          wireplumber
+          rofi-wayland
+        ];
+      };
   };
 
   # The system state version is critical and should match the installed NixOS release.

@@ -1,9 +1,13 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Required for current nix-darwin
   nixpkgs.hostPlatform = "aarch64-darwin"; # for Apple Silicon
 
   # Enable experimental nix command and flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Add system packages
   environment.systemPackages = with pkgs; [

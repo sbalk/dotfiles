@@ -53,12 +53,17 @@
 # • Adjust the configuration options at the top
 # • Add application-specific window rules to the keyd config
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   # Configuration options - modify these to customize behavior
-  enableAppleKeyboard = false;   # Set to false if not using Apple keyboards
-  enableVSCodeFixes = true;      # Set to false to manage VS Code settings manually
+  enableAppleKeyboard = false; # Set to false if not using Apple keyboards
+  enableVSCodeFixes = true; # Set to false to manage VS Code settings manually
   appleKeyboardSwapKeys = false; # Set to false to keep Alt/Cmd in original positions
 in
 
@@ -206,34 +211,36 @@ in
 
   # ========== DESKTOP ENVIRONMENT SPECIFIC SHORTCUTS ==========
   # Source: xkeysnail_service.sh, lines 254-259 (GNOME configuration)
-  services.xserver.desktopManager.gnome = lib.mkIf (config.services.desktopManager.gnome.enable or false) {
-    extraGSettingsOverrides = ''
-      # Disable overlay key so Super+Space can be used for app launcher
-      # Source: xkeysnail_service.sh, line 258
-      [org.gnome.mutter]
-      overlay-key='<Alt>F1'
+  services.xserver.desktopManager.gnome =
+    lib.mkIf (config.services.desktopManager.gnome.enable or false)
+      {
+        extraGSettingsOverrides = ''
+          # Disable overlay key so Super+Space can be used for app launcher
+          # Source: xkeysnail_service.sh, line 258
+          [org.gnome.mutter]
+          overlay-key='<Alt>F1'
 
-      # Set up Mac-style shortcuts
-      # Source: xkeysnail_service.sh, lines 295, 326, 335
-      [org.gnome.desktop.wm.keybindings]
-      minimize=['<Super>h', '<Alt>F9']
-      show-desktop=['<Super>d']
-      close=['<Alt>F4']
+          # Set up Mac-style shortcuts
+          # Source: xkeysnail_service.sh, lines 295, 326, 335
+          [org.gnome.desktop.wm.keybindings]
+          minimize=['<Super>h', '<Alt>F9']
+          show-desktop=['<Super>d']
+          close=['<Alt>F4']
 
-      [org.gnome.shell.keybindings]
-      toggle-application-view=['<Super>space']
+          [org.gnome.shell.keybindings]
+          toggle-application-view=['<Super>space']
 
-      # Rectangle like window management
-      # Source: Mine
-      # TODO: Conflicts with keyd...
-      # [org.gnome.mutter.keybindings]
-      # toggle-tiled-left=['<Shift><Control><Alt>Left']
-      # toggle-tiled-right=['<Shift><Control><Alt>Right']
+          # Rectangle like window management
+          # Source: Mine
+          # TODO: Conflicts with keyd...
+          # [org.gnome.mutter.keybindings]
+          # toggle-tiled-left=['<Shift><Control><Alt>Left']
+          # toggle-tiled-right=['<Shift><Control><Alt>Right']
 
-      [org.gnome.desktop.wm.keybindings]
-      toggle-maximized=['<Shift><Control><Alt>f']
-    '';
-  };
+          [org.gnome.desktop.wm.keybindings]
+          toggle-maximized=['<Shift><Control><Alt>f']
+        '';
+      };
 
   # ========== APPLE KEYBOARD HARDWARE SUPPORT ==========
   # Source: xkeysnail_service.sh, lines 100-112 (Apple keyboard driver options)
