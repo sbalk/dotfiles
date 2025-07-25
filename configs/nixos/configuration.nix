@@ -445,7 +445,7 @@ in
     lm_sensors
     micro
     neovim
-    nixfmt
+    nixfmt-rfc-style
     nmap
     nvtopPackages.full
     ollama
