@@ -176,6 +176,7 @@ in
     10400 # Wyoming OpenWakeword
     8880 # Kokoro TTS
     6333 # Qdrant
+    61337 # Agent CLI server
   ];
 
   # --- Nix Package Manager Settings ---
@@ -459,6 +460,7 @@ in
     eza
     fastfetch
     fzf
+    gemini-cli
     gh
     git
     git-lfs
