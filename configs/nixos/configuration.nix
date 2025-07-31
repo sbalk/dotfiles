@@ -508,6 +508,7 @@ in
     cudatoolkit
     gcc
     go
+    gnumake
     meson
     nodejs_20
     openjdk
