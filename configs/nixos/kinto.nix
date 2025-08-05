@@ -211,7 +211,7 @@ in
 
   # ========== DESKTOP ENVIRONMENT SPECIFIC SHORTCUTS ==========
   # Source: xkeysnail_service.sh, lines 254-259 (GNOME configuration)
-  services.xserver.desktopManager.gnome =
+  services.desktopManager.gnome =
     lib.mkIf (config.services.desktopManager.gnome.enable or false)
       {
         extraGSettingsOverrides = ''
