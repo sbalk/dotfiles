@@ -204,6 +204,18 @@ in
   nixpkgs.config = {
     allowUnfree = true;
     cudaSupport = true;
+    packageOverrides = pkgs: {
+      # Override ollama to version 0.11.0 with auto-calculated hash
+      ollama = pkgs.ollama.overrideAttrs (oldAttrs: rec {
+        version = "0.11.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "ollama";
+          repo = "ollama";
+          rev = "v${version}";
+          hash = "sha256-po7BxJAj9eOpOaXsLDmw6/1RyjXPtXza0YUv0pVojZ0=";
+        };
+      });
+    };
   };
 
   # --- Fonts ---
