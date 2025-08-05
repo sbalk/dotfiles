@@ -177,6 +177,9 @@ in
     8880 # Kokoro TTS
     6333 # Qdrant
     61337 # Agent CLI server
+    8008 # Synapse
+    8009 # Synapse
+    8448 # Synapse
   ];
 
   # --- Nix Package Manager Settings ---
