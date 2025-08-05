@@ -158,9 +158,9 @@ in
   boot.kernelModules = [ "sp5100_tco" ];
 
   # 4.  Tell systemd to hard‑reboot if the watchdog isn’t pinged for 120 s
-  systemd.extraConfig = ''
-    RuntimeWatchdogSec=120
-  '';
+  systemd.settings.Manager = {
+    RuntimeWatchdogSec = 120;
+  };
 
   # 5.  Tell the NVIDIA driver *not* to preserve (and thus remap) VRAM
   #     across suspend / VT switches – that’s where the bug might be triggered.
