@@ -1,8 +1,17 @@
 # aliases.sh - meant to be sourced in .bash_profile/.zshrc
 
 if [[ $- == *i* ]]; then
-    alias cdw="cd ~/Work/ "
-    alias cdc="cd ~/Code/ "
+    alias mmc="mm create -n"
+    alias mmd="mm deactivate"
+    alias mma="mm activate"
+    alias mmi="mm install -c conda-forge"
+    alias mml="mm env list"
+    alias mmremove="mm remove env -n"
+    alias ca="conda activate"
+    alias cl="conda info --envs"
+    alias ci="conda install -c conda-forge"
+    alias cr="code -r ."
+    alias countfiles='f(){ ls -1 "$1" | wc -l; }; f'
     alias mm="micromamba"
     alias p="pytest"
     alias py="python"

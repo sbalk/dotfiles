@@ -6,6 +6,7 @@ source ~/dotfiles/configs/shell/10_aliases.sh
 source ~/dotfiles/configs/shell/20_exports.sh
 source ~/dotfiles/configs/shell/30_misc.sh
 source ~/dotfiles/configs/shell/40_keychain.sh
+source ~/dotfiles/configs/shell/55_node.sh
 source ~/dotfiles/configs/shell/50_python.sh
 source ~/dotfiles/configs/shell/60_slurm.sh
 [ -n "$ZSH_VERSION" ] && source ~/dotfiles/configs/shell/70_zsh_plugins.sh

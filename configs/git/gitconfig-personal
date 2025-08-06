@@ -1,12 +1,4 @@
 [user]
-	email = bas@nijho.lt
-	name = Bas Nijholt
+	email = stijn.balk@gmail.com
+	name = sbalk
 	signingkey = ~/.ssh/id_ed25519.pub
-[maintenance]
-	repo = ~/Code/graphviz-anywidget
-	repo = ~/Code/pipefunc
-	repo = ~/dotfiles/pipefunc/src
-[safe]
-	directory = /opt/stacks
-[url "git@github.com:"]
-	insteadOf = https://github.com/
